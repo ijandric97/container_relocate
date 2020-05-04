@@ -2,3 +2,19 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.Containers {
+  width: fit-content;
+}
+
+.ContainerFlex {
+  display: flex;
+}
+
+/*.sky-gradient-10*/
+html {
+  background: linear-gradient(to bottom, #b7eaff 0%, #94dfff 100%);
+  background-repeat: no-repeat;
+  height: 100%;
+  overflow-x: hidden;
+}
