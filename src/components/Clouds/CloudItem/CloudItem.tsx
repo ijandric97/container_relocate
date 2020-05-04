@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, CSSProperties } from "react";
+import { motion, Transition, TargetAndTransition } from "framer-motion";
 import { debounce } from "../../../util/misc";
 
 export type CloudItemProps = {
@@ -30,8 +30,8 @@ export const CloudItem: React.FC<CloudItemProps> = props => {
       window.removeEventListener("resize", debounce(handleResize, 100));
   });
 
-  const cloudStyle: React.CSSProperties = {
-    background: `linear-gradient(#ffffff 50%, rgba(255, 255, 255, 0) 0) 0 0,
+  const cloudStyle: CSSProperties = {
+    background: `linear-gradient(#ffffff 50%, #ffffff00 0) 0 0,
     radial-gradient(circle closest-side, #ffffff 50%, #ffffff00 0) 0px 0px,
     radial-gradient(circle closest-side, #000000 53%, #ffffff00 0) 0px 0px,
     radial-gradient(circle closest-side, #ffffff 50%, #ffffff00 0) ${width /
@@ -43,17 +43,17 @@ export const CloudItem: React.FC<CloudItemProps> = props => {
     filter: `blur(0.5px) sepia(100%)`,
     position: `absolute`,
     top: `${top}px`,
-    left: `-50%`,
-    width: `200%`,
+    left: `-${width}px`,
+    width: `${winSize.width + width * 2}px`,
     height: `200px`,
     zIndex: -1
   };
 
-  const cloudAnimate = {
+  const cloudAnimate: TargetAndTransition = {
     x: reverse ? `${width}px` : `-${width}px`
   };
 
-  const cloudTransition = {
+  const cloudTransition: Transition = {
     loop: Infinity,
     ease: "linear",
     duration: 10,
