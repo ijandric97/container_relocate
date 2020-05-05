@@ -15,6 +15,7 @@
 html {
   background: linear-gradient(to bottom, #b7eaff 0%, #94dfff 100%);
   background-repeat: no-repeat;
+
   height: 100%;
   overflow-x: hidden;
 }
