@@ -49,7 +49,7 @@ const Container: React.FC<ContainerProps> = props => {
 
   return (
     <motion.div
-      dragElastic={0}
+      dragElastic={0.5}
       dragMomentum={false}
       onDragStart={(event, info) => {
         console.log(info.point.x, info.point.y);
@@ -58,7 +58,7 @@ const Container: React.FC<ContainerProps> = props => {
       onDragEnd={(event, info) => {
         setIndex("0");
       }}
-      drag="x"
+      drag
       dragConstraints={parent}
       style={imageStyle}
     >
