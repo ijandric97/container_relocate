@@ -41,7 +41,7 @@ const Navbar: React.FC<any> = () => {
 
   return (
     <motion.nav
-      animate={{ y: [-60, 0], opacity: [1, 1] }}
+      animate={{ y: [-60, 0], opacity: 1 }}
       transition={{ duration: 1 }}
       className="navbar"
     >
