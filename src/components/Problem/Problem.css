@@ -1,0 +1,44 @@
+.problem__main {
+  background: linear-gradient(to bottom, #262626, black);
+  border: 1px solid #262626;
+  border-radius: 5px;
+  padding: 10px;
+  display: inline-block;
+}
+
+.problem__table {
+  background: transparent;
+  border-collapse: collapse;
+  border-spacing: 1px;
+  width: 300px;
+  height: 300px;
+  table-layout: fixed;
+}
+
+.problem__cell {
+  font-family: "Impact";
+  font-size: 32px;
+  border: 1px solid black;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* this means we selected 3 rows */
+.problem__cell--3 {
+  width: 99px;
+  height: 99px;
+}
+
+.problem__cell--4 {
+  width: 69px;
+  height: 69px;
+}
+
+.problem__cell--5 {
+  width: 59px;
+  width: 59px;
+}
+
+.problem__cell--empty {
+  border: none;
+}

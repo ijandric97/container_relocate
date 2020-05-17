@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Logo from "./images/navbar_logo.png";
+import Logo from "../../images/navbar_logo.png";
 import "./Navbar.css";
 
 const Navbar: React.FC<any> = () => {

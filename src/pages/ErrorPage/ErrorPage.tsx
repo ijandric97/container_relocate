@@ -48,6 +48,7 @@ const ErrorPage: React.FC<any> = () => {
     <motion.div
       animate={loaded ? "open" : "closed"}
       variants={loadedVariants}
+      onLoad={handleLoaded}
       className="error__main"
     >
       <h1>404</h1>
@@ -59,7 +60,6 @@ const ErrorPage: React.FC<any> = () => {
         animate={quokkaAnimation}
         transition={quokkaTransition}
         className="error__quokka"
-        onLoad={handleLoaded}
         src={Quokka}
         alt="Quokka"
       />

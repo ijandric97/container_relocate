@@ -1,0 +1,36 @@
+.problems__main {
+  background: black;
+  height: calc(100% - 50px);
+  opacity: 0; /* framer-motion bug */
+  padding: 10px 10px 0px 10px;
+}
+
+.problems__selector {
+  background: linear-gradient(to bottom, #262626, black);
+  border: 1px solid #262626;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.problems__label {
+  margin: 0px 10px;
+}
+
+.problems_flex {
+  background: red;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.problems__flexitem {
+  flex-basis: 30%;
+  min-width: 200px;
+  background: blue;
+  height: 200px;
+  margin: 10px;
+}

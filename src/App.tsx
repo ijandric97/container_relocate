@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./styles.css";
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage/HomePage";
@@ -9,8 +9,6 @@ import GamePage from "./pages/GamePage/GamePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 const App = () => {
-  const conRef = React.useRef(null);
-
   return (
     <Router>
       <div className="App">

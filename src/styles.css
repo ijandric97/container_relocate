@@ -36,3 +36,31 @@ html {
 .ContainerFlex {
   display: flex;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: linear-gradient(to right, #262626, black);
+  background: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+  border: 1px dashed #54d17a;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #54d17a;
+}
+
+::-webkit-scrollbar-corner {
+  background: black;
+  border: 1px dashed #54d17a;
+}
