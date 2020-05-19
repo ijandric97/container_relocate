@@ -28,7 +28,7 @@ export const dummy_problems = [
   },
   {
     row_size: 4,
-    col_size: 3,
+    col_size: 4,
     data: [
       [
         { value: 1, color: 0 },

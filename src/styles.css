@@ -52,15 +52,15 @@ html {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: black;
-  border: 1px dashed #54d17a;
+  border: 1px dashed darkcyan;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #54d17a;
+  background: darkcyan;
 }
 
 ::-webkit-scrollbar-corner {
   background: black;
-  border: 1px dashed #54d17a;
+  border: 1px dashed darkcyan;
 }

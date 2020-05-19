@@ -35,26 +35,23 @@ const ProblemsPage: React.FC<any> = () => {
           placeholder={3}
           value={rows}
           onChange={v => setRows(v)}
-          options={[2, 3, 4, 5]}
+          options={[3, 4, 5]}
         />
         <label className="problems__label">Columns:</label>
         <Dropdown
           placeholder={3}
           value={cols}
           onChange={v => setCols(v)}
-          options={[2, 3, 4, 5]}
+          options={[3, 4, 5]}
         />
       </div>
-
-      <Problem problem={dummy_problems[0]} num={0} />
-      <Problem problem={dummy_problems[3]} num={0} />
-      {/*<div className="problems_flex">
-        <div className="problems__flexitem">ses5</div>
-        <div className="problems__flexitem">ses6</div>
-        <div className="problems__flexitem">ses7</div>
-        <div className="problems__flexitem">ses8</div>
-        <div className="problems__flexitem">ses9</div>
-      </div>*/}
+      <div className="problems_flex">
+        {dummy_problems.map((problem, index) => (
+          <div className="problems__flexitem">
+            <Problem problem={problem} num={index} />
+          </div>
+        ))}
+      </div>
     </motion.div>
   );
 };

@@ -61,7 +61,7 @@ const Navbar: React.FC<any> = () => {
           <Link to="/statistics" className="navbar__link">
             Statistics
           </Link>
-          <Link to="/error" className="navbar__link navbar__link--green">
+          <Link to="/error" className="navbar__link navbar__link--color">
             About
           </Link>
         </motion.div>

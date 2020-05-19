@@ -38,8 +38,8 @@
   filter: brightness(2);
 }
 
-.navbar__link--green {
-  color: #54d17a;
+.navbar__link--color {
+  color: darkcyan;
 }
 
 .navbar__hamburger {
@@ -65,12 +65,14 @@
     padding: 0;
     text-align: center;
     width: 100%;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.5);
+    height: -webkit-fill-available;
   }
 
   .navbar__link {
     backdrop-filter: blur(5px);
-    background-color: rgba(0, 0, 0, 0.9);
-    border-bottom: 1px solid #262626;
+    border-bottom: 1px solid darkslategrey;
     display: block;
     font-size: 32px;
     line-height: 80px;
@@ -80,10 +82,8 @@
   }
 
   .navbar__border {
-    margin: 0 16px;
-    border-left: 6px solid #262626;
-    border-right: 6px solid #262626;
-    border-bottom: 6px solid #262626;
+    margin-top: 10px;
+    border-top: 1px solid darkslategrey;
   }
 
   .navbar__hamburger {
@@ -95,5 +95,6 @@
     display: block;
     position: absolute;
     top: 40px;
+    z-index: 100;
   }
 }

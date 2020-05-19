@@ -21,16 +21,12 @@
 }
 
 .problems_flex {
-  background: red;
+  background: rgba(0, 255, 0, 0.1);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .problems__flexitem {
-  flex-basis: 30%;
-  min-width: 200px;
-  background: blue;
-  height: 200px;
   margin: 10px;
 }

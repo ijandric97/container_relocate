@@ -41,34 +41,30 @@ const Problem: React.FC<ProblemProps> = props => {
 
   const rows = data.map((row, index) => {
     const cells = row.map((cell, index) => {
-      if (cell.value === null || cell.color === null) {
-        return (
-          <td
-            key={index}
-            className={`problem__cell problem__cell--${row_size} problem__cell--empty`}
-          />
-        );
-      } else {
-        return (
-          <td
-            key={index}
-            className={`problem__cell problem__cell--${row_size}`}
-            style={{ backgroundImage: `url(${bgImages[cell.color]})` }}
-          >
-            {cell.value}
-          </td>
-        );
-      }
+      return (
+        <div
+          key={index}
+          className={`problem__cell ${
+            cell.value === null ? "problem__cell--empty" : ""
+          }`}
+          style={{ backgroundImage: `url(${bgImages[cell.color]})` }}
+        >
+          <p>{cell.value}</p>
+        </div>
+      );
     });
 
-    return <tr key={index}>{cells}</tr>;
+    return cells;
   });
 
   return (
-    <div className="problem__main">
-      <table className="problem__table">
-        <tbody>{rows}</tbody>
-      </table>
+    <div className="problem">
+      <div className="problem__label">Problem #{num}</div>
+      <div
+        className={`problem__table problem__table--col${col_size} problem__table--row${row_size}`}
+      >
+        {rows}
+      </div>
     </div>
   );
 };
