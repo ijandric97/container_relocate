@@ -18,6 +18,7 @@ const App = () => {
 
   useEffect(() => {
     const handleResize = () => {
+      console.log("resizing");
       dispatch({
         type: "WINDOW_RESIZE",
         value: {
