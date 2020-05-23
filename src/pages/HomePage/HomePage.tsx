@@ -1,7 +1,27 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { useGlobalState } from "../../state/GlobalState";
+
+import "./HomePage.css";
+import Problem from "../../components/Problem/Problem";
 
 const HomePage: React.FC<any> = () => {
-  return <p>Pogledaj about ;)</p>;
+  const [{ singleProblem }, dispatch] = useGlobalState();
+
+  if (Object.keys(singleProblem).length > 0) {
+    return <div className="Game">Game</div>;
+  }
+
+  return (
+    <motion.div
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="home"
+    >
+      <h1>Welcome to the Container Relocate!</h1>
+      <div>ses</div>
+    </motion.div>
+  );
 };
 
 export default HomePage;
