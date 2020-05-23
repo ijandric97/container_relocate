@@ -6,9 +6,11 @@ import "./HomePage.css";
 import Problem from "../../components/Problem/Problem";
 
 const HomePage: React.FC<any> = () => {
-  const [{ singleProblem }, dispatch] = useGlobalState();
+  const {
+    state: { problem }
+  } = useGlobalState();
 
-  if (Object.keys(singleProblem).length > 0) {
+  if (Object.keys(problem).length > 0) {
     return <div className="Game">Game</div>;
   }
 

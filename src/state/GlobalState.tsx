@@ -1,21 +1,24 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, Dispatch } from "react";
 
-export const StateContext = createContext(undefined);
+import { State, initialState } from "./State";
+import { mainReducer, Actions } from "./Reducer";
 
-type StateProviderProps = {
-  reducer: any;
-  initialState: any | undefined;
-  children: React.ReactNode;
+const StateContext = createContext<{
+  state: State;
+  dispatch: Dispatch<Actions>;
+}>({
+  state: initialState,
+  dispatch: () => null
+});
+
+export const StateProvider: React.FC = ({ children }) => {
+  const [state, dispatch] = useReducer(mainReducer, initialState);
+
+  return (
+    <StateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </StateContext.Provider>
+  );
 };
-
-export const StateProvider: React.FC<StateProviderProps> = ({
-  reducer,
-  initialState,
-  children
-}) => (
-  <StateContext.Provider value={useReducer(reducer, initialState)}>
-    {children}
-  </StateContext.Provider>
-);
 
 export const useGlobalState = () => useContext(StateContext);

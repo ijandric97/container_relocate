@@ -1,24 +1,22 @@
-// TODO: add all the reducing stuffys inside :)
-// TODO: if needed, create reducers folder, and put specific reducers inside
-export const reducer = (state, action) => {
-  switch (action.type) {
-    case "WINDOW_RESIZE":
-      return {
-        ...state,
-        client: action.value
-      };
-    case "SET_LOADING":
-      return {
-        ...state,
-        status: action.value
-      };
-    case "changeTheme":
-      return {
-        ...state,
-        theme: action.newTheme
-      };
+import { State } from "./State";
 
-    default:
-      return state;
-  }
+import { ClientActions, clientReducer } from "./reducers/ClientReducer";
+import { ProblemActions, problemReducer } from "./reducers/ProblemReducer";
+
+export type ActionMap<M extends { [index: string]: any }> = {
+  [Key in keyof M]: M[Key] extends undefined
+    ? {
+        type: Key;
+      }
+    : {
+        type: Key;
+        payload: M[Key];
+      }
 };
+
+export type Actions = ClientActions | ProblemActions;
+
+export const mainReducer = ({ client, problem }: State, action: Actions) => ({
+  client: clientReducer(client, action as ClientActions),
+  problem: problemReducer(problem, action as ProblemActions)
+});

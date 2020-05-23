@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import { useGlobalState } from "./state/GlobalState";
+import { ClientTypes } from "./state/reducers/ClientReducer";
 
 import "./App.css";
 
@@ -14,14 +16,13 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import { debounce } from "./util/misc";
 
 const App = () => {
-  const [{ client }, dispatch] = useGlobalState();
+  const { dispatch } = useGlobalState();
 
   useEffect(() => {
     const handleResize = () => {
       dispatch({
-        type: "WINDOW_RESIZE",
-        value: {
-          ...client,
+        type: ClientTypes.Update,
+        payload: {
           height: window.innerHeight,
           width: window.innerWidth
         }
@@ -32,13 +33,15 @@ const App = () => {
 
     return () =>
       window.removeEventListener("resize", debounce(handleResize, 100));
+    // We want this to run only on mount and unmount, linter cant detect
+    // this use case, so we will disable it :)
+    // eslint-disable-next-line
   }, []);
 
   return (
     <Router>
       <div className="App">
         <Route component={Navbar} />
-
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/problems" component={ProblemsPage} />
