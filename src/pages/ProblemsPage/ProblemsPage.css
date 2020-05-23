@@ -1,8 +1,7 @@
-.problems__main {
-  background: black;
+.problems {
   height: calc(100% - 50px);
   opacity: 0; /* framer-motion bug */
-  padding: 10px 10px 0px 10px;
+  padding: 10px;
 }
 
 .problems__selector {
