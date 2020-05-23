@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useGlobalState } from "./state/GlobalState";
 
 import "./App.css";
-
-import { useGlobalState } from "./state/GlobalState";
 
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage/HomePage";
@@ -12,10 +11,29 @@ import StatisticsPage from "./pages/StatisticsPage/StatisticsPage";
 import GamePage from "./pages/GamePage/GamePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
-const App = () => {
-  const [state, dispatch] = useGlobalState();
+import { debounce } from "./util/misc";
 
-  useEffect(() => {}, []);
+const App = () => {
+  const [{ client }, dispatch] = useGlobalState();
+
+  useEffect(() => {
+    const handleResize = () => {
+      console.log("resizing");
+      dispatch({
+        type: "WINDOW_RESIZE",
+        value: {
+          ...client,
+          height: window.innerHeight,
+          width: window.innerWidth
+        }
+      });
+    };
+
+    window.addEventListener("resize", debounce(handleResize, 100));
+
+    return () =>
+      window.removeEventListener("resize", debounce(handleResize, 100));
+  }, []);
 
   return (
     <Router>

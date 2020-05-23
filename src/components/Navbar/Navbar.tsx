@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import { motion, useAnimation, Variants } from "framer-motion";
 import Logo from "../../images/navbar_logo.png";
 import "./Navbar.css";
+import { useGlobalState } from "../../state/GlobalState";
 
 const Navbar: React.FC<any> = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLInputElement>(null);
   const hamRef = useRef<HTMLLabelElement>(null);
+
+  //const [{ client }, dispatch] = useGlobalState();
 
   const menuAnimation = useAnimation();
   const menuVariants: Variants = {

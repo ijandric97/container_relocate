@@ -1,6 +1,6 @@
 // TODO: CLEANUP THE DEFAULTS FFS :)
 export const initialState = {
-  window: {
+  client: {
     height: window.innerHeight,
     width: window.innerWidth
   },

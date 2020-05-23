@@ -2,10 +2,10 @@
 // TODO: if needed, create reducers folder, and put specific reducers inside
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "UPDATE_WINDOW":
+    case "WINDOW_RESIZE":
       return {
         ...state,
-        window: action.value
+        client: action.value
       };
     case "SET_LOADING":
       return {
