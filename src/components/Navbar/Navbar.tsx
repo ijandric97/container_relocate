@@ -1,98 +1,87 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useAnimation, Variants } from "framer-motion";
-import Logo from "../../images/navbar_logo.png";
-import "./Navbar.css";
+import { motion } from "framer-motion";
 import { useGlobalState } from "../../state/GlobalState";
 
+import Logo from "../../images/navbar_logo.png";
+import "./Navbar.css";
+
+enum breaks {
+  xs = 0,
+  sm = 2576,
+  md = 768,
+  lg = 992,
+  xl = 1200
+}
+
 const Navbar: React.FC<any> = () => {
-  const menuRef = useRef<HTMLDivElement>(null);
-  const toggleRef = useRef<HTMLInputElement>(null);
-  const hamRef = useRef<HTMLLabelElement>(null);
+  const {
+    state: { client }
+  } = useGlobalState();
 
-  //const [{ client }, dispatch] = useGlobalState();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const menuAnimation = useAnimation();
-  const menuVariants: Variants = {
-    visible: {
-      opacity: [0, 1],
-      transition: {
-        duration: 1
-      }
-    },
-    hidden: {
-      opacity: 0
+  const setNotOpen = () => {
+    if (isOpen === true) {
+      setIsOpen(false);
     }
   };
 
-  useEffect(() => {
-    const handleClick = (e: any) => {
-      if (null !== toggleRef.current) {
-        if (null !== hamRef.current && hamRef.current.contains(e.target)) {
-          // We clicked on the hamburger icon, open the menu if it's
-          // closed, or close the menu if it's open (TOGGLE THE MENU)
-          toggleRef.current.checked = !toggleRef.current.checked;
-        } else if (
-          null !== menuRef.current &&
-          menuRef.current.contains(e.target)
-        ) {
-          // We clicked on the menu item, pass the click event
-          // to the target element then close the menu
-          e.target.click();
-          toggleRef.current.checked = false;
-        } else {
-          // We clicked outside of the menu, CLOSE IT!
-          toggleRef.current.checked = false;
-        }
+  const renderHamburger = () => {
+    return (
+      <label className="hamburger" onClick={() => setIsOpen(!isOpen)}>
+        ≡
+      </label>
+    );
+  };
 
-        if (toggleRef.current.checked === true) {
-          menuAnimation.start("visible");
-        } else {
-          //menuAnimation.start("hidden");
-        }
-      }
-    };
+  const renderMenu = (isMobile: boolean) => {
+    const isM = isMobile ? "mobile" : "";
+    return (
+      <>
+        <Link to="/problems" className={`link ${isM}`} onClick={setNotOpen}>
+          Problems
+        </Link>
+        <Link to="/statistics" className={`link ${isM}`} onClick={setNotOpen}>
+          Statistics
+        </Link>
+        <Link to="/error" className={`link color ${isM}`} onClick={setNotOpen}>
+          About
+        </Link>
+      </>
+    );
+  };
 
-    document.addEventListener("mousedown", handleClick);
+  const renderDesktopMenu = () => {
+    return <div className="menu">{renderMenu(false)}</div>;
+  };
 
-    return () => {
-      // Cleanup once the component is unmounted :)
-      document.removeEventListener("mousedown", handleClick);
-    };
-  }, [menuAnimation]);
+  const renderMobileMenu = () => {
+    return (
+      <motion.div
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="menu mobile"
+      >
+        <div className="border">{renderMenu(true)}</div>
+      </motion.div>
+    );
+  };
 
   return (
     <motion.nav
-      animate={{ opacity: 1 }}
+      animate={{ opacity: [0, 1] }}
       transition={{ duration: 1 }}
       className="navbar"
+      onClick={setNotOpen}
     >
       <Link to="/">
-        <img src={Logo} className="navbar__logo" alt="logo" />
-        <p className="navbar__title">Container Relocate</p>
+        <img src={Logo} className="logo" alt="logo" />
+        <p className="title">Container Relocate</p>
       </Link>
-      <label ref={hamRef} className="navbar__hamburger">
-        ≡
-      </label>
-      <input ref={toggleRef} type="checkbox" id="navbarToggle" />
-      <motion.div
-        animate={menuAnimation}
-        variants={menuVariants}
-        ref={menuRef}
-        className="navbar__menu"
-      >
-        <div className="navbar__border">
-          <Link to="/problems" className="navbar__link">
-            Problems
-          </Link>
-          <Link to="/statistics" className="navbar__link">
-            Statistics
-          </Link>
-          <Link to="/error" className="navbar__link navbar__link--color">
-            About
-          </Link>
-        </div>
-      </motion.div>
+      {client.width <= breaks.sm && renderHamburger()}
+      {client.width >= breaks.sm && renderDesktopMenu()}
+      {isOpen && renderMobileMenu()}
     </motion.nav>
   );
 };

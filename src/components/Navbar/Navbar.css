@@ -9,93 +9,75 @@
   opacity: 0;
 }
 
-.navbar__logo {
+.navbar .logo {
   padding: 4px 0px;
   margin-left: 8px;
   float: left;
 }
 
-.navbar__title {
+.navbar .title {
   color: white;
   float: left;
   margin: 0 8px;
   text-decoration: none;
 }
 
-.navbar__menu {
+.navbar .menu {
   float: right;
   margin-right: 4px;
 }
 
-.navbar__link {
+.navbar .menu.mobile {
+  display: block;
+  float: none;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  position: absolute;
+  top: 40px;
+  z-index: 100;
+}
+
+.navbar .link {
   clear: right;
   text-decoration: none;
-  color: gray;
+  color: grey;
   margin: 0 10px;
 }
 
-.navbar__link:hover {
-  filter: brightness(2);
-}
-
-.navbar__link--color {
+.navbar .link.color {
   color: darkcyan;
 }
 
-.navbar__hamburger {
-  display: none;
+.navbar .link.mobile {
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid darkslategrey;
+  display: block;
+  font-size: 32px;
+  line-height: 80px;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+.navbar .link:hover {
+  filter: brightness(2);
+}
+
+.navbar .hamburger {
+  display: block;
+  cursor: pointer;
   float: right;
   font-size: 30px;
   margin-right: 8px;
   width: 28px;
 }
 
-.navbar__border {
-  display: hidden;
-}
-
-#navbarToggle {
-  display: none;
-}
-
-@media only screen and (max-width: 500px) {
-  .navbar__menu {
-    display: none;
-    float: none;
-    padding: 0;
-    text-align: center;
-    width: 100%;
-    backdrop-filter: blur(5px);
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    opacity: 0;
-  }
-
-  .navbar__link {
-    backdrop-filter: blur(5px);
-    border-bottom: 1px solid darkslategrey;
-    display: block;
-    font-size: 32px;
-    line-height: 80px;
-    margin: 0;
-    padding: 0;
-    user-select: none;
-  }
-
-  .navbar__border {
-    margin-top: 10px;
-    border-top: 1px solid darkslategrey;
-  }
-
-  .navbar__hamburger {
-    display: block;
-    cursor: pointer;
-  }
-
-  #navbarToggle:checked ~ .navbar__menu {
-    display: block;
-    position: absolute;
-    top: 40px;
-    z-index: 100;
-  }
+.navbar .border {
+  margin-top: 10px;
+  border-top: 1px solid darkslategrey;
 }
