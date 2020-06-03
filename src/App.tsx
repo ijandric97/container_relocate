@@ -7,11 +7,11 @@ import { ClientTypes } from "./state/reducers/ClientReducer";
 import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
-import HomePage from "./pages/HomePage/HomePage";
-import ProblemsPage from "./pages/ProblemsPage/ProblemsPage";
-import StatisticsPage from "./pages/StatisticsPage/StatisticsPage";
-import GamePage from "./pages/GamePage/GamePage";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import HomePage from "./components/HomePage/HomePage";
+import ProblemsPage from "./components/ProblemsPage/ProblemsPage";
+import StatisticsPage from "./components/StatisticsPage/StatisticsPage";
+import GamePage from "./components/GamePage/GamePage";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 import { debounce } from "./util/misc";
 

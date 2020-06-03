@@ -5,7 +5,7 @@ import {
   TargetAndTransition,
   Variants
 } from "framer-motion";
-import Quokka from "../../images/Quokka.png";
+import Quokka from "../../assets/images/Quokka.png";
 import "./ErrorPage.css";
 
 const ErrorPage: React.FC<any> = () => {

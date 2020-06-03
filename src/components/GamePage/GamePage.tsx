@@ -1,7 +1,9 @@
 import React from "react";
 
+import "./GamePage.css";
+
 const GamePage: React.FC<any> = () => {
-  return <p>Game page!</p>;
+  return <div className="game">Game page!</div>;
 };
 
 export default GamePage;

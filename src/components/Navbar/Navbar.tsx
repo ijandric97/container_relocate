@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useGlobalState } from "../../state/GlobalState";
 
-import Logo from "../../images/navbar_logo.png";
+import Logo from "../../assets/images/navbar_logo.png";
 import "./Navbar.css";
 
 enum breaks {
@@ -45,7 +45,7 @@ const Navbar: React.FC<any> = () => {
         <Link to="/statistics" className={`link ${isM}`} onClick={setNotOpen}>
           Statistics
         </Link>
-        <Link to="/error" className={`link color ${isM}`} onClick={setNotOpen}>
+        <Link to="/game" className={`link color ${isM}`} onClick={setNotOpen}>
           About
         </Link>
       </>

@@ -1,10 +1,10 @@
 import React from "react";
-import ContainerBlue from "../../images/container_blue.jpg";
-import ContainerGreen from "../../images/container_green.jpg";
-import ContainerGrey from "../../images/container_grey.jpg";
-import ContainerOrange from "../../images/container_orange.jpg";
-import ContainerPurple from "../../images/container_purple.jpg";
-import ContainerRed from "../../images/container_red.jpg";
+import ContainerBlue from "../../assets/images/container_blue.jpg";
+import ContainerGreen from "../../assets/images/container_green.jpg";
+import ContainerGrey from "../../assets/images/container_grey.jpg";
+import ContainerOrange from "../../assets/images/container_orange.jpg";
+import ContainerPurple from "../../assets/images/container_purple.jpg";
+import ContainerRed from "../../assets/images/container_red.jpg";
 import "./Problem.css";
 
 const bgImages: string[] = [
