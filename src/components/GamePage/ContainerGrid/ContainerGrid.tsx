@@ -30,8 +30,9 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
   };
 
   const renderContainers = ({ col_size, row_size, current, data }: Problem) => {
+    const spacer = (width / row_size) * 0.1;
     const conH = height / (col_size + 2);
-    const conW = width / row_size;
+    const conW = width / row_size - spacer;
 
     let containers: JSX.Element[] = [];
 
@@ -39,16 +40,17 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
       for (let j = 0; j < data[i].length; j++) {
         const el = data[i][j];
         const bottom = (data[i].length - 1 - j) * conH;
+        const left = i * (conW + spacer) + spacer / 2;
 
+        // Top of the stack, should be draggable
         if (j === 0) {
-          // TODO: MAKE THEM DRAGGABLE
           console.log(data[i][j]);
           containers.push(
             <ContainerDrag
               key={`${i}.${j}`}
               width={conW}
               height={conH}
-              left={i * conW}
+              left={left}
               bottom={bottom}
               number={el.value}
               next={el.value === current}
@@ -61,7 +63,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
               key={`${i}.${j}`}
               width={conW}
               height={conH}
-              left={i * conW}
+              left={left}
               bottom={bottom}
               next={el.value === current}
               number={el.value}
