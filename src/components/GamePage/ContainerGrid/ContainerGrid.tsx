@@ -2,7 +2,7 @@ import React, { CSSProperties, useRef } from 'react';
 import { useGlobalState } from '../../../state/GlobalState';
 import { Problem } from '../../../state/reducers/ProblemReducer';
 
-import Container from '../Container/Container';
+import { Container, ContainerDrag } from '../Container/Container';
 
 import './ContainerGrid.css';
 import { breaks } from '../../../util/misc';
@@ -43,18 +43,31 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         if (j === 0) {
           // TODO: MAKE THEM DRAGGABLE
           console.log(data[i][j]);
+          containers.push(
+            <ContainerDrag
+              key={`${i}.${j}`}
+              width={conW}
+              height={conH}
+              left={i * conW}
+              bottom={bottom}
+              number={el.value}
+              next={el.value === current}
+              parent={constraintsRef}
+            />
+          );
+        } else {
+          containers.push(
+            <Container
+              key={`${i}.${j}`}
+              width={conW}
+              height={conH}
+              left={i * conW}
+              bottom={bottom}
+              next={el.value === current}
+              number={el.value}
+            />
+          );
         }
-        containers.push(
-          <Container
-            key={`${i}.${j}`}
-            width={conW}
-            height={conH}
-            left={i * conW}
-            bottom={bottom}
-            next={el.value === current}
-            number={el.value}
-          />
-        );
       }
     }
 

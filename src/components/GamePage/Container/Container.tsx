@@ -1,50 +1,47 @@
-import React, { CSSProperties } from "react";
-import { motion } from "framer-motion";
-import ContainerBlue from "../../images/container_blue.jpg";
-import ContainerGreen from "../../images/container_green.jpg";
-import ContainerGrey from "../../images/container_grey.jpg";
-import ContainerOrange from "../../images/container_orange.jpg";
-import ContainerPurple from "../../images/container_purple.jpg";
-import ContainerRed from "../../images/container_red.jpg";
+import React, { CSSProperties } from 'react';
+import { motion } from 'framer-motion';
+
+import './Container.css';
 
 type ContainerProps = {
+  width: number;
+  height: number;
+  left: number;
+  bottom: number;
   number: number;
-  color: number;
+  next?: boolean;
+};
+
+type ContainerDragProps = ContainerProps & {
   parent?: any;
 };
 
-const Container: React.FC<ContainerProps> = props => {
-  let { number, color, parent } = props;
-  let [index, setIndex] = React.useState(0);
-
-  const bgImages: string[] = [
-    ContainerBlue,
-    ContainerGreen,
-    ContainerGrey,
-    ContainerOrange,
-    ContainerPurple,
-    ContainerRed
-  ];
-
-  const scale = 1;
-
+export const Container: React.FC<ContainerProps> = ({ width, height, left, bottom, number, next }) => {
   const imageStyle: CSSProperties = {
-    width: `${128 * scale}px`,
-    height: `${160 * scale}px`,
-    backgroundImage: `url(${bgImages[color]})`,
-    backgroundSize: "100% 100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    border: "solid black 2px",
-    position: "relative",
-    zIndex: index
+    width: `${width}px`,
+    height: `${height}px`,
+    left: `${left}px`,
+    bottom: `${bottom}px`,
+    backgroundColor: `${next ? 'blue' : 'green'}`
   };
 
-  const textStyle: CSSProperties = {
-    color: "white",
-    fontFamily: "Impact",
-    fontSize: "300%"
+  return (
+    <div className="container" style={imageStyle}>
+      <p>{number}</p>
+    </div>
+  );
+};
+
+export const ContainerDrag: React.FC<ContainerDragProps> = ({ width, height, left, bottom, number, next, parent }) => {
+  let [index, setIndex] = React.useState(0);
+
+  const imageStyle: CSSProperties = {
+    width: `${width}px`,
+    height: `${height}px`,
+    left: `${left}px`,
+    bottom: `${bottom}px`,
+    backgroundColor: `${next ? 'blue' : 'green'}`,
+    zIndex: 10 + index
   };
 
   return (
@@ -60,12 +57,10 @@ const Container: React.FC<ContainerProps> = props => {
       }}
       drag
       dragConstraints={parent}
+      className="container"
       style={imageStyle}
     >
-      <p style={textStyle}>{number}</p>
+      <p>{number}</p>
     </motion.div>
   );
-  //return <img src={ContainerBlue} alt="Logo" />;
 };
-
-export default Container;
