@@ -1,0 +1,61 @@
+.problem {
+  background: linear-gradient(to bottom, #262626, black);
+  border: 1px solid #262626;
+  border-radius: 5px;
+  padding: 10px;
+  transition: all 0.5s;
+}
+
+.problem:hover {
+  filter: brightness(2);
+  cursor: pointer;
+}
+
+.problem .label {
+  margin-bottom: 10px;
+}
+
+.problem .table {
+  background: transparent;
+  display: grid;
+  width: 300px;
+  height: 300px;
+  border: 1px groove darkcyan;
+}
+
+.problem .table.col3 {
+  grid-template-columns: 100px 100px 100px;
+}
+.problem .table.col4 {
+  grid-template-columns: 75px 75px 75px 75px;
+}
+.problem .table.col5 {
+  grid-template-columns: 60px 60px 60px 60px;
+}
+
+.problem .table.col3 {
+  grid-template-rows: 100px 100px 100px;
+}
+.problem .table.row4 {
+  grid-template-rows: 75px 75px 75px 75px;
+}
+.problem .table.row5 {
+  grid-template-rows: 60px 60px 60px 60px;
+}
+
+.problem .cell {
+  font-family: 'Impact';
+  font-size: 32px;
+  border: 1px solid black;
+  position: relative;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.problem .cell p {
+  margin: 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
