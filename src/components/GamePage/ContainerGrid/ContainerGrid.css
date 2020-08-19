@@ -1,0 +1,8 @@
+.containers {
+  width: 500px;
+  height: 500px;
+  background-color: red;
+  position: absolute;
+  bottom: 60px;
+  left: 260px;
+}

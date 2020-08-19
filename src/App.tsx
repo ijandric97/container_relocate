@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { useGlobalState } from "./state/GlobalState";
-import { ClientTypes } from "./state/reducers/ClientReducer";
+import { useGlobalState } from './state/GlobalState';
+import { ClientTypes } from './state/reducers/ClientReducer';
 
-import "./App.css";
+import './App.css';
 
-import Navbar from "./components/Navbar/Navbar";
-import HomePage from "./components/HomePage/HomePage";
-import ProblemsPage from "./components/ProblemsPage/ProblemsPage";
-import StatisticsPage from "./components/StatisticsPage/StatisticsPage";
-import GamePage from "./components/GamePage/GamePage";
-import ErrorPage from "./components/ErrorPage/ErrorPage";
+import Navbar from './components/Navbar/Navbar';
+import HomePage from './components/HomePage/HomePage';
+import ProblemsPage from './components/ProblemsPage/ProblemsPage';
+import StatisticsPage from './components/StatisticsPage/StatisticsPage';
+import GamePage from './components/GamePage/GamePage';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
-import { debounce } from "./util/misc";
+import { debounce } from './util/misc';
 
 const App = () => {
   const { dispatch } = useGlobalState();
@@ -29,10 +29,9 @@ const App = () => {
       });
     };
 
-    window.addEventListener("resize", debounce(handleResize, 100));
+    window.addEventListener('resize', debounce(handleResize, 100));
 
-    return () =>
-      window.removeEventListener("resize", debounce(handleResize, 100));
+    return () => window.removeEventListener('resize', debounce(handleResize, 100));
     // We want this to run only on mount and unmount, linter cant detect
     // this use case, so we will disable it :)
     // eslint-disable-next-line
@@ -46,7 +45,7 @@ const App = () => {
           <Route exact path="/" component={HomePage} />
           <Route path="/problems" component={ProblemsPage} />
           <Route path="/statistics" component={StatisticsPage} />
-          <Route path="/game" component={GamePage} />
+          <Route path="/game/:id?" component={GamePage} />
           <Route path="*" component={ErrorPage} />
         </Switch>
       </div>
