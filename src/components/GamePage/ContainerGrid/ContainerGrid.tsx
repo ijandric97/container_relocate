@@ -44,23 +44,29 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
 
         // Top of the stack, should be draggable
         if (j === 0) {
-          console.log(data[i][j]);
           containers.push(
             <ContainerDrag
-              key={`${i}.${j}`}
+              /* key={`${i}.${j}`} */
+              // HACK: We put in random key so react cant recreate an object
+              // Recreated object would get applied previous translation (WE DONT WanT ThaT)
+              key={Date.now() + Math.random()}
               width={conW}
               height={conH}
               left={left}
               bottom={bottom}
               number={el.value}
               next={el.value === current}
+              spacer={spacer}
               parent={constraintsRef}
             />
           );
         } else {
           containers.push(
             <Container
-              key={`${i}.${j}`}
+              /* key={`${i}.${j}`} */
+              // HACK: We put in random key so react cant recreate an object
+              // Recreated object would get applied previous translation (WE DONT WanT ThaT)
+              key={Date.now() + Math.random()}
               width={conW}
               height={conH}
               left={left}

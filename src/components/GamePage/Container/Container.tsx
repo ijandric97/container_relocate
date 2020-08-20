@@ -1,10 +1,12 @@
 import React, { CSSProperties } from 'react';
-import { motion } from 'framer-motion';
+import { motion, PanInfo } from 'framer-motion';
 
 import BGGreen from './images/Container_Green.png';
 import BGBlue from './images/Container_Blue.png';
 
 import './Container.css';
+import { useGlobalState } from '../../../state/GlobalState';
+import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
 
 type ContainerProps = {
   width: number;
@@ -16,6 +18,7 @@ type ContainerProps = {
 };
 
 type ContainerDragProps = ContainerProps & {
+  spacer: number;
   parent?: any;
 };
 
@@ -43,17 +46,37 @@ export const Container: React.FC<ContainerProps> = (props) => {
 
 export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
   let [index, setIndex] = React.useState(1);
+  const {
+    state: { problem },
+    dispatch
+  } = useGlobalState();
+
+  const handleDrag = (problem: Problem, info: PanInfo) => {
+    const left = props.left + info.point.x + (props.width + props.spacer) / 2;
+    const oldIndex = Math.floor(props.left / (props.width + props.spacer));
+    const newIndex = Math.floor(left / (props.width + props.spacer));
+
+    // We are not over the limit
+    if (problem.data[newIndex].length < problem.col_size + 2) {
+      problem.data[oldIndex].shift(); // Remove old
+      problem.data[newIndex].unshift({ value: props.number, color: 0 }); // Push in new
+    }
+    dispatch({
+      type: ProblemTypes.Update,
+      payload: problem
+    });
+  };
 
   return (
     <motion.div
-      dragElastic={0.1}
+      dragElastic={0}
       dragMomentum={false}
-      onDragStart={(event, info) => {
+      onDragStart={() => {
         setIndex(2); // Set it above everything
       }}
       onDragEnd={(event, info) => {
         setIndex(1); // Set it above static ones
-        console.log(info.point.x, info.point.y); //Add logic to move this shit somewhere else
+        handleDrag(problem as Problem, info);
       }}
       drag
       dragConstraints={props.parent}
