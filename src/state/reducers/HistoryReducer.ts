@@ -9,8 +9,8 @@ export enum HistoryTypes {
 
 type HistoryPayload = {
   [HistoryTypes.Push]: Problem;
-  [HistoryTypes.Pop]: null;
-  [HistoryTypes.Clear]: null;
+  [HistoryTypes.Pop]: any;
+  [HistoryTypes.Clear]: any;
 };
 
 export type HistoryActions = ActionMap<HistoryPayload>[keyof ActionMap<HistoryPayload>];
@@ -18,7 +18,11 @@ export type HistoryActions = ActionMap<HistoryPayload>[keyof ActionMap<HistoryPa
 export const historyReducer = (state: Problem[], action: HistoryActions) => {
   switch (action.type) {
     case HistoryTypes.Push:
-      state.unshift(JSON.parse(JSON.stringify(action.payload)));
+      try {
+        state.unshift(JSON.parse(JSON.stringify(action.payload)));
+      } catch (error) {
+        console.log(error);
+      }
       return state;
     case HistoryTypes.Pop:
       state.shift();

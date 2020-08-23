@@ -19,7 +19,7 @@ const GamePage: React.FC<any> = () => {
   const { id } = useParams<GameParam>();
   let routerHistory = useHistory();
   const {
-    state: { problem, problems, history },
+    state: { problem, problems },
     dispatch // TODO: probably client also and shit
   } = useGlobalState();
 
@@ -27,11 +27,15 @@ const GamePage: React.FC<any> = () => {
   useEffect(() => {
     if (isEmpty(problem) || !isNaN(Number(id))) {
       console.log('NO');
+      console.log(isEmpty(problem));
       console.log(!isNaN(Number(id)));
+      console.log(isNaN(Number(id)));
 
       // Verify the problem then load it into globalstate
       if (isNaN(Number(id)) || Number(id) >= problems.length) {
+        console.log('WTF');
         routerHistory.push('/problems');
+        return; // ! Apparently routerHistory.push doesnt end this effect :) so we have to return
       }
 
       console.log('HIT');
@@ -43,9 +47,6 @@ const GamePage: React.FC<any> = () => {
           payload: null
         });
         // Load the new problem
-        console.log('OU');
-        console.log(problems.length);
-        console.log(Number(id));
         dispatch({
           type: ProblemTypes.Update,
           payload: JSON.parse(JSON.stringify(problems[Number(id)])) // Some sort of DeepClone, if this doesnt work use Loadash pls

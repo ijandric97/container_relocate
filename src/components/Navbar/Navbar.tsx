@@ -20,8 +20,6 @@ const Navbar: React.FC<any> = () => {
     }
   };
 
-  console.log(client);
-
   const renderHamburger = () => {
     return (
       <label className="hamburger" onClick={() => setIsOpen(!isOpen)}>

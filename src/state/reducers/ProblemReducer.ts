@@ -25,8 +25,12 @@ export type ProblemActions = ActionMap<ProblemPayload>[keyof ActionMap<ProblemPa
 export const problemReducer = (state: Problem | {}, action: ProblemActions) => {
   switch (action.type) {
     case ProblemTypes.Update:
-      console.log(`problemReducer: ${action.payload}`);
-      return JSON.parse(JSON.stringify(action.payload));
+      try {
+        return JSON.parse(JSON.stringify(action.payload));
+      } catch (error) {
+        console.log(error);
+        return state;
+      }
     default:
       return state;
   }
