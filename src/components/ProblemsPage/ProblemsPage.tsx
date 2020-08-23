@@ -1,45 +1,58 @@
-import React, { useState } from "react";
-import { motion, Variants } from "framer-motion";
-import Dropdown from "../../components/Dropdown/Dropdown";
-import Problem from "../../components/Problem/Problem";
-import "./ProblemsPage.css";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useGlobalState } from '../../state/GlobalState';
+
+import { dummy_problems } from '../../util/dummydata';
+import Dropdown from './Dropdown/Dropdown';
+import ProblemGrid from './ProblemGrid/ProblemGrid';
+
+import './ProblemsPage.css';
+import { ProblemsTypes } from '../../state/reducers/ProblemsReducer';
 
 // TODO: Make this work with actual data
-import { dummy_problems } from "../../util/dummydata";
 
 const ProblemsPage: React.FC<any> = () => {
-  const [loaded, setLoaded] = useState(false);
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);
 
+  const {
+    state: { problems },
+    dispatch
+  } = useGlobalState();
+
+  // When component is mounted, add the problems into the problems global state
+  useEffect(() => {
+    // TODO: Axios that will load into the problems list
+    dispatch({
+      type: ProblemsTypes.Update,
+      payload: dummy_problems
+    });
+    // eslint-disable-next-line
+  }, []);
+
   return (
-    <motion.div
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="problems"
-    >
-      <div className="problems__selector">
-        <label className="problems__label">Rows:</label>
-        <Dropdown
-          placeholder={3}
-          value={rows}
-          onChange={v => setRows(v)}
-          options={[3, 4, 5]}
-        />
-        <label className="problems__label">Columns:</label>
-        <Dropdown
-          placeholder={3}
-          value={cols}
-          onChange={v => setCols(v)}
-          options={[3, 4, 5]}
-        />
+    <motion.div animate={{ opacity: 1 }} transition={{ duration: 1 }} className="problems">
+      <div className="selector">
+        <label className="label">Rows:</label>
+        <Dropdown placeholder={3} value={rows} onChange={(v) => setRows(v)} options={[3, 4, 5]} />
+        <label className="label">Columns:</label>
+        <Dropdown placeholder={3} value={cols} onChange={(v) => setCols(v)} options={[3, 4, 5]} />
       </div>
-      <div className="problems_flex">
-        {dummy_problems.map((problem, index) => (
-          <div className="problems__flexitem">
-            <Problem problem={problem} num={index} />
-          </div>
-        ))}
+      <div className="flex">
+        {problems.length > 0 &&
+          problems.map((problem, index) => {
+            if (problem.row_size === rows && problem.col_size === cols) {
+              return (
+                <Link key={index} to={`/game/${index}`}>
+                  <div className="item">
+                    <ProblemGrid problem={problem} num={index} />
+                  </div>
+                </Link>
+              );
+            }
+            return null;
+          })}
       </div>
     </motion.div>
   );

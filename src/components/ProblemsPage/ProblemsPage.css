@@ -4,7 +4,7 @@
   padding: 10px;
 }
 
-.problems__selector {
+.problems .selector {
   background: linear-gradient(to bottom, #262626, black);
   border: 1px solid #262626;
   border-radius: 5px;
@@ -15,17 +15,22 @@
   margin-right: auto;
 }
 
-.problems__label {
+.problems .selector .label {
   margin: 0px 10px;
 }
 
-.problems_flex {
-  background: rgba(0, 255, 0, 0.1);
+.problems .flex a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.problems .flex {
+  /* background: rgba(0, 255, 0, 0.1); */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.problems__flexitem {
+.problems .flex .item {
   margin: 10px;
 }

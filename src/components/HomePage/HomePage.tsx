@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useGlobalState } from "../../state/GlobalState";
 
 import "./HomePage.css";
-import Problem from "../../components/Problem/Problem";
 
 const HomePage: React.FC<any> = () => {
   const {

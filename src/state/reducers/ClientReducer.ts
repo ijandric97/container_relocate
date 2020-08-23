@@ -1,4 +1,4 @@
-import { ActionMap } from "../Reducer";
+import { ActionMap } from '../Reducer';
 
 export type Client = {
   height: number;
@@ -6,16 +6,14 @@ export type Client = {
 };
 
 export enum ClientTypes {
-  Update = "CLIENT_UPDATE"
+  Update = 'CLIENT_UPDATE'
 }
 
 type ClientPayload = {
   [ClientTypes.Update]: Client;
 };
 
-export type ClientActions = ActionMap<ClientPayload>[keyof ActionMap<
-  ClientPayload
->];
+export type ClientActions = ActionMap<ClientPayload>[keyof ActionMap<ClientPayload>];
 
 export const clientReducer = (state: Client, action: ClientActions) => {
   switch (action.type) {

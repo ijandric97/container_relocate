@@ -1,8 +1,9 @@
 .game {
   background: linear-gradient(to bottom, #b7eaff 0%, #94dfff 100%);
   background-repeat: no-repeat;
-  height: calc(100% - 50px);
-  padding-top: 10px;
+  height: calc(100vh - 40px);
   width: 100%;
+  position: relative;
+  overflow: hidden; /* objects rendering outside the game wont spawn scrollbars*/
   opacity: 1; /* framer-motion bug */
 }

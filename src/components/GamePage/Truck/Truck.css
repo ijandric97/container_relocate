@@ -1,7 +1,17 @@
 .truck {
   /* Add it as background */
+  position: absolute;
 }
 
-.container {
-  /* add container stuff */
+.truck.truck {
+  position: absolute;
+  bottom: 0px;
+  z-index: 91;
+}
+
+.truck.container {
+  position: absolute;
+  left: 90px;
+  bottom: 45px;
+  z-index: 90; /* It has to be behind the truck wheel */
 }

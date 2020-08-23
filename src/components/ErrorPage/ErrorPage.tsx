@@ -5,7 +5,7 @@ import {
   TargetAndTransition,
   Variants
 } from "framer-motion";
-import Quokka from "../../assets/images/Quokka.png";
+import Quokka from "../../assets/images/grb2.png";
 import "./ErrorPage.css";
 
 const ErrorPage: React.FC<any> = () => {
@@ -54,15 +54,16 @@ const ErrorPage: React.FC<any> = () => {
       <h1>404</h1>
       <h2>Not found</h2>
       <p>We couldn't find the page you were looking for :(</p>
-      <p>Here is a happy rainbow Quokka to cheer you up</p>
-      <motion.img
+      <p>
+        Here is a happy <del>rainbow</del> ROYAL Quokka to cheer you up
+      </p>
+      {/* <motion.div
         initial={false}
         animate={quokkaAnimation}
         transition={quokkaTransition}
-        className="error__quokka"
-        src={Quokka}
-        alt="Quokka"
-      />
+      > */}
+      <img className="error__quokka" src={Quokka} alt="Quokka" />
+      {/* </motion.div> */}
     </motion.div>
   );
 };
