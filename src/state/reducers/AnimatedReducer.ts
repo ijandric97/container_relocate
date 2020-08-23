@@ -2,29 +2,23 @@ import { ActionMap } from '../Reducer';
 import { Problem } from './ProblemReducer';
 
 export enum AnimatedTypes {
-  Push = 'HISTORY_PUSH',
-  Pop = 'HISTORY_POP',
-  Clear = 'HISTORY_CLEAR'
+  Set = 'ANIMATED_SET',
+  Clear = 'ANIMATED_CLEAR'
 }
 
 type AnimatedPayload = {
-  [AnimatedTypes.Push]: Problem;
-  [AnimatedTypes.Pop]: null;
-  [AnimatedTypes.Clear]: null;
+  [AnimatedTypes.Set]: boolean;
+  [AnimatedTypes.Clear]: any;
 };
 
 export type AnimatedActions = ActionMap<AnimatedPayload>[keyof ActionMap<AnimatedPayload>];
 
-export const historyReducer = (state: Problem[], action: AnimatedActions) => {
+export const animatedReducer = (state: boolean, action: AnimatedActions) => {
   switch (action.type) {
-    case AnimatedTypes.Push:
-      state.unshift(JSON.parse(JSON.stringify(action.payload)));
-      return state;
-    case AnimatedTypes.Pop:
-      state.shift();
-      return state;
+    case AnimatedTypes.Set:
+      return true;
     case AnimatedTypes.Clear:
-      return [];
+      return false;
     default:
       return state;
   }

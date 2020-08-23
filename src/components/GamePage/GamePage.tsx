@@ -10,6 +10,7 @@ import Ground from './Ground/Ground';
 import HUD from './HUD/HUD';
 
 import './GamePage.css';
+import { AnimatedTypes } from '../../state/reducers/AnimatedReducer';
 
 interface GameParam {
   id: string | undefined;
@@ -26,24 +27,21 @@ const GamePage: React.FC<any> = () => {
   // Check if problem is currently loaded
   useEffect(() => {
     if (isEmpty(problem) || !isNaN(Number(id))) {
-      console.log('NO');
-      console.log(isEmpty(problem));
-      console.log(!isNaN(Number(id)));
-      console.log(isNaN(Number(id)));
-
       // Verify the problem then load it into globalstate
       if (isNaN(Number(id)) || Number(id) >= problems.length) {
-        console.log('WTF');
         routerHistory.push('/problems');
         return; // ! Apparently routerHistory.push doesnt end this effect :) so we have to return
       }
-
-      console.log('HIT');
 
       try {
         // Clean the fucking history
         dispatch({
           type: HistoryTypes.Clear,
+          payload: null
+        });
+        // Clean the animation flag
+        dispatch({
+          type: AnimatedTypes.Clear,
           payload: null
         });
         // Load the new problem

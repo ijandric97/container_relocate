@@ -1,28 +1,15 @@
 import React, { CSSProperties } from 'react';
 import { motion, PanInfo } from 'framer-motion';
+import { useGlobalState } from '../../../state/GlobalState';
+import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
+import { HistoryTypes } from '../../../state/reducers/HistoryReducer';
+import { AnimatedTypes } from '../../../state/reducers/AnimatedReducer';
 
 import BGGreen from './images/Container_Green.png';
 import BGBlue from './images/Container_Blue.png';
 import BGRed from './images/Container_Red.png';
 
 import './Container.css';
-import { useGlobalState } from '../../../state/GlobalState';
-import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
-import { HistoryTypes } from '../../../state/reducers/HistoryReducer';
-
-type ContainerProps = {
-  width: number;
-  height: number;
-  left: number;
-  bottom: number;
-  number: number;
-  next?: boolean;
-};
-
-type ContainerDragProps = ContainerProps & {
-  spacer: number;
-  parent?: any;
-};
 
 const getContainerStyle = ({ width, height, left, bottom, next }: ContainerProps, index = 0) => {
   const imageStyle: CSSProperties = {
@@ -35,9 +22,18 @@ const getContainerStyle = ({ width, height, left, bottom, next }: ContainerProps
     zIndex: 10 + index // 10 normal, 11 drag, 12 drag active
   };
 
-  //if (index >= 1) imageStyle.backgroundImage = `url(${BGRed})`;
+  if (index === 69) imageStyle.backgroundImage = `url(${BGRed})`;
 
   return imageStyle;
+};
+
+type ContainerProps = {
+  width: number;
+  height: number;
+  left: number;
+  bottom: number;
+  number: number;
+  next?: boolean;
 };
 
 export const Container: React.FC<ContainerProps> = (props) => {
@@ -46,6 +42,11 @@ export const Container: React.FC<ContainerProps> = (props) => {
       <p>{props.number}</p>
     </div>
   );
+};
+
+type ContainerDragProps = ContainerProps & {
+  spacer: number;
+  parent?: any;
 };
 
 export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
@@ -92,6 +93,76 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
       dragConstraints={props.parent}
       className="container"
       style={getContainerStyle(props, index)}
+    >
+      <p>{props.number}</p>
+    </motion.div>
+  );
+};
+
+type ContainerAnimatedProps = ContainerProps & {
+  spacer: number;
+  parent?: any;
+};
+
+export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
+  const { width, height, left, bottom, next } = props;
+  const {
+    state: { problem },
+    dispatch
+  } = useGlobalState();
+
+  console.log(left);
+
+  // TODO: Calculate this
+  const animate = {
+    bottom: [bottom, bottom, 510, 510, 0, -height / 2, 0],
+    left: [left, left, left, 400, 400, 400, 400],
+    scale: [1, 1, 1, 1, 1, 0, 0]
+  };
+  const transition = {
+    duration: 7,
+    ease: 'easeInOut',
+    //times: [1, 1, 1, 1, 1, 1, 1],
+    repeat: 1
+  };
+
+  // TODO: Perhaps this should be in a logic clas sor some shit u know?
+  const endAnimation = () => {
+    const myProblem = problem as Problem; // Stop ts from bitching honestly
+    for (let i = 0; i < myProblem.data.length; i++) {
+      for (let j = 0; j < myProblem.data[i].length; j++) {
+        // Check only the first element
+        const el = myProblem.data[i][0];
+
+        // TODO: Add some kind of blocking for the animations :)
+        if (el.value === myProblem.current) {
+          myProblem.data[i].shift(); // Remove old
+          myProblem.current = myProblem.current + 1; // Add to counter
+
+          // Update the problem object
+          dispatch({
+            type: ProblemTypes.Update,
+            payload: myProblem
+          });
+          // Clean the animation flag
+          dispatch({
+            type: AnimatedTypes.Clear,
+            payload: null
+          });
+        }
+
+        break;
+      }
+    }
+  };
+
+  return (
+    <motion.div
+      animate={animate}
+      transition={transition}
+      className="container"
+      onAnimationComplete={endAnimation}
+      style={getContainerStyle(props, 69)}
     >
       <p>{props.number}</p>
     </motion.div>

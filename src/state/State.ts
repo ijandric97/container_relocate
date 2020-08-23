@@ -6,6 +6,7 @@ export type State = {
   problem: Problem | {};
   problems: Problem[];
   history: Problem[];
+  animated: boolean;
 };
 
 export const initialState: State = {
@@ -15,5 +16,6 @@ export const initialState: State = {
   },
   problem: {},
   problems: [],
-  history: []
+  history: [],
+  animated: false
 };

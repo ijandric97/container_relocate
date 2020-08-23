@@ -1,11 +1,12 @@
 import React, { CSSProperties, useRef, useEffect } from 'react';
 import { useGlobalState } from '../../../state/GlobalState';
 import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
+import { AnimatedTypes } from '../../../state/reducers/AnimatedReducer';
+import { breaks } from '../../../util/misc';
 
-import { Container, ContainerDrag } from '../Container/Container';
+import { Container, ContainerDrag, ContainerAnimated } from '../Container/Container';
 
 import './ContainerGrid.css';
-import { breaks } from '../../../util/misc';
 
 type ContainerGridProps = {
   height: number;
@@ -15,11 +16,11 @@ type ContainerGridProps = {
 const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
   const constraintsRef = useRef(null);
   const {
-    state: { client, problem },
+    state: { client, problem, animated },
     dispatch
   } = useGlobalState();
 
-  // Check if problem is currently loaded
+  // CHECK IF WE SHOULD REMOVE THE TOPMOST CONTAINER;
   useEffect(() => {
     const myProblem = problem as Problem; // Stop ts from bitching honestly
     for (let i = 0; i < myProblem.data.length; i++) {
@@ -28,14 +29,21 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         const el = myProblem.data[i][0];
 
         // TODO: Add some kind of blocking for the animations :)
-        if (el.value === myProblem.current) {
-          myProblem.data[i].shift(); // Remove old
+        if (el.value === myProblem.current && !animated) {
+          //TODO: this should be done after animation ends boyyo :)
+          /* myProblem.data[i].shift(); // Remove old
           myProblem.current = myProblem.current + 1; // Add to counter
 
+          
           // Update the problem object
           dispatch({
             type: ProblemTypes.Update,
             payload: myProblem
+          }); */
+
+          dispatch({
+            type: AnimatedTypes.Set,
+            payload: true
           });
         }
 
@@ -58,8 +66,25 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         const bottom = (data[i].length - 1 - j) * conH;
         const left = i * (conW + spacer) + spacer / 2;
 
-        // Top of the stack, should be draggable
-        if (j === 0) {
+        // Top of the stack, should be draggable but not if we are animating boy :)
+        if (el.value === current && animated) {
+          containers.push(
+            <ContainerAnimated
+              /* key={`${i}.${j}`} */
+              // HACK: We put in random key so react cant recreate an object
+              // Recreated object would get applied previous translation (WE DONT WanT ThaT)
+              key={`${Date.now()}.${Math.random()}`}
+              width={conW}
+              height={conH}
+              left={left}
+              bottom={bottom}
+              number={el.value}
+              next={el.value === current}
+              spacer={spacer}
+              parent={constraintsRef}
+            />
+          );
+        } else if (j === 0 && !animated) {
           containers.push(
             <ContainerDrag
               /* key={`${i}.${j}`} */
@@ -98,32 +123,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
     return containers;
   };
 
-  const checkContainers = (problem: Problem) => {
-    const { current, data } = problem;
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i].length; j++) {
-        // Check only the first element
-        const el = data[i][0];
-
-        if (el.value === current) {
-          problem.data[i].shift(); // Remove old
-          problem.current = current + 1; // Add to counter
-
-          // TODO: Add history!!
-          // Update the problem object
-          dispatch({
-            type: ProblemTypes.Update,
-            payload: problem
-          });
-        }
-
-        break;
-      }
-    }
-  };
-
-  // CHECK IF WE SHOULD REMOVE THE TOPMOST CONTAINER;
-  //checkContainers(problem as Problem);
+  console.log(animated);
 
   // Calculate where to put them
   let left = client.width / 2 - width * (2 / 3); // DESKTOP
