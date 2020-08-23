@@ -3,10 +3,12 @@ import { motion, PanInfo } from 'framer-motion';
 
 import BGGreen from './images/Container_Green.png';
 import BGBlue from './images/Container_Blue.png';
+import BGRed from './images/Container_Red.png';
 
 import './Container.css';
 import { useGlobalState } from '../../../state/GlobalState';
 import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
+import { HistoryTypes } from '../../../state/reducers/HistoryReducer';
 
 type ContainerProps = {
   width: number;
@@ -33,6 +35,8 @@ const getContainerStyle = ({ width, height, left, bottom, next }: ContainerProps
     zIndex: 10 + index // 10 normal, 11 drag, 12 drag active
   };
 
+  //if (index >= 1) imageStyle.backgroundImage = `url(${BGRed})`;
+
   return imageStyle;
 };
 
@@ -57,7 +61,13 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
     const newIndex = Math.floor(left / (props.width + props.spacer));
 
     // We are not over the limit
-    if (problem.data[newIndex].length < problem.col_size + 2) {
+    if (problem.data[newIndex].length < problem.col_size + 2 && newIndex !== oldIndex) {
+      // Push old problem to the history stack
+      dispatch({
+        type: HistoryTypes.Push,
+        payload: problem
+      });
+
       problem.data[oldIndex].shift(); // Remove old
       problem.data[newIndex].unshift({ value: props.number, color: 0 }); // Push in new
     }

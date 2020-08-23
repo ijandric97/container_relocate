@@ -1,7 +1,9 @@
-import { State } from "./State";
+import { State } from './State';
 
-import { ClientActions, clientReducer } from "./reducers/ClientReducer";
-import { ProblemActions, problemReducer } from "./reducers/ProblemReducer";
+import { ClientActions, clientReducer } from './reducers/ClientReducer';
+import { ProblemActions, problemReducer } from './reducers/ProblemReducer';
+import { ProblemsActions, problemsReducer } from './reducers/ProblemsReducer';
+import { historyReducer, HistoryActions } from './reducers/HistoryReducer';
 
 export type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -11,12 +13,14 @@ export type ActionMap<M extends { [index: string]: any }> = {
     : {
         type: Key;
         payload: M[Key];
-      }
+      };
 };
 
-export type Actions = ClientActions | ProblemActions;
+export type Actions = ClientActions | ProblemActions | ProblemsActions | HistoryActions;
 
-export const mainReducer = ({ client, problem }: State, action: Actions) => ({
-  client: clientReducer(client, action as ClientActions),
-  problem: problemReducer(problem, action as ProblemActions)
+export const mainReducer = (state: State, action: Actions) => ({
+  client: clientReducer(state.client, action as ClientActions),
+  problem: problemReducer(state.problem, action as ProblemActions),
+  problems: problemsReducer(state.problems, action as ProblemsActions),
+  history: historyReducer(state.history, action as HistoryActions)
 });

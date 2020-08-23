@@ -1,9 +1,11 @@
-import { Client } from "./reducers/ClientReducer";
-import { Problem } from "./reducers/ProblemReducer";
+import { Client } from './reducers/ClientReducer';
+import { Problem } from './reducers/ProblemReducer';
 
 export type State = {
   client: Client;
   problem: Problem | {};
+  problems: Problem[];
+  history: Problem[];
 };
 
 export const initialState: State = {
@@ -11,5 +13,7 @@ export const initialState: State = {
     height: window.innerHeight,
     width: window.innerWidth
   },
-  problem: {}
+  problem: {},
+  problems: [],
+  history: []
 };

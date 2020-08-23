@@ -26,7 +26,6 @@ type ProblemProps = {
 
 //TODO: CHANGE TO DIVS BEFORE I LOSE MY SANITY
 const ProblemGrid: React.FC<ProblemProps> = (props) => {
-  console.log(props);
   const { num } = props;
   const { col_size, row_size } = props.problem;
 

@@ -1,6 +1,6 @@
-import React, { CSSProperties, useRef } from 'react';
+import React, { CSSProperties, useRef, useEffect } from 'react';
 import { useGlobalState } from '../../../state/GlobalState';
-import { Problem } from '../../../state/reducers/ProblemReducer';
+import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
 
 import { Container, ContainerDrag } from '../Container/Container';
 
@@ -15,19 +15,35 @@ type ContainerGridProps = {
 const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
   const constraintsRef = useRef(null);
   const {
-    state: { client, problem }
+    state: { client, problem },
+    dispatch
   } = useGlobalState();
 
-  let left = client.width / 2 - width * (2 / 3); // DESKTOP
-  if (client.width < breaks.sm) {
-    left = client.width / 2 - width / 2; // MOBILE
-  }
+  // Check if problem is currently loaded
+  useEffect(() => {
+    const myProblem = problem as Problem; // Stop ts from bitching honestly
+    for (let i = 0; i < myProblem.data.length; i++) {
+      for (let j = 0; j < myProblem.data[i].length; j++) {
+        // Check only the first element
+        const el = myProblem.data[i][0];
 
-  const ContainerGridStyle: CSSProperties = {
-    width: `${width}px`,
-    height: `${height}px`,
-    left: `${left}px`
-  };
+        // TODO: Add some kind of blocking for the animations :)
+        if (el.value === myProblem.current) {
+          myProblem.data[i].shift(); // Remove old
+          myProblem.current = myProblem.current + 1; // Add to counter
+
+          // Update the problem object
+          dispatch({
+            type: ProblemTypes.Update,
+            payload: myProblem
+          });
+        }
+
+        break;
+      }
+    }
+    // eslint-disable-next-line
+  });
 
   const renderContainers = ({ col_size, row_size, current, data }: Problem) => {
     const spacer = (width / row_size) * 0.1;
@@ -49,7 +65,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
               /* key={`${i}.${j}`} */
               // HACK: We put in random key so react cant recreate an object
               // Recreated object would get applied previous translation (WE DONT WanT ThaT)
-              key={Date.now() + Math.random()}
+              key={`${Date.now()}.${Math.random()}`}
               width={conW}
               height={conH}
               left={left}
@@ -66,7 +82,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
               /* key={`${i}.${j}`} */
               // HACK: We put in random key so react cant recreate an object
               // Recreated object would get applied previous translation (WE DONT WanT ThaT)
-              key={Date.now() + Math.random()}
+              key={`${Date.now()}.${Math.random()}`}
               width={conW}
               height={conH}
               left={left}
@@ -80,6 +96,45 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
     }
 
     return containers;
+  };
+
+  const checkContainers = (problem: Problem) => {
+    const { current, data } = problem;
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].length; j++) {
+        // Check only the first element
+        const el = data[i][0];
+
+        if (el.value === current) {
+          problem.data[i].shift(); // Remove old
+          problem.current = current + 1; // Add to counter
+
+          // TODO: Add history!!
+          // Update the problem object
+          dispatch({
+            type: ProblemTypes.Update,
+            payload: problem
+          });
+        }
+
+        break;
+      }
+    }
+  };
+
+  // CHECK IF WE SHOULD REMOVE THE TOPMOST CONTAINER;
+  //checkContainers(problem as Problem);
+
+  // Calculate where to put them
+  let left = client.width / 2 - width * (2 / 3); // DESKTOP
+  if (client.width < breaks.sm) {
+    left = client.width / 2 - width / 2; // MOBILE
+  }
+
+  const ContainerGridStyle: CSSProperties = {
+    width: `${width}px`,
+    height: `${height}px`,
+    left: `${left}px`
   };
 
   return (
