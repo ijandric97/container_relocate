@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { useGlobalState } from '../../state/GlobalState';
 import { breaks } from '../../util/misc';
 
-import Logo from '../../assets/images/navbar_logo.png';
+import Logo from './images/Logo.png';
+
 import './Navbar.css';
 
 const Navbar: React.FC<any> = () => {

@@ -70,7 +70,7 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
       });
 
       problem.data[oldIndex].shift(); // Remove old
-      problem.data[newIndex].unshift({ value: props.number, color: 0 }); // Push in new
+      problem.data[newIndex].unshift(props.number); // Push in new
     }
     dispatch({
       type: ProblemTypes.Update,
@@ -135,7 +135,7 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
         const el = myProblem.data[i][0];
 
         // TODO: Add some kind of blocking for the animations :)
-        if (el.value === myProblem.current) {
+        if (el === myProblem.current) {
           myProblem.data[i].shift(); // Remove old
           myProblem.current = myProblem.current + 1; // Add to counter
 

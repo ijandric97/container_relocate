@@ -29,7 +29,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         const el = myProblem.data[i][0];
 
         // TODO: Add some kind of blocking for the animations :)
-        if (el.value === myProblem.current && !animated) {
+        if (el === myProblem.current && !animated) {
           //TODO: this should be done after animation ends boyyo :)
           /* myProblem.data[i].shift(); // Remove old
           myProblem.current = myProblem.current + 1; // Add to counter
@@ -67,7 +67,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         const left = i * (conW + spacer) + spacer / 2;
 
         // Top of the stack, should be draggable but not if we are animating boy :)
-        if (el.value === current && animated) {
+        if (el === current && animated) {
           containers.push(
             <ContainerAnimated
               /* key={`${i}.${j}`} */
@@ -78,8 +78,8 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
               height={conH}
               left={left}
               bottom={bottom}
-              number={el.value}
-              next={el.value === current}
+              number={el}
+              next={el === current}
               spacer={spacer}
               parent={constraintsRef}
             />
@@ -95,8 +95,8 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
               height={conH}
               left={left}
               bottom={bottom}
-              number={el.value}
-              next={el.value === current}
+              number={el}
+              next={el === current}
               spacer={spacer}
               parent={constraintsRef}
             />
@@ -112,8 +112,8 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
               height={conH}
               left={left}
               bottom={bottom}
-              next={el.value === current}
-              number={el.value}
+              next={el === current}
+              number={el}
             />
           );
         }

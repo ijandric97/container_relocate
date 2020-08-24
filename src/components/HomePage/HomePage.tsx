@@ -1,18 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useGlobalState } from "../../state/GlobalState";
 
 import "./HomePage.css";
 
 const HomePage: React.FC<any> = () => {
-  const {
-    state: { problem }
-  } = useGlobalState();
 
-  if (Object.keys(problem).length > 0) {
-    return <div className="Game">Game</div>;
-  }
-
+  // TODO: Add information to make it a sex landing page :)
+  // TODO: Should really be more like an about page honestly
   return (
     <motion.div
       animate={{ opacity: 1 }}

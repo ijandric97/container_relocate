@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import { motion, Variants } from "framer-motion";
-import "./Dropdown.css";
+import React, { useEffect, useState, useRef } from 'react';
+
+import './Dropdown.css';
 
 type DropdownProps = {
   value: any;
@@ -9,8 +9,8 @@ type DropdownProps = {
   onChange: (param: any) => any;
 };
 
-const Dropdown: React.FC<DropdownProps> = props => {
-  const { value, options, placeholder = "Select", onChange } = props;
+const Dropdown: React.FC<DropdownProps> = (props) => {
+  const { value, options, placeholder = 'Select', onChange } = props;
   const [open, setOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
 
@@ -29,31 +29,27 @@ const Dropdown: React.FC<DropdownProps> = props => {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener('mousedown', handleClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener('mousedown', handleClick);
     };
   }, []);
 
   const renderMenu = () => {
     const MenuItems = options.map((menuItem: any, index: number) => (
-      <li
-        key={index}
-        className="dropdown__item"
-        onClick={_ => handleChange(menuItem)}
-      >
+      <li key={index} className="dropdown item" onClick={(_) => handleChange(menuItem)}>
         {menuItem}
       </li>
     ));
 
-    return <ul className="dropdown__menu">{MenuItems}</ul>;
+    return <ul className="dropdown menu">{MenuItems}</ul>;
   };
 
   return (
     <div ref={dropRef} className="dropdown">
-      <button className="dropdown__toggle" onClick={_ => setOpen(!open)}>
-        {value || placeholder} <p className="dropdown__arrow">▼</p>
+      <button className="dropdown toggle" onClick={(_) => setOpen(!open)}>
+        {value || placeholder} <p className="dropdown arrow">▼</p>
       </button>
       {open && renderMenu()}
     </div>

@@ -11,6 +11,10 @@ const StateContext = createContext<{
   dispatch: () => null
 });
 
+/** Provides children acces to the Context API state.
+ * 
+ * @param children - Children to provide global access to 
+ */
 export const StateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
 

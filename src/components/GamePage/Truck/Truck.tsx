@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import { useGlobalState } from '../../../state/GlobalState';
 import { motion, TargetAndTransition, Transition, Variant, useCycle } from 'framer-motion';
-import { breaks } from '../../../util/misc.ts';
+import { breaks } from '../../../util/misc';
 
 import './Truck.css';
 

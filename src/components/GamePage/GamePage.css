@@ -4,6 +4,6 @@
   height: calc(100vh - 40px);
   width: 100%;
   position: relative;
-  overflow: hidden; /* objects rendering outside the game wont spawn scrollbars*/
-  opacity: 1; /* framer-motion bug */
+  overflow: hidden; /*? Objects rendering outside the game wont spawn scrollbars*/
+  opacity: 1; /*! Framer bug */
 }
