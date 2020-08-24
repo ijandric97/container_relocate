@@ -1,33 +1,19 @@
 import React from 'react';
 import { Problem } from '../../../state/reducers/ProblemReducer';
 
-import ContainerBlue from '../../../assets/images/container_blue.jpg';
-import ContainerGreen from '../../../assets/images/container_green.jpg';
-import ContainerGrey from '../../../assets/images/container_grey.jpg';
-import ContainerOrange from '../../../assets/images/container_orange.jpg';
-import ContainerPurple from '../../../assets/images/container_purple.jpg';
-import ContainerRed from '../../../assets/images/container_red.jpg';
+import BGGreen from '../../GamePage/Container/images/Container_Green.png';
+import BGBlue from '../../GamePage/Container/images/Container_Blue.png';
 
 import './ProblemGrid.css';
-
-const bgImages: string[] = [
-  ContainerBlue,
-  ContainerGreen,
-  ContainerGrey,
-  ContainerOrange,
-  ContainerPurple,
-  ContainerRed
-];
 
 type ProblemProps = {
   num: number;
   problem: Problem;
 };
 
-//TODO: CHANGE TO DIVS BEFORE I LOSE MY SANITY
 const ProblemGrid: React.FC<ProblemProps> = (props) => {
   const { num } = props;
-  const { col_size, row_size } = props.problem;
+  const { current, col_size, row_size } = props.problem;
 
   const renderContainers = (problem: Problem) => {
     const problems = problem.data;
@@ -36,15 +22,12 @@ const ProblemGrid: React.FC<ProblemProps> = (props) => {
 
     for (let i = 0; i < problems.length; i++) {
       for (let j = 0; j < problems[i].length; j++) {
-        const cell = problems[j][i];
+        const value = problems[j][i];
+        const style = { backgroundImage: `url(${value === current ? BGBlue : BGGreen})` };
 
         containers.push(
-          <div
-            key={`${i}.${j}`}
-            className={`cell ${cell.value === null ? 'empty' : ''}`}
-            style={{ backgroundImage: `url(${bgImages[cell.color ? cell.color : 0]})` }}
-          >
-            <p>{cell.value}</p>
+          <div key={`${i}.${j}`} className="cell" style={style}>
+            <p>{value}</p>
           </div>
         );
       }

@@ -1,15 +1,10 @@
 import { ActionMap } from '../Reducer';
 
-export type ProblemData = {
-  value: number;
-  color: number;
-};
-
 export type Problem = {
   col_size: number;
   row_size: number;
   current: number;
-  data: ProblemData[][];
+  data: number[][];
 };
 
 export enum ProblemTypes {

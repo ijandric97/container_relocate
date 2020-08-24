@@ -3,7 +3,7 @@
   color: white;
   height: 40px;
   line-height: 40px;
-  /* HACK: This is to fix framer-motion bug, where it renders a
+  /*! HACK: This is to fix framer-motion bug, where it renders a
   component on the DOM before animnating it, but in it's initial state
   it should be hidden at position: top=-60px*/
   opacity: 0;

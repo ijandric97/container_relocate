@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
 import { useGlobalState } from './state/GlobalState';
 import { ClientTypes } from './state/reducers/ClientReducer';
-
-import './App.css';
+import { debounce } from './util/misc';
 
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './components/HomePage/HomePage';
@@ -13,7 +11,7 @@ import StatisticsPage from './components/StatisticsPage/StatisticsPage';
 import GamePage from './components/GamePage/GamePage';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 
-import { debounce } from './util/misc';
+import './App.css';
 
 const App = () => {
   const { dispatch } = useGlobalState();
@@ -32,11 +30,12 @@ const App = () => {
     window.addEventListener('resize', debounce(handleResize, 100));
 
     return () => window.removeEventListener('resize', debounce(handleResize, 100));
-    // We want this to run only on mount and unmount, linter cant detect
-    // this use case, so we will disable it :)
-    // eslint-disable-next-line
+    //! We want this to run only on mount and unmount, linter cant detect
+    //! this use case, so we will disable it :)
+    //! eslint-disable-next-line
   }, []);
 
+  //TODO: Statistics page to settings page
   return (
     <Router>
       <div className="App">

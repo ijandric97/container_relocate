@@ -33,8 +33,6 @@ const Ropes: React.FC<RopeProps> = ({ width, height, left, bottom }) => {
   const bTruck = 0 + height; // Bottom truck
   const hTruck = bTop - height + hTop; // Height truck
 
-  console.log(`${bCont}.${hCont}`);
-
   // TODO: Calculate this
   const animate = {
     bottom: [bTop, bCont, bTop, bTop, bTruck, bTop, bTop],

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useGlobalState } from '../../state/GlobalState';
+import { ProblemsTypes } from '../../state/reducers/ProblemsReducer';
+import { dummy_problems } from '../../util/dummydata'; //TODO: Remove once asp.net is done
 
-import { dummy_problems } from '../../util/dummydata';
 import Dropdown from './Dropdown/Dropdown';
 import ProblemGrid from './ProblemGrid/ProblemGrid';
 
 import './ProblemsPage.css';
-import { ProblemsTypes } from '../../state/reducers/ProblemsReducer';
 
 // TODO: Make this work with actual data
 

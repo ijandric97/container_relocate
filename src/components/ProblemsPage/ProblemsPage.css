@@ -1,6 +1,6 @@
 .problems {
   height: calc(100% - 50px);
-  opacity: 0; /* framer-motion bug */
+  opacity: 0; /*! Framer bug */
   padding: 10px;
 }
 
@@ -25,7 +25,6 @@
 }
 
 .problems .flex {
-  /* background: rgba(0, 255, 0, 0.1); */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
