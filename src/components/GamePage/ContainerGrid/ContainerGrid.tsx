@@ -123,8 +123,6 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
     return containers;
   };
 
-  console.log(animated);
-
   // Calculate where to put them
   let left = client.width / 2 - width * (2 / 3); // DESKTOP
   if (client.width < breaks.sm) {

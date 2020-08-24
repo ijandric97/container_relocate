@@ -5,6 +5,8 @@ import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
 import { HistoryTypes } from '../../../state/reducers/HistoryReducer';
 import { AnimatedTypes } from '../../../state/reducers/AnimatedReducer';
 
+import Ropes from '../Ropes/Ropes';
+
 import BGGreen from './images/Container_Green.png';
 import BGBlue from './images/Container_Blue.png';
 import BGRed from './images/Container_Red.png';
@@ -111,8 +113,6 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
     dispatch
   } = useGlobalState();
 
-  console.log(left);
-
   // TODO: Calculate this
   const animate = {
     bottom: [bottom, bottom, 510, 510, 0, -height / 2, 0],
@@ -157,14 +157,17 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
   };
 
   return (
-    <motion.div
-      animate={animate}
-      transition={transition}
-      className="container"
-      onAnimationComplete={endAnimation}
-      style={getContainerStyle(props, 69)}
-    >
-      <p>{props.number}</p>
-    </motion.div>
+    <>
+      <Ropes width={width} height={height} left={left} bottom={bottom} />
+      <motion.div
+        animate={animate}
+        transition={transition}
+        className="container"
+        onAnimationComplete={endAnimation}
+        style={getContainerStyle(props, 69)}
+      >
+        <p>{props.number}</p>
+      </motion.div>
+    </>
   );
 };

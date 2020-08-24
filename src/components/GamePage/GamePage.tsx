@@ -4,13 +4,13 @@ import { useGlobalState } from '../../state/GlobalState';
 import { ProblemTypes } from '../../state/reducers/ProblemReducer';
 import { HistoryTypes } from '../../state/reducers/HistoryReducer';
 import { isEmpty } from '../../util/misc';
+import { AnimatedTypes } from '../../state/reducers/AnimatedReducer';
 
 import ContainerGrid from './ContainerGrid/ContainerGrid';
 import Ground from './Ground/Ground';
 import HUD from './HUD/HUD';
 
 import './GamePage.css';
-import { AnimatedTypes } from '../../state/reducers/AnimatedReducer';
 
 interface GameParam {
   id: string | undefined;
@@ -58,7 +58,7 @@ const GamePage: React.FC<any> = () => {
 
   if (isEmpty(problem)) return null; // Problem has not loaded yet, return
 
-  //console.log(problem);
+  console.log(problem);
 
   // TODO: Add check to see if all the shit inside data is empty, and then throw the you win element?
 

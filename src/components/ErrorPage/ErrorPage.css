@@ -1,9 +1,9 @@
-.main {
+.error {
   background: black;
   height: calc(100% - 50px);
   padding-top: 10px;
   width: 100%;
-  opacity: 0; /*! Framer Bug */
+  opacity: 0; /*! Framer bug */
 }
 
 .error img {

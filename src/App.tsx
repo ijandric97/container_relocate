@@ -35,7 +35,7 @@ const App = () => {
     //! eslint-disable-next-line
   }, []);
 
-  // TODO: Statistics page to settings page
+  //TODO: Statistics page to settings page
   return (
     <Router>
       <div className="App">

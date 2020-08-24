@@ -23,11 +23,10 @@ const ProblemGrid: React.FC<ProblemProps> = (props) => {
     for (let i = 0; i < problems.length; i++) {
       for (let j = 0; j < problems[i].length; j++) {
         const value = problems[j][i];
-
         const style = { backgroundImage: `url(${value === current ? BGBlue : BGGreen})` };
 
         containers.push(
-          <div key={`${i}.${j}`} className={`cell`} style={style}>
+          <div key={`${i}.${j}`} className="cell" style={style}>
             <p>{value}</p>
           </div>
         );

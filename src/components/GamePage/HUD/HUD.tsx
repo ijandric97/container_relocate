@@ -11,7 +11,7 @@ interface GameParam {
 
 const HUD: React.FC<any> = () => {
   const {
-    state: { problem, history },
+    state: { animated, history },
     dispatch // TODO: probably client also and shit
   } = useGlobalState();
 
@@ -20,6 +20,8 @@ const HUD: React.FC<any> = () => {
   }, []);
 
   const historyUndo = () => {
+    if (animated) return; //* Disabled when animating :)
+
     if (history.length > 0) {
       // Load the new problem
       dispatch({
