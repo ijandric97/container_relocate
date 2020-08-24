@@ -9,6 +9,7 @@ import { AnimatedTypes } from '../../state/reducers/AnimatedReducer';
 import ContainerGrid from './ContainerGrid/ContainerGrid';
 import Ground from './Ground/Ground';
 import HUD from './HUD/HUD';
+import Truck from './Truck/Truck';
 
 import './GamePage.css';
 
@@ -63,6 +64,7 @@ const GamePage: React.FC<any> = () => {
       <HUD />
       <ContainerGrid height={settings.grid_height} width={settings.grid_width} />
       <Ground />
+      <Truck />
     </div>
   );
 };

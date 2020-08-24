@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useGlobalState } from '../../../state/GlobalState';
 import { HistoryTypes } from '../../../state/reducers/HistoryReducer';
-import { ProblemTypes, Problem } from '../../../state/reducers/ProblemReducer';
+import { ProblemTypes } from '../../../state/reducers/ProblemReducer';
 
 import './HUD.css';
 
@@ -23,15 +23,12 @@ const HUD: React.FC<any> = () => {
     if (animated) return; //* Disabled when animating :)
 
     if (history.length > 0) {
-      // Load the new problem
       dispatch({
-        type: ProblemTypes.Update,
-        // Some sort of DeepClone, if this doesnt work use Loadash pls
+        type: ProblemTypes.Update, // Load the old problem
         payload: history[0]
       });
-      // Remove it from history
       dispatch({
-        type: HistoryTypes.Pop,
+        type: HistoryTypes.Pop, // Remove it from history
         payload: null
       });
     }

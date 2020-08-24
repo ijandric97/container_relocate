@@ -107,7 +107,7 @@ type ContainerAnimatedProps = ContainerProps & {
 };
 
 export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
-  const { width, height, left, bottom, next } = props;
+  const { width, height, left, bottom } = props;
   const {
     state: { problem },
     dispatch
@@ -115,7 +115,7 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
 
   // TODO: Calculate this
   const animate = {
-    bottom: [bottom, bottom, 510, 510, 0, -height / 2, 0],
+    bottom: [bottom, bottom, 510, 510, 45, -height / 2, 45],
     left: [left, left, left, 400, 400, 400, 400],
     scale: [1, 1, 1, 1, 1, 0, 0]
   };
