@@ -21,6 +21,7 @@ export const problemReducer = (state: Problem | {}, action: ProblemActions) => {
   switch (action.type) {
     case ProblemTypes.Update:
       try {
+        //! Some sort of DeepClone, if this doesnt work use Loadash pls
         return JSON.parse(JSON.stringify(action.payload));
       } catch (error) {
         console.log(error);

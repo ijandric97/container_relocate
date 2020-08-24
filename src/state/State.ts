@@ -1,5 +1,6 @@
 import { Client } from './reducers/ClientReducer';
 import { Problem } from './reducers/ProblemReducer';
+import { Settings } from './reducers/SettingsReducer';
 
 export type State = {
   client: Client;
@@ -7,6 +8,7 @@ export type State = {
   problems: Problem[];
   history: Problem[];
   animated: boolean;
+  settings: Settings;
 };
 
 export const initialState: State = {
@@ -17,5 +19,10 @@ export const initialState: State = {
   problem: {},
   problems: [],
   history: [],
-  animated: false
+  animated: false,
+  settings: {
+    animation_duration: 1, //! This is per step
+    grid_height: 500,
+    grid_width: 330
+  }
 };

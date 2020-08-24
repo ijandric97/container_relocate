@@ -7,7 +7,7 @@ import { debounce } from './util/misc';
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './components/HomePage/HomePage';
 import ProblemsPage from './components/ProblemsPage/ProblemsPage';
-import StatisticsPage from './components/StatisticsPage/StatisticsPage';
+import SettingsPage from './components/SettingsPage/SettingsPage';
 import GamePage from './components/GamePage/GamePage';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 
@@ -35,7 +35,6 @@ const App = () => {
     //! eslint-disable-next-line
   }, []);
 
-  //TODO: Statistics page to settings page
   return (
     <Router>
       <div className="App">
@@ -43,7 +42,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/problems" component={ProblemsPage} />
-          <Route path="/statistics" component={StatisticsPage} />
+          <Route path="/settings" component={SettingsPage} />
           <Route path="/game/:id?" component={GamePage} />
           <Route path="*" component={ErrorPage} />
         </Switch>

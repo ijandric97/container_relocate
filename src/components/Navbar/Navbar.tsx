@@ -36,8 +36,8 @@ const Navbar: React.FC<any> = () => {
         <Link to="/problems" className={`link ${isM}`} onClick={setNotOpen}>
           Problems
         </Link>
-        <Link to="/statistics" className={`link ${isM}`} onClick={setNotOpen}>
-          Statistics
+        <Link to="/settings" className={`link ${isM}`} onClick={setNotOpen}>
+          Settings
         </Link>
         <Link to="/game" className={`link color ${isM}`} onClick={setNotOpen}>
           Game

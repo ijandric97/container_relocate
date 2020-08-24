@@ -20,7 +20,7 @@ const GamePage: React.FC<any> = () => {
   const { id } = useParams<GameParam>();
   let routerHistory = useHistory();
   const {
-    state: { problem, problems },
+    state: { problem, problems, settings },
     dispatch // TODO: probably client also and shit
   } = useGlobalState();
 
@@ -34,20 +34,17 @@ const GamePage: React.FC<any> = () => {
       }
 
       try {
-        // Clean the fucking history
         dispatch({
-          type: HistoryTypes.Clear,
+          type: HistoryTypes.Clear, // Clean the fucking history
           payload: null
         });
-        // Clean the animation flag
         dispatch({
-          type: AnimatedTypes.Clear,
+          type: AnimatedTypes.Clear, // Clean the animation flag
           payload: null
         });
-        // Load the new problem
         dispatch({
-          type: ProblemTypes.Update,
-          payload: JSON.parse(JSON.stringify(problems[Number(id)])) // Some sort of DeepClone, if this doesnt work use Loadash pls
+          type: ProblemTypes.Update, // Load the new problem
+          payload: problems[Number(id)]
         });
       } catch (error) {
         routerHistory.push('/problems');
@@ -56,16 +53,15 @@ const GamePage: React.FC<any> = () => {
     // eslint-disable-next-line
   }, []);
 
-  if (isEmpty(problem)) return null; // Problem has not loaded yet, return
-
-  console.log(problem);
+  if (isEmpty(problem)) return null; //* Problem has not loaded yet, return
 
   // TODO: Add check to see if all the shit inside data is empty, and then throw the you win element?
+  console.log(problem);
 
   return (
     <div className="game">
       <HUD />
-      <ContainerGrid height={500} width={330} />
+      <ContainerGrid height={settings.grid_height} width={settings.grid_width} />
       <Ground />
     </div>
   );
