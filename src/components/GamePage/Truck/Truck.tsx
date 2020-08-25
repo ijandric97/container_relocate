@@ -14,6 +14,8 @@ import { Problem } from '../../../state/reducers/ProblemReducer';
 // ! MOBILE
 const TruckMobileWidth = 263;
 
+// TODO: Truck height and width both hae to be set, set it to the same size its ok 120x120 for 3 conts
+
 const getTruckStyle = (client: Client) => {
   const style: CSSProperties = {
     position: 'absolute',

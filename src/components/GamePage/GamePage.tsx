@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useGlobalState } from '../../state/GlobalState';
-import { ProblemTypes } from '../../state/reducers/ProblemReducer';
+import { ProblemTypes, Problem } from '../../state/reducers/ProblemReducer';
 import { HistoryTypes } from '../../state/reducers/HistoryReducer';
 import { isEmpty } from '../../util/misc';
 import { AnimatedTypes } from '../../state/reducers/AnimatedReducer';
@@ -12,6 +12,7 @@ import HUD from './HUD/HUD';
 import Truck from './Truck/Truck';
 
 import './GamePage.css';
+import { isGameFinished } from './Game';
 
 interface GameParam {
   id: string | undefined;
@@ -21,7 +22,7 @@ const GamePage: React.FC<any> = () => {
   const { id } = useParams<GameParam>();
   let routerHistory = useHistory();
   const {
-    state: { problem, problems, settings },
+    state: { history, problem, problems, settings },
     dispatch // TODO: probably client also and shit
   } = useGlobalState();
 
@@ -55,9 +56,8 @@ const GamePage: React.FC<any> = () => {
   }, []);
 
   if (isEmpty(problem)) return null; //* Problem has not loaded yet, return
-
-  // TODO: Add check to see if all the shit inside data is empty, and then throw the you win element?
-  console.log(problem);
+  // TODO: Add victory screen element?
+  if (isGameFinished(problem as Problem)) return <p>You finished the problem in {history.length} moves!</p>;
 
   return (
     <div className="game">
