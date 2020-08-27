@@ -3,8 +3,8 @@ import { useParams, useHistory } from 'react-router';
 import { useGlobalState } from '../../state/GlobalState';
 import { ProblemTypes, Problem } from '../../state/reducers/ProblemReducer';
 import { HistoryTypes } from '../../state/reducers/HistoryReducer';
-import { isEmpty } from '../../util/misc';
 import { AnimatedTypes } from '../../state/reducers/AnimatedReducer';
+import { isGameFinished, isProblemEmpty } from './Game';
 
 import ContainerGrid from './ContainerGrid/ContainerGrid';
 import Ground from './Ground/Ground';
@@ -12,7 +12,7 @@ import HUD from './HUD/HUD';
 import Truck from './Truck/Truck';
 
 import './GamePage.css';
-import { isGameFinished } from './Game';
+import VictoryPopup from './VictoryPopup/VictoryPopup';
 
 interface GameParam {
   id: string | undefined;
@@ -28,7 +28,7 @@ const GamePage: React.FC<any> = () => {
 
   // Check if problem is currently loaded
   useEffect(() => {
-    if (isEmpty(problem) || !isNaN(Number(id))) {
+    if (isProblemEmpty(problem) || !isNaN(Number(id))) {
       // Verify the problem then load it into globalstate
       if (isNaN(Number(id)) || Number(id) >= problems.length) {
         routerHistory.push('/problems');
@@ -55,9 +55,15 @@ const GamePage: React.FC<any> = () => {
     // eslint-disable-next-line
   }, []);
 
-  if (isEmpty(problem)) return null; //* Problem has not loaded yet, return
-  // TODO: Add victory screen element?
-  if (isGameFinished(problem as Problem)) return <p>You finished the problem in {history.length} moves!</p>;
+  if (isProblemEmpty(problem)) return null; //* Problem has not loaded yet, return
+  if (isGameFinished(problem as Problem)) {
+    return (
+      <div className="game">
+        <VictoryPopup />
+        <Ground />
+      </div>
+    );
+  }
 
   return (
     <div className="game">

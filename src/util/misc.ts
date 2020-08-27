@@ -15,11 +15,3 @@ export enum breaks {
   lg = 992,
   xl = 1200
 }
-
-/** Check if object is empty.
- *
- * @param obj Object to check
- */
-export const isEmpty = (obj: object) => {
-  return !obj || Object.keys(obj).length === 0;
-};

@@ -5,11 +5,7 @@ export const dummy_problems: Problem[] = [
     row_size: 3,
     col_size: 3,
     current: 1,
-    data: [
-      [1, 1, 1],
-      [1, 1, 1],
-      [1, 1, 1]
-    ]
+    data: [[], [], [1]]
   },
   {
     row_size: 3,

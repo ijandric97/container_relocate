@@ -1,0 +1,10 @@
+.Popup {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 25px;
+  color: black;
+  padding: 25px;
+  width: 264px;
+  text-align: center;
+  z-index: 200; /* Definitely above all */
+}

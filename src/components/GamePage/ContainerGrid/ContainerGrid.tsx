@@ -70,9 +70,8 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         if (el === current && animated) {
           containers.push(
             <ContainerAnimated
-              /* key={`${i}.${j}`} */
-              // HACK: We put in random key so react cant recreate an object
-              // Recreated object would get applied previous translation (WE DONT WanT ThaT)
+              //! HACK: We put in random key so react cant recreate an object
+              //! Recreated object would get applied previous translation (WE DONT WanT ThaT)
               key={`${Date.now()}.${Math.random()}`}
               width={conW}
               height={conH}
@@ -87,9 +86,6 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         } else if (j === 0 && !animated) {
           containers.push(
             <ContainerDrag
-              /* key={`${i}.${j}`} */
-              // HACK: We put in random key so react cant recreate an object
-              // Recreated object would get applied previous translation (WE DONT WanT ThaT)
               key={`${Date.now()}.${Math.random()}`}
               width={conW}
               height={conH}
@@ -104,9 +100,6 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         } else {
           containers.push(
             <Container
-              /* key={`${i}.${j}`} */
-              // HACK: We put in random key so react cant recreate an object
-              // Recreated object would get applied previous translation (WE DONT WanT ThaT)
               key={`${Date.now()}.${Math.random()}`}
               width={conW}
               height={conH}

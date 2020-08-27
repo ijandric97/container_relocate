@@ -13,8 +13,7 @@ import './ProblemsPage.css';
 // TODO: Make this work with actual data
 
 const ProblemsPage: React.FC<any> = () => {
-  const [rows, setRows] = useState(3);
-  const [cols, setCols] = useState(3);
+  const [size, setSize] = useState(3);
 
   const {
     state: { problems },
@@ -31,18 +30,20 @@ const ProblemsPage: React.FC<any> = () => {
     // eslint-disable-next-line
   }, []);
 
+  const sizeChanged = (size: string) => {
+    size === '3x3' ? setSize(3) : setSize(4);
+  };
+
   return (
     <motion.div animate={{ opacity: 1 }} transition={{ duration: 1 }} className="problems">
       <div className="selector">
-        <label className="label">Rows:</label>
-        <Dropdown placeholder={3} value={rows} onChange={(v) => setRows(v)} options={[3, 4, 5]} />
-        <label className="label">Columns:</label>
-        <Dropdown placeholder={3} value={cols} onChange={(v) => setCols(v)} options={[3, 4, 5]} />
+        <label className="label">Size:</label>
+        <Dropdown placeholder={'3x3'} value={'3x3'} onChange={(v) => sizeChanged(v)} options={['3x3', '4x4']} />
       </div>
       <div className="flex">
         {problems.length > 0 &&
           problems.map((problem, index) => {
-            if (problem.row_size === rows && problem.col_size === cols) {
+            if (problem.row_size === size && problem.col_size === size) {
               return (
                 <Link key={index} to={`/game/${index}`}>
                   <div className="item">

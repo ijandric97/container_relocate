@@ -25,13 +25,17 @@ const Ropes: React.FC<RopeProps> = ({ width, height, left, bottom }) => {
   // Again make global somehow? perhaps not?
   const ls = left + width / 2; // Left start
   const le = 400 + width / 2; // left end
+
   const bTop = 610; // Bottom top (default)
   const hTop = 10; // Height top (default)
+
   const bCont = bottom + height; // Bottom container
   const hCont = bTop - bottom - height + hTop; // Height container
   // Add truck height too idiot
-  const bTruck = 30 + height; // Bottom truck
-  const hTruck = bTop - height + hTop; // Height truck
+  /* const bTruck = 30 + height; // Bottom truck
+  const hTruck = bTop - 30 - height + hTop; // Height truck */
+  const bTruck = hTop + 30 + height;
+  const hTruck = bTop - 30 - height;
 
   // TODO: Calculate this
   const animate = {

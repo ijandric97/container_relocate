@@ -11,4 +11,8 @@ export const isGameFinished = (problem: Problem) => {
   return true;
 };
 
+export const isProblemEmpty = (obj: object) => {
+  return !obj || Object.keys(obj).length === 0;
+};
+
 // TODO: call that will get me all the calculations?
