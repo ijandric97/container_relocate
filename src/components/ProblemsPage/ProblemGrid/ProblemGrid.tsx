@@ -16,14 +16,25 @@ const ProblemGrid: React.FC<ProblemProps> = (props) => {
   const { current, col_size, row_size } = props.problem;
 
   const renderContainers = (problem: Problem) => {
-    const problems = problem.data;
+    const data = problem.data;
+
+    const width = 300 / problem.col_size;
+    const height = 300 / problem.row_size;
 
     let containers: JSX.Element[] = [];
 
-    for (let i = 0; i < problems.length; i++) {
-      for (let j = 0; j < problems[i].length; j++) {
-        const value = problems[j][i];
-        const style = { backgroundImage: `url(${value === current ? BGBlue : BGGreen})` };
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].length; j++) {
+        const value = data[i][j];
+        const bottom = (data[i].length - 1 - j) * height;
+        const left = i * width;
+        const style = {
+          width: width,
+          height: height,
+          bottom: bottom,
+          left: left,
+          backgroundImage: `url(${value === current ? BGBlue : BGGreen})`
+        };
 
         containers.push(
           <div key={`${i}.${j}`} className="cell" style={style}>
@@ -39,7 +50,7 @@ const ProblemGrid: React.FC<ProblemProps> = (props) => {
   return (
     <div className="problem">
       <div className="label">Problem #{num}</div>
-      <div className={`table col${col_size} row${row_size}`}>{renderContainers(props.problem)}</div>
+      <div className={`table`}>{renderContainers(props.problem)}</div>
     </div>
   );
 };
