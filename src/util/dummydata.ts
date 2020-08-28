@@ -1,18 +1,33 @@
-import { Problem } from '../state/reducers/ProblemReducer';
+import { ProblemState } from '../redux/reducers/ProblemReducer';
 
-export const dummy_problems: Problem[] = [
+export const dummy_problems: ProblemState[] = [
   {
     row_size: 3,
     col_size: 3,
     current: 1,
-    data: [[], [], [1]]
+    data: [[], [], [1]],
+    solution: {
+      isActive: false,
+      current: 1,
+      moves: []
+    }
   },
   {
     row_size: 3,
     col_size: 3,
     current: 1,
-    data: [[1, 7, 3], [5, 6, 2], [4]]
-    // 1 5 null 7 6 null 3 2 5
+    data: [[1, 7, 3], [5, 6, 2], [4]],
+    solution: {
+      isActive: false,
+      current: 1,
+      moves: [
+        [1, 2],
+        [1, 2],
+        [0, 1],
+        [2, 1],
+        [2, 1]
+      ]
+    }
   },
   {
     row_size: 3,
@@ -22,7 +37,12 @@ export const dummy_problems: Problem[] = [
       [3, 4, 8],
       [9, 6, 5],
       [7, 2, 1]
-    ]
+    ],
+    solution: {
+      isActive: false,
+      current: 1,
+      moves: []
+    }
   },
   {
     row_size: 4,
@@ -33,6 +53,11 @@ export const dummy_problems: Problem[] = [
       [5, 6, 7, 8],
       [9, 10, 11, 12],
       [13, 14, 15, 16]
-    ]
+    ],
+    solution: {
+      isActive: false,
+      current: 1,
+      moves: []
+    }
   }
 ];

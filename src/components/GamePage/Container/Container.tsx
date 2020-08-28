@@ -1,9 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { motion, PanInfo } from 'framer-motion';
-import { useGlobalState } from '../../../state/GlobalState';
-import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
-import { HistoryTypes } from '../../../state/reducers/HistoryReducer';
-import { AnimatedTypes } from '../../../state/reducers/AnimatedReducer';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Ropes from '../Ropes/Ropes';
 
@@ -12,6 +9,11 @@ import BGBlue from './images/Container_Blue.png';
 import BGRed from './images/Container_Red.png';
 
 import './Container.css';
+
+import { ProblemState, ProblemTypes } from '../../../redux/reducers/ProblemReducer';
+import { HistoryTypes } from '../../../redux/reducers/HistoryReducer';
+import { AnimatedTypes } from '../../../redux/reducers/AnimatedReducer';
+import { GlobalState } from '../../../redux/Store';
 
 const getContainerStyle = ({ width, height, left, bottom, next }: ContainerProps, index = 0) => {
   const imageStyle: CSSProperties = {
@@ -53,12 +55,10 @@ type ContainerDragProps = ContainerProps & {
 
 export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
   let [index, setIndex] = React.useState(1);
-  const {
-    state: { problem },
-    dispatch
-  } = useGlobalState();
+  const dispatch = useDispatch();
+  const problem = useSelector((state: GlobalState) => state.problem);
 
-  const handleDrag = (problem: Problem, info: PanInfo) => {
+  const handleDrag = (problem: ProblemState, info: PanInfo) => {
     const left = props.left + info.point.x + (props.width + props.spacer) / 2;
     const oldIndex = Math.floor(props.left / (props.width + props.spacer));
     const newIndex = Math.floor(left / (props.width + props.spacer));
@@ -89,7 +89,7 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
       }}
       onDragEnd={(event, info) => {
         setIndex(1); // Set it above static ones
-        handleDrag(problem as Problem, info);
+        handleDrag(problem as ProblemState, info);
       }}
       drag
       dragConstraints={props.parent}
@@ -108,10 +108,9 @@ type ContainerAnimatedProps = ContainerProps & {
 
 export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
   const { width, height, left, bottom } = props;
-  const {
-    state: { problem, settings },
-    dispatch
-  } = useGlobalState();
+  const dispatch = useDispatch();
+  const settings = useSelector((state: GlobalState) => state.settings);
+  const problem = useSelector((state: GlobalState) => state.problem);
 
   // TODO: Calculate this
   const animate = {
@@ -128,7 +127,7 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
 
   // TODO: Perhaps this should be in a logic clas sor some shit u know?
   const endAnimation = () => {
-    const myProblem = problem as Problem; // Stop ts from bitching honestly
+    const myProblem = problem as ProblemState; // Stop ts from bitching honestly
     for (let i = 0; i < myProblem.data.length; i++) {
       for (let j = 0; j < myProblem.data[i].length; j++) {
         // Check only the first element
@@ -146,7 +145,7 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
           });
           // Clean the animation flag
           dispatch({
-            type: AnimatedTypes.Clear,
+            type: AnimatedTypes.Stop,
             payload: null
           });
         }

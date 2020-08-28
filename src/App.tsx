@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { useGlobalState } from './state/GlobalState';
-import { ClientTypes } from './state/reducers/ClientReducer';
 import { debounce } from './util/misc';
+import { ClientTypes } from './redux/reducers/ClientReducer';
 
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './components/HomePage/HomePage';
@@ -14,12 +14,13 @@ import ErrorPage from './components/ErrorPage/ErrorPage';
 import './App.css';
 
 const App = () => {
-  const { dispatch } = useGlobalState();
+  const dispatch = useDispatch();
 
+  // On window resize, update the dimensions in global state
   useEffect(() => {
     const handleResize = () => {
       dispatch({
-        type: ClientTypes.Update,
+        type: ClientTypes.Resize,
         payload: {
           height: window.innerHeight,
           width: window.innerWidth

@@ -1,30 +1,30 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
-import { useGlobalState } from '../../state/GlobalState';
-import { ProblemTypes, Problem } from '../../state/reducers/ProblemReducer';
-import { HistoryTypes } from '../../state/reducers/HistoryReducer';
-import { AnimatedTypes } from '../../state/reducers/AnimatedReducer';
-import { isGameFinished, isProblemEmpty } from './Game';
+import { useSelector } from 'react-redux';
+import { ProblemState } from '../../redux/reducers/ProblemReducer';
+import { GlobalState } from '../../redux/Store';
+import { isGameFinished, isProblemEmpty, loadProblem } from './Game';
 
 import ContainerGrid from './ContainerGrid/ContainerGrid';
 import Ground from './Ground/Ground';
 import HUD from './HUD/HUD';
 import Truck from './Truck/Truck';
+import VictoryPopup from './VictoryPopup/VictoryPopup';
 
 import './GamePage.css';
-import VictoryPopup from './VictoryPopup/VictoryPopup';
 
 interface GameParam {
   id: string | undefined;
 }
 
-const GamePage: React.FC<any> = () => {
+const GamePage: React.FC = () => {
   const { id } = useParams<GameParam>();
   let routerHistory = useHistory();
-  const {
-    state: { history, problem, problems, settings },
-    dispatch // TODO: probably client also and shit
-  } = useGlobalState();
+
+  // TODO: probably client also and shit
+  const settings = useSelector((state: GlobalState) => state.settings);
+  const problem = useSelector((state: GlobalState) => state.problem);
+  const problems = useSelector((state: GlobalState) => state.problems);
 
   // Check if problem is currently loaded
   useEffect(() => {
@@ -36,18 +36,7 @@ const GamePage: React.FC<any> = () => {
       }
 
       try {
-        dispatch({
-          type: HistoryTypes.Clear, // Clean the fucking history
-          payload: null
-        });
-        dispatch({
-          type: AnimatedTypes.Clear, // Clean the animation flag
-          payload: null
-        });
-        dispatch({
-          type: ProblemTypes.Update, // Load the new problem
-          payload: problems[Number(id)]
-        });
+        loadProblem(problems[Number(id)]);
       } catch (error) {
         routerHistory.push('/problems');
       }
@@ -56,7 +45,7 @@ const GamePage: React.FC<any> = () => {
   }, []);
 
   if (isProblemEmpty(problem)) return null; //* Problem has not loaded yet, return
-  if (isGameFinished(problem as Problem)) {
+  if (isGameFinished(problem as ProblemState)) {
     return (
       <div className="game">
         <VictoryPopup />

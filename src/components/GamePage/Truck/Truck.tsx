@@ -1,21 +1,24 @@
 import React, { CSSProperties } from 'react';
-import { useGlobalState } from '../../../state/GlobalState';
+import { useDispatch, useSelector } from 'react-redux';
 import { motion, TargetAndTransition, Transition } from 'framer-motion';
 import { breaks } from '../../../util/misc';
-import { Client } from '../../../state/reducers/ClientReducer';
 
 import './Truck.css';
 
 import TruckImg from './images/Truck.png';
 import TruckMobileImg from './images/Truck_Mobile.png';
 import TruckContainerImg from './images/Truck_Container.png';
-import { Problem } from '../../../state/reducers/ProblemReducer';
+import { ClientState } from '../../../redux/reducers/ClientReducer';
+import { ProblemState } from '../../../redux/reducers/ProblemReducer';
+import { SettingsState } from '../../../redux/reducers/SettingsReducer';
+import { AnimatedState } from '../../../redux/reducers/AnimatedReducer';
+import { GlobalState } from '../../../redux/Store';
 
 // ! MOBILE
 // TODO: Truck height and width both hae to be set, set it to the same size its ok 120x120 for 3 conts
 const TruckMobileWidth = 263;
 
-const getTruckStyle = (client: Client) => {
+const getTruckStyle = (client: ClientState) => {
   const style: CSSProperties = {
     position: 'absolute',
     bottom: '48px',
@@ -27,11 +30,12 @@ const getTruckStyle = (client: Client) => {
 };
 
 const Truck: React.FC = () => {
-  const {
-    state: { client, problem, settings, animated }
-  } = useGlobalState();
+  const client = useSelector((state: GlobalState) => state.client);
+  const problem = useSelector((state: GlobalState) => state.problem);
+  const settings = useSelector((state: GlobalState) => state.settings);
+  const animated = useSelector((state: GlobalState) => state.animated);
 
-  const myProblem = problem as Problem;
+  const myProblem = problem as ProblemState;
 
   const TruckStyle: CSSProperties = {
     position: 'absolute',
@@ -73,7 +77,7 @@ const Truck: React.FC = () => {
         draggable="false"
         className="truck"
         style={desktopStyle}
-        animate={animated ? desktopAnimate : undefined}
+        animate={animated.isActive ? desktopAnimate : undefined}
         transition={transition}
         src={TruckImg}
         alt="Truck"

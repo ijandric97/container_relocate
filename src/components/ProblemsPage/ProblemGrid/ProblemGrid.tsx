@@ -1,5 +1,5 @@
 import React from 'react';
-import { Problem } from '../../../state/reducers/ProblemReducer';
+import { ProblemState } from '../../../redux/reducers/ProblemReducer';
 
 import BGGreen from '../../GamePage/Container/images/Container_Green.png';
 import BGBlue from '../../GamePage/Container/images/Container_Blue.png';
@@ -8,18 +8,13 @@ import './ProblemGrid.css';
 
 type ProblemProps = {
   num: number;
-  problem: Problem;
+  problem: ProblemState;
 };
 
-const ProblemGrid: React.FC<ProblemProps> = (props) => {
-  const { num } = props;
-  const { current, col_size, row_size } = props.problem;
-
-  const renderContainers = (problem: Problem) => {
-    const data = problem.data;
-
-    const width = 300 / problem.col_size;
-    const height = 300 / problem.row_size;
+const ProblemGrid: React.FC<ProblemProps> = ({ num, problem }) => {
+  const renderContainers = ({ data, col_size, row_size }: ProblemState) => {
+    const width = 300 / col_size;
+    const height = 300 / row_size;
 
     let containers: JSX.Element[] = [];
 
@@ -33,7 +28,7 @@ const ProblemGrid: React.FC<ProblemProps> = (props) => {
           height: height,
           bottom: bottom,
           left: left,
-          backgroundImage: `url(${value === current ? BGBlue : BGGreen})`
+          backgroundImage: `url(${value === problem.current ? BGBlue : BGGreen})`
         };
 
         containers.push(
@@ -50,7 +45,7 @@ const ProblemGrid: React.FC<ProblemProps> = (props) => {
   return (
     <div className="problem">
       <div className="label">Problem #{num}</div>
-      <div className={`table`}>{renderContainers(props.problem)}</div>
+      <div className={`table`}>{renderContainers(problem)}</div>
     </div>
   );
 };

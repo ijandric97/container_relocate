@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
+
 import Quokka from './images/RoyalQuokka.png';
 
 import './ErrorPage.css';

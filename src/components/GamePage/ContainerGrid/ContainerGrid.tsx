@@ -1,12 +1,13 @@
 import React, { CSSProperties, useRef, useEffect } from 'react';
-import { useGlobalState } from '../../../state/GlobalState';
-import { Problem, ProblemTypes } from '../../../state/reducers/ProblemReducer';
-import { AnimatedTypes } from '../../../state/reducers/AnimatedReducer';
+import { useDispatch, useSelector } from 'react-redux';
 import { breaks } from '../../../util/misc';
 
 import { Container, ContainerDrag, ContainerAnimated } from '../Container/Container';
 
 import './ContainerGrid.css';
+import { ProblemState } from '../../../redux/reducers/ProblemReducer';
+import { AnimatedTypes } from '../../../redux/reducers/AnimatedReducer';
+import { GlobalState } from '../../../redux/Store';
 
 type ContainerGridProps = {
   height: number;
@@ -15,21 +16,22 @@ type ContainerGridProps = {
 
 const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
   const constraintsRef = useRef(null);
-  const {
-    state: { client, problem, animated },
-    dispatch
-  } = useGlobalState();
+
+  const dispatch = useDispatch();
+  const problem = useSelector((state: GlobalState) => state.problem);
+  const client = useSelector((state: GlobalState) => state.client);
+  const animated = useSelector((state: GlobalState) => state.animated);
 
   // CHECK IF WE SHOULD REMOVE THE TOPMOST CONTAINER;
   useEffect(() => {
-    const myProblem = problem as Problem; // Stop ts from bitching honestly
+    const myProblem = problem as ProblemState; // Stop ts from bitching honestly
     for (let i = 0; i < myProblem.data.length; i++) {
       for (let j = 0; j < myProblem.data[i].length; j++) {
         // Check only the first element
         const el = myProblem.data[i][0];
 
         // TODO: Add some kind of blocking for the animations :)
-        if (el === myProblem.current && !animated) {
+        if (el === myProblem.current && !animated.isActive) {
           //TODO: this should be done after animation ends boyyo :)
           /* myProblem.data[i].shift(); // Remove old
           myProblem.current = myProblem.current + 1; // Add to counter
@@ -40,10 +42,9 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
             type: ProblemTypes.Update,
             payload: myProblem
           }); */
-
           dispatch({
-            type: AnimatedTypes.Set,
-            payload: true
+            type: AnimatedTypes.Start,
+            payload: null
           });
         }
 
@@ -53,7 +54,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
     // eslint-disable-next-line
   });
 
-  const renderContainers = ({ col_size, row_size, current, data }: Problem) => {
+  const renderContainers = ({ col_size, row_size, current, data }: ProblemState) => {
     const spacer = (width / row_size) * 0.1;
     const conH = height / col_size;
     const conW = width / row_size - spacer;
@@ -67,7 +68,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
         const left = i * (conW + spacer) + spacer / 2;
 
         // Top of the stack, should be draggable but not if we are animating boy :)
-        if (el === current && animated) {
+        if (el === current && animated.isActive) {
           containers.push(
             <ContainerAnimated
               //! HACK: We put in random key so react cant recreate an object
@@ -83,7 +84,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
               parent={constraintsRef}
             />
           );
-        } else if (j === 0 && !animated) {
+        } else if (j === 0 && !animated.isActive) {
           containers.push(
             <ContainerDrag
               key={`${Date.now()}.${Math.random()}`}
@@ -130,7 +131,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
 
   return (
     <div className="containers" style={ContainerGridStyle} ref={constraintsRef}>
-      {renderContainers(problem as Problem)}
+      {renderContainers(problem as ProblemState)}
     </div>
   );
 };

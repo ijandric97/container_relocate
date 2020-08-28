@@ -1,13 +1,12 @@
 import React, { CSSProperties } from 'react';
-import { useGlobalState } from '../../../state/GlobalState';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './VictoryPopup.css';
+import { GlobalState } from '../../../redux/Store';
 
 const VictoryPopup: React.FC<any> = (props) => {
-  const {
-    state: { history, client }
-    // TODO: probably client also and shit
-  } = useGlobalState();
+  const history = useSelector((state: GlobalState) => state.history);
+  const client = useSelector((state: GlobalState) => state.client);
 
   const popupStyle: CSSProperties = {
     left: `${client.width / 2 - 132}px`,
@@ -30,7 +29,7 @@ const VictoryPopup: React.FC<any> = (props) => {
         >
           <path d="M3 1h10c-.495 3.467-.5 10-5 10S3.495 4.467 3 1zm0 15a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1H3zm2-1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1H5z" />
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M12.5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-6-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0z"
           />
           <path d="M7 10h2v4H7v-4z" />

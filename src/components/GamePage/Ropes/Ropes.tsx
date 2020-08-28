@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { useGlobalState } from '../../../state/GlobalState';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './Ropes.css';
 import { motion } from 'framer-motion';
+import { GlobalState } from '../../../redux/Store';
 
 type RopeProps = {
   width: number;
@@ -12,10 +13,10 @@ type RopeProps = {
 };
 
 const Ropes: React.FC<RopeProps> = ({ width, height, left, bottom }) => {
-  const {
-    state: { problem, problems, settings },
-    dispatch // TODO: probably client also and shit
-  } = useGlobalState();
+  const dispatch = useDispatch();
+  const settings = useSelector((state: GlobalState) => state.settings);
+  const problem = useSelector((state: GlobalState) => state.problem);
+  const problems = useSelector((state: GlobalState) => state.problems);
 
   // Effect?
   useEffect(() => {

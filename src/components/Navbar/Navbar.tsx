@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useGlobalState } from '../../state/GlobalState';
 import { breaks } from '../../util/misc';
+import { useSelector } from 'react-redux';
+import { GlobalState } from '../../redux/Store';
 
 import Logo from './images/Logo.png';
 
 import './Navbar.css';
 
 const Navbar: React.FC<any> = () => {
-  const {
-    state: { client }
-  } = useGlobalState();
+  const client = useSelector((state: GlobalState) => state.client);
 
   const [isOpen, setIsOpen] = useState(false);
 

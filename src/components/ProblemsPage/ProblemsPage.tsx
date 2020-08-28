@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useGlobalState } from '../../state/GlobalState';
-import { ProblemsTypes } from '../../state/reducers/ProblemsReducer';
-import { dummy_problems } from '../../util/dummydata'; //TODO: Remove once asp.net is done
+import { GlobalState } from '../../redux/Store';
+import { loadProblems } from '../GamePage/Game';
 
 import Dropdown from './Dropdown/Dropdown';
 import ProblemGrid from './ProblemGrid/ProblemGrid';
@@ -13,20 +13,13 @@ import './ProblemsPage.css';
 // TODO: Make this work with actual data
 
 const ProblemsPage: React.FC<any> = () => {
-  const [size, setSize] = useState(3);
+  const problems = useSelector((state: GlobalState) => state.problems);
 
-  const {
-    state: { problems },
-    dispatch
-  } = useGlobalState();
+  const [size, setSize] = useState(3);
 
   // When component is mounted, add the problems into the problems global state
   useEffect(() => {
-    // TODO: Axios that will load into the problems list
-    dispatch({
-      type: ProblemsTypes.Update,
-      payload: dummy_problems
-    });
+    loadProblems();
     // eslint-disable-next-line
   }, []);
 
