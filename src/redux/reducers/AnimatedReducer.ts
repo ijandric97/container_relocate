@@ -15,11 +15,13 @@ const initialState: AnimatedState = {
 //? Action
 export enum AnimatedTypes {
   Start = 'ANIMATED_START',
-  Stop = 'ANIMATED_STOP'
+  Stop = 'ANIMATED_STOP',
+  Destinations = 'ANIMATED_DESTINATIONS'
 }
 type AnimatedPayload = {
   [AnimatedTypes.Start]: any;
   [AnimatedTypes.Stop]: any;
+  [AnimatedTypes.Destinations]: [number, number];
 };
 export type AnimatedActions = ActionMap<AnimatedPayload>[keyof ActionMap<AnimatedPayload>];
 
@@ -29,6 +31,8 @@ export const animatedReducer = (state: AnimatedState = initialState, action: Ani
       return { ...state, isActive: true };
     case AnimatedTypes.Stop:
       return { ...state, isActive: false };
+    case AnimatedTypes.Destinations:
+      return { ...state, srcIndex: action.payload[0], destIndex: action.payload[1] };
     default:
       return state;
   }

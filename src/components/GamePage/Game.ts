@@ -33,18 +33,10 @@ export const isProblemEmpty = (obj: ProblemState | Object) => {
  * @param problem Problem to dispatch as current problem
  */
 export const loadProblem = (problem: ProblemState) => {
-  store.dispatch({
-    type: HistoryTypes.Clear, // Clean the history
-    payload: null
-  });
-  store.dispatch({
-    type: AnimatedTypes.Stop, // Clean the animation flag
-    payload: null
-  });
-  store.dispatch({
-    type: ProblemTypes.Update, // Load the new problem
-    payload: problem
-  });
+  // Clean history, stop animation, load the new problem
+  store.dispatch({ type: HistoryTypes.Clear, payload: null });
+  store.dispatch({ type: AnimatedTypes.Stop, payload: null });
+  store.dispatch({ type: ProblemTypes.Update, payload: problem });
 };
 
 /** Load the problems from the database */
@@ -53,10 +45,28 @@ export const loadProblems = () => {
 
   if (!(Array.isArray(problems) && problems.length)) {
     // TODO: Axios that will load into the problems list
-    store.dispatch({
-      type: ProblemsTypes.Update,
-      payload: dummy_problems
-    });
+    store.dispatch({ type: ProblemsTypes.Update, payload: dummy_problems });
+  }
+};
+
+/** Check if we should extract one of the objects from the top of the stack
+ *
+ * @param problem Problem object to check
+ */
+export const nextIsOnTop = ({ data, current }: ProblemState) => {
+  const animated = store.getState().animated;
+
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data[i].length; j++) {
+      const el = data[i][0]; // Check only the first element
+
+      if (el === current && !animated.isActive) {
+        store.dispatch({ type: AnimatedTypes.Destinations, payload: [i, -1] });
+        store.dispatch({ type: AnimatedTypes.Start, payload: null });
+      }
+
+      break; // Break because we only need the first iteration ¯\_(ツ)_/¯
+    }
   }
 };
 
