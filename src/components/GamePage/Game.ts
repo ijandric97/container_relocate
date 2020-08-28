@@ -21,7 +21,7 @@ export const isGameFinished = (problem: ProblemState) => {
 };
 
 /** Check if the given "problem" object is empty
-
+ *
  * @param obj Problem object to check
  */
 export const isProblemEmpty = (obj: ProblemState | Object) => {

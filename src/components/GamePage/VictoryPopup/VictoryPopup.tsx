@@ -1,16 +1,19 @@
 import React, { CSSProperties } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import './VictoryPopup.css';
+import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
 import { GlobalState } from '../../../redux/Store';
 
+import Trophy from './images/Trophy.png';
+
+import './VictoryPopup.css';
+
 const VictoryPopup: React.FC<any> = (props) => {
-  const history = useSelector((state: GlobalState) => state.history);
+  const moveCount = useSelector((state: GlobalState) => state.history.length);
   const client = useSelector((state: GlobalState) => state.client);
 
   const popupStyle: CSSProperties = {
-    left: `${client.width / 2 - 132}px`,
-    bottom: `${client.height / 1.5}px`
+    left: `${client.width / 2 - 157}px`,
+    top: `${client.height / 2 - 302}px`
   };
 
   console.log(client);
@@ -18,24 +21,16 @@ const VictoryPopup: React.FC<any> = (props) => {
 
   return (
     <>
-      <div className="Popup" style={popupStyle}>
-        <svg
-          width="1em"
-          height="1em"
-          viewBox="0 0 16 16"
-          className="bi bi-trophy"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M3 1h10c-.495 3.467-.5 10-5 10S3.495 4.467 3 1zm0 15a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1H3zm2-1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1H5z" />
-          <path
-            fillRule="evenodd"
-            d="M12.5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-6-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0z"
-          />
-          <path d="M7 10h2v4H7v-4z" />
-          <path d="M10 11c0 .552-.895 1-2 1s-2-.448-2-1 .895-1 2-1 2 .448 2 1z" />
-        </svg>
-        <p>You finished the problem in {history.length} moves!</p>
+      <div className="popup" style={popupStyle}>
+        <motion.img
+          src={Trophy}
+          alt="Trophy"
+          className="trophy"
+          style={{ filter: 'saturate(0)' }}
+          animate={{ filter: 'saturate(5)' }}
+          transition={{ duration: 1, yoyo: Infinity }}
+        />
+        <p>You finished the problem in {moveCount} moves!</p>
       </div>
     </>
   );
