@@ -13,7 +13,7 @@ type RopeProps = {
 
 const Ropes: React.FC<RopeProps> = ({ width, height, left, bottom }) => {
   const {
-    state: { problem, problems },
+    state: { problem, problems, settings },
     dispatch // TODO: probably client also and shit
   } = useGlobalState();
 
@@ -46,7 +46,7 @@ const Ropes: React.FC<RopeProps> = ({ width, height, left, bottom }) => {
 
   // TODO: Make this global or in utils or somwhContre, game logic i guess :)
   const transition = {
-    duration: 7,
+    duration: 7 * settings.animation_duration,
     ease: 'easeInOut',
     //times: [1, 1, 1, 1, 1, 1, 1],
     repeat: 1

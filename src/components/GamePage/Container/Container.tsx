@@ -64,7 +64,7 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
     const newIndex = Math.floor(left / (props.width + props.spacer));
 
     // We are not over the limit
-    if (problem.data[newIndex].length < problem.col_size + 2 && newIndex !== oldIndex) {
+    if (problem.data[newIndex].length < problem.col_size && newIndex !== oldIndex) {
       // Push old problem to the history stack
       dispatch({
         type: HistoryTypes.Push,
@@ -109,7 +109,7 @@ type ContainerAnimatedProps = ContainerProps & {
 export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
   const { width, height, left, bottom } = props;
   const {
-    state: { problem },
+    state: { problem, settings },
     dispatch
   } = useGlobalState();
 
@@ -120,7 +120,7 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
     scale: [1, 1, 1, 1, 1, 0, 0]
   };
   const transition = {
-    duration: 7,
+    duration: 7 * settings.animation_duration,
     ease: 'easeInOut',
     //times: [1, 1, 1, 1, 1, 1, 1],
     repeat: 1

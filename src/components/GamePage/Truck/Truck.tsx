@@ -48,7 +48,7 @@ const Truck: React.FC = () => {
   };
 
   const transition = {
-    duration: 7,
+    duration: 7 * settings.animation_duration,
     ease: 'easeInOut',
     //times: [1, 1, 1, 1, 1, 1, 1],
     repeat: 1

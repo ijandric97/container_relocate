@@ -55,7 +55,7 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
 
   const renderContainers = ({ col_size, row_size, current, data }: Problem) => {
     const spacer = (width / row_size) * 0.1;
-    const conH = height / (col_size + 2);
+    const conH = height / col_size;
     const conW = width / row_size - spacer;
 
     let containers: JSX.Element[] = [];
