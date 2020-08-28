@@ -27,7 +27,12 @@ const VictoryPopup: React.FC<any> = (props) => {
           alt="Trophy"
           className="trophy"
           style={{ filter: 'saturate(0)' }}
-          animate={{ filter: 'saturate(5)' }}
+          animate={{
+            filter: ['saturate(5)', 'saturate(0)', 'saturate(5)'],
+            rotate: [-5, 0, 5],
+            scale: [1.2, 1, 1.2],
+            y: [-25, -25, -25]
+          }}
           transition={{ duration: 1, yoyo: Infinity }}
         />
         <p>You finished the problem in {moveCount} moves!</p>
