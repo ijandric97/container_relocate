@@ -55,7 +55,7 @@ const Truck: React.FC = () => {
     duration: 7 * settings.animation_duration,
     ease: 'easeInOut',
     //times: [1, 1, 1, 1, 1, 1, 1],
-    repeat: 1
+    repeat: Infinity
   };
 
   const desktopStyle: CSSProperties = {
@@ -69,11 +69,13 @@ const Truck: React.FC = () => {
   };
 
   // Return depending on what we are doing
+  console.log('TRUCK_REDREAW');
   if (client.width >= breaks.sm) {
     // DESKTOP
     console.log(client.width / 2);
     return (
       <motion.img
+        key={`${Date.now()}.${Math.random()}`}
         draggable="false"
         className="truck"
         style={desktopStyle}

@@ -20,6 +20,7 @@ const VictoryPopup: React.FC = () => {
     filter: ['saturate(5)', 'saturate(0)', 'saturate(5)'],
     rotate: [-5, 0, 5],
     scale: [1.2, 1, 1.2],
+    x: [5, 5, 5],
     y: [-25, -25, -25]
   };
 

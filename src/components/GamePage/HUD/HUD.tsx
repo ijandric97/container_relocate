@@ -6,7 +6,7 @@ import { HistoryTypes } from '../../../redux/reducers/HistoryReducer';
 import { ProblemTypes } from '../../../redux/reducers/ProblemReducer';
 import { GlobalState } from '../../../redux/Store';
 
-const HUD: React.FC<any> = () => {
+const HUD: React.FC = () => {
   const dispatch = useDispatch();
   const animated = useSelector((state: GlobalState) => state.animated);
   const history = useSelector((state: GlobalState) => state.history);

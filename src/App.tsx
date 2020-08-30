@@ -33,7 +33,7 @@ const App = () => {
     return () => window.removeEventListener('resize', debounce(handleResize, 100));
     //! We want this to run only on mount and unmount, linter cant detect
     //! this use case, so we will disable it :)
-    //! eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   return (

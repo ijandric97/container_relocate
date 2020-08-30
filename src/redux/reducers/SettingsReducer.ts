@@ -7,7 +7,7 @@ export type SettingsState = {
   grid_width: number;
 };
 const initialState: SettingsState = {
-  animation_duration: 0.1, //! This is per step
+  animation_duration: 1, //! This is per step
   grid_height: 320,
   grid_width: 350
 };

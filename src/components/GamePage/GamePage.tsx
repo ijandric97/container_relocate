@@ -10,6 +10,7 @@ import Ground from './Ground/Ground';
 import HUD from './HUD/HUD';
 import Truck from './Truck/Truck';
 import VictoryPopup from './VictoryPopup/VictoryPopup';
+import Crane from './Crane/Crane';
 
 import './GamePage.css';
 
@@ -22,7 +23,6 @@ const GamePage: React.FC = () => {
   let routerHistory = useHistory();
 
   // TODO: probably client also and shit
-  const settings = useSelector((state: GlobalState) => state.settings);
   const problem = useSelector((state: GlobalState) => state.problem);
   const problems = useSelector((state: GlobalState) => state.problems);
 
@@ -57,7 +57,8 @@ const GamePage: React.FC = () => {
   return (
     <div className="game">
       <HUD />
-      <ContainerGrid height={settings.grid_height} width={settings.grid_width} />
+      <ContainerGrid />
+      <Crane />
       <Ground />
       <Truck />
     </div>

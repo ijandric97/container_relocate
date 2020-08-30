@@ -1,26 +1,23 @@
 import React, { CSSProperties, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { GlobalState } from '../../../redux/Store';
+import { ProblemState } from '../../../redux/reducers/ProblemReducer';
+import { nextIsOnTop } from '../Game';
 import { breaks } from '../../../util/misc';
-
 import { Container, ContainerDrag, ContainerAnimated } from '../Container/Container';
 
 import './ContainerGrid.css';
-import { ProblemState } from '../../../redux/reducers/ProblemReducer';
-import { AnimatedTypes } from '../../../redux/reducers/AnimatedReducer';
-import { GlobalState } from '../../../redux/Store';
-import { nextIsOnTop } from '../Game';
 
-type ContainerGridProps = {
-  height: number;
-  width: number;
-};
-
-const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
+const ContainerGrid: React.FC = () => {
   const constraintsRef = useRef(null);
 
   const problem = useSelector((state: GlobalState) => state.problem);
   const client = useSelector((state: GlobalState) => state.client);
   const animated = useSelector((state: GlobalState) => state.animated);
+  const settings = useSelector((state: GlobalState) => state.settings);
+
+  const width = settings.grid_width;
+  const height = settings.grid_height;
 
   // CHECK IF WE SHOULD REMOVE THE TOPMOST CONTAINER;
   useEffect(() => {
@@ -104,9 +101,11 @@ const ContainerGrid: React.FC<ContainerGridProps> = ({ height, width }) => {
   };
 
   return (
-    <div className="containers" style={ContainerGridStyle} ref={constraintsRef}>
-      {renderContainers(problem as ProblemState)}
-    </div>
+    <>
+      <div className="containers" style={ContainerGridStyle} ref={constraintsRef}>
+        {renderContainers(problem as ProblemState)}
+      </div>
+    </>
   );
 };
 

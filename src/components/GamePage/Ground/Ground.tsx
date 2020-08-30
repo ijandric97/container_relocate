@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Ground.css';
 
-const Ground: React.FC<any> = () => {
+const Ground: React.FC = () => {
   return (
     <>
       <div className="tarmac" />
