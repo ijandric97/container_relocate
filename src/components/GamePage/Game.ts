@@ -70,4 +70,16 @@ export const nextIsOnTop = ({ data, current }: ProblemState) => {
   }
 };
 
+/** Get the framer-motion transition object for extraction scenario */
+export const getExtractTransition = () => {
+  const { settings } = store.getState();
+
+  return {
+    duration: 7 * settings.animation_duration,
+    ease: 'easeInOut',
+    //times: [1, 1, 1, 1, 1, 1, 1],
+    repeat: Infinity
+  };
+};
+
 // TODO: call that will get me all the calculations?

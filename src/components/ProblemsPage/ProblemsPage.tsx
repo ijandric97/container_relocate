@@ -27,11 +27,13 @@ const ProblemsPage: React.FC<any> = () => {
     size === '3x3' ? setSize(3) : setSize(4);
   };
 
+  const value = size === 3 ? '3x3' : '4x4';
+
   return (
     <motion.div animate={{ opacity: 1 }} transition={{ duration: 1 }} className="problems">
       <div className="selector">
         <label className="label">Size:</label>
-        <Dropdown placeholder={'3x3'} value={'3x3'} onChange={(v) => sizeChanged(v)} options={['3x3', '4x4']} />
+        <Dropdown placeholder={'3x3'} value={value} onChange={(v) => sizeChanged(v)} options={['3x3', '4x4']} />
       </div>
       <div className="flex">
         {problems.length > 0 &&

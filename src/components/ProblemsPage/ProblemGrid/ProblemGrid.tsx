@@ -24,8 +24,8 @@ const ProblemGrid: React.FC<ProblemProps> = ({ num, problem }) => {
         const bottom = (data[i].length - 1 - j) * height;
         const left = i * width;
         const style = {
-          width: width,
-          height: height,
+          width: width - 2, //? Because of the border 1px on each side
+          height: height - 2, //? Because of the border 1px on each side
           bottom: bottom,
           left: left,
           backgroundImage: `url(${value === problem.current ? BGBlue : BGGreen})`

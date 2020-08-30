@@ -9,10 +9,8 @@ import TruckImg from './images/Truck.png';
 import TruckMobileImg from './images/Truck_Mobile.png';
 import TruckContainerImg from './images/Truck_Container.png';
 import { ClientState } from '../../../redux/reducers/ClientReducer';
-import { ProblemState } from '../../../redux/reducers/ProblemReducer';
-import { SettingsState } from '../../../redux/reducers/SettingsReducer';
-import { AnimatedState } from '../../../redux/reducers/AnimatedReducer';
 import { GlobalState } from '../../../redux/Store';
+import { getExtractTransition } from '../Game';
 
 // ! MOBILE
 // TODO: Truck height and width both hae to be set, set it to the same size its ok 120x120 for 3 conts
@@ -35,8 +33,6 @@ const Truck: React.FC = () => {
   const settings = useSelector((state: GlobalState) => state.settings);
   const animated = useSelector((state: GlobalState) => state.animated);
 
-  const myProblem = problem as ProblemState;
-
   const TruckStyle: CSSProperties = {
     position: 'absolute',
     bottom: '48px',
@@ -51,16 +47,9 @@ const Truck: React.FC = () => {
     left: '-300px'
   };
 
-  const transition = {
-    duration: 7 * settings.animation_duration,
-    ease: 'easeInOut',
-    //times: [1, 1, 1, 1, 1, 1, 1],
-    repeat: Infinity
-  };
-
   const desktopStyle: CSSProperties = {
-    width: `${settings.grid_width / myProblem.col_size + 10}px`,
-    left: `${client.width / 2 + 170}px`
+    width: `${settings.grid_width / problem.col_size + 10}px`,
+    left: `${client.width / 2 + 250}px`
   };
 
   const desktopAnimate = {
@@ -80,7 +69,7 @@ const Truck: React.FC = () => {
         className="truck"
         style={desktopStyle}
         animate={animated.isActive ? desktopAnimate : undefined}
-        transition={transition}
+        transition={getExtractTransition()}
         src={TruckImg}
         alt="Truck"
       />
@@ -94,7 +83,7 @@ const Truck: React.FC = () => {
   } */
   // Animate the div that contains both the truck and our image
   return (
-    <motion.div style={TruckStyle} animate={truckAnimate} transition={transition}>
+    <motion.div style={TruckStyle} animate={truckAnimate} transition={getExtractTransition()}>
       <img draggable="false" className="truck truck" src={TruckImg} alt="Truck" />
       <img draggable="false" className="truck container" src={TruckContainerImg} alt="Container" />
     </motion.div>
