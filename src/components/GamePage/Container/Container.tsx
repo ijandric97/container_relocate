@@ -138,15 +138,17 @@ export const ContainerAnimated: React.FC<ContainerAnimatedProps> = (props) => {
           myProblem.data[i].shift(); // Remove old
           myProblem.current = myProblem.current + 1; // Add to counter
 
-          // Update the problem object
-          dispatch({
-            type: ProblemTypes.Update,
-            payload: myProblem
-          });
+          // TODO: Order here is correct for the truck to keep being animated
+          // TODO: BUT U HAVE TO INVESTIGATE WHY THE FUCK SOME CONTAINERS ARE NOT ANIMATED AT ALL????
           // Clean the animation flag
           dispatch({
             type: AnimatedTypes.Stop,
             payload: null
+          });
+          // Update the problem object
+          dispatch({
+            type: ProblemTypes.Update,
+            payload: myProblem
           });
         }
 

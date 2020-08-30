@@ -76,7 +76,7 @@ export const getExtractTransition = () => {
 
   return {
     duration: 7 * settings.animation_duration,
-    ease: 'easeInOut',
+    ease: 'easeIn',
     //times: [1, 1, 1, 1, 1, 1, 1],
     repeat: Infinity
   };
