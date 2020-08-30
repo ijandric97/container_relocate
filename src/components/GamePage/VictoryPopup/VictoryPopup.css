@@ -6,7 +6,7 @@
   padding: 25px;
   width: 264px;
   text-align: center;
-  z-index: 200; /* Definitely above all */
+  z-index: 50; /* Definitely above all */
 }
 
 .trophy {

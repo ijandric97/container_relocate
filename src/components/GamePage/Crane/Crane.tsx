@@ -10,8 +10,6 @@ import { breaks } from '../../../util/misc';
 const Crane: React.FC = () => {
   const client = useSelector((state: GlobalState) => state.client);
 
-  const settings = useSelector((state: GlobalState) => state.settings);
-
   // Calculate where to put them
   let left = client.width / 2 - 600 * (2 / 3) - 7; // DESKTOP
   if (client.width < breaks.sm) {

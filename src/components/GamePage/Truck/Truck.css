@@ -1,15 +1,13 @@
 .truck {
   position: absolute;
-  bottom: 60px;
   z-index: 31;
-  /* width: 120px;
-  height: 120px; */
-  left: 0px; /* 793px */
+  bottom: 60px;
+  left: -300px; /*! Framer bug, move it off screen or sometimes it pops in (._.) 793px */
 }
 
 .truck_container {
   position: absolute;
-  left: 90px;
-  bottom: 100px;
   z-index: 30; /*? It has to be behind the truck wheel */
+  bottom: 100px;
+  left: -300px; /*! Framer bug, move it off screen or sometimes it pops in (._.) */
 }

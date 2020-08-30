@@ -12,94 +12,74 @@ import TruckContainerImg from './images/Truck_Container.png';
 
 import './Truck.css';
 
-// ! MOBILE
-// TODO: Truck height and width both hae to be set, set it to the same size its ok 120x120 for 3 conts
-const TruckMobileWidth = 263;
+const Truck: React.FC = () => {
+  const client = useSelector((state: GlobalState) => state.client);
 
-const getTruckStyle = (client: ClientState) => {
-  const style: CSSProperties = {
-    position: 'absolute',
-    bottom: '48px',
-    left: `${client.width / 2}px`,
-    zIndex: 90
-  };
-
-  return style;
+  if (client.width >= breaks.sm) return <TruckDesktop />;
+  else return <TruckMobile />;
 };
 
-const Truck: React.FC = () => {
+const TruckDesktop: React.FC = () => {
   const client = useSelector((state: GlobalState) => state.client);
   const problem = useSelector((state: GlobalState) => state.problem);
   const settings = useSelector((state: GlobalState) => state.settings);
   const animated = useSelector((state: GlobalState) => state.animated);
 
-  const desktopStyle: CSSProperties = {
-    width: `${settings.grid_width / problem.col_size + 10}px`,
-    left: `${client.width / 2 + 250}px`
+  const size = settings.grid_width / problem.col_size + 10;
+
+  const style: CSSProperties = {
+    width: `${size}px`,
+    height: `${size}px`,
+    left: `${client.width / 2 + 250}px`,
+    zIndex: 7 //TODO: Check z-indexes
   };
 
-  const desktopAnimate = {
-    bottom: [60, 60, 60, 60, 60, 0, 60],
+  const animate = {
+    bottom: [60, 60, 60, 60, 60, 60 - size / 2, 60],
     scale: [1, 1, 1, 1, 1, 0, 1]
   };
 
-  /* // Return depending on what we are doing
-  console.log('TRUCK_REDREAW');
-  if (client.width >= breaks.sm) {
-    // DESKTOP
-    console.log('SHIT');
-    return (
-      <motion.img
-        key={`${Date.now()}.${Math.random()}`}
-        draggable="false"
-        className="truck"
-        style={desktopStyle}
-        animate={animated.isActive ? desktopAnimate : undefined}
-        transition={getExtractTransition()}
-        src={TruckImg}
-        alt="Truck"
-      />
-    );
-  } */
-
-  if (client.width >= breaks.sm) return <TruckDesktop />;
-  else return <TruckMobile />;
-
-  /* // Calculate where to put them
-  let left = client.width / 2 - width * (2 / 3); // DESKTOP
-  if (client.width < breaks.sm) {
-    left = client.width / 2 - width / 2; // MOBILE
-  } */
-  // Animate the div that contains both the truck and our image
+  return (
+    <motion.img
+      draggable="false"
+      className="truck"
+      style={style}
+      animate={animated.isActive ? animate : undefined}
+      transition={getExtractTransition()}
+      src={TruckImg}
+      alt="Truck"
+    />
+  );
 };
 
-const TruckDesktop: React.FC = () => {
-  return null;
-};
-
-// TODO: CHANGE THIS ALSO ADD TRUCK DESKTOP
 export const TruckMobile: React.FC = () => {
   const client = useSelector((state: GlobalState) => state.client);
   const animated = useSelector((state: GlobalState) => state.animated);
-  const containerOffset = 85;
+  const containerOffset = 85; // How much left offset is the side container
 
   //? We are not animating an exit, dont render anything :)
   if (!(animated.isActive && animated.destIndex === -1)) return null;
 
   const getAnimate = (offset = 0) => {
     return {
-      left: [`${client.width + offset}px`, `${-300 + offset}px`]
+      left: [
+        `${client.width + offset}px`,
+        `${client.width + offset}px`,
+        `${client.width + offset}px`,
+        `${client.width + offset}px`,
+        `${client.width + offset}px`,
+        `${client.width / 2 - 150 + offset}px`,
+        `${-300 + offset}px`
+      ]
     };
   };
 
+  //? We want our truck to be linear
   const transition = {
     ...getExtractTransition(),
-    ease: 'easeIn',
-    times: [5 / 7, 1]
+    ease: 'linear'
   };
 
-  //TODO!: Somehow fix the truck not working on multiple rides
-  // PERHAPS A DELAY?
   return (
     <>
       <motion.img
