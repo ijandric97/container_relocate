@@ -10,6 +10,7 @@ const HUD: React.FC = () => {
   const dispatch = useDispatch();
   const animated = useSelector((state: GlobalState) => state.animated);
   const history = useSelector((state: GlobalState) => state.history);
+  const { solution } = useSelector((state: GlobalState) => state.problem);
 
   useEffect(() => {
     // eslint-disable-next-line
@@ -19,24 +20,23 @@ const HUD: React.FC = () => {
     if (animated.isActive) return; //* Disabled when animating :)
 
     if (history.length > 0) {
-      dispatch({
-        type: ProblemTypes.Update, // Load the old problem
-        payload: history[0]
-      });
-      dispatch({
-        type: HistoryTypes.Pop, // Remove it from history
-        payload: null
-      });
+      // Load the old problem and remove it from history
+      dispatch({ type: ProblemTypes.Update, payload: history[0] });
+      dispatch({ type: HistoryTypes.Pop, payload: null });
     }
   };
 
   //TODO: perhaps this should be in Game.ts
+  // TODO: Add solution to state
+  // place it in gamepage i guess?
   const playSolution = () => {
     return null;
   };
 
-  // TODO: Another one for the solution pls
-  // TODO: Add solution to state
+  const minStyle = {
+    color: history.length > solution.moves.length ? 'red' : 'black'
+  };
+
   return (
     <>
       <div className="HUD" style={{ left: '10px' }}>
@@ -62,7 +62,7 @@ const HUD: React.FC = () => {
         </button>
       </div>
       <div className="HUD" style={{ right: '10px' }}>
-        <p>Minimum: {history.length}</p>
+        <p style={minStyle}>Minimum: {solution.moves.length}</p>
         <button type="button" className="solution" onClick={playSolution}>
           <svg
             width="1em"

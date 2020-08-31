@@ -10,8 +10,6 @@ import ProblemGrid from './ProblemGrid/ProblemGrid';
 
 import './ProblemsPage.css';
 
-// TODO: Make this work with actual data
-
 const ProblemsPage: React.FC<any> = () => {
   const problems = useSelector((state: GlobalState) => state.problems);
 

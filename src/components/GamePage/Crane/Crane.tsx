@@ -9,6 +9,7 @@ import { breaks } from '../../../util/misc';
 
 const Crane: React.FC = () => {
   const client = useSelector((state: GlobalState) => state.client);
+  const animated = useSelector((state: GlobalState) => state.animated);
 
   // Calculate where to put them
   let left = client.width / 2 - 600 * (2 / 3) - 7; // DESKTOP
@@ -17,7 +18,8 @@ const Crane: React.FC = () => {
   }
 
   const style: CSSProperties = {
-    left: `${left}px`
+    left: `${left}px`,
+    zIndex: animated.isActive ? 20 : 0
   };
 
   return <img src={BG} draggable="false" alt="Crane" className="crane" style={style} />;

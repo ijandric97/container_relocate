@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
-import { ProblemState } from '../../redux/reducers/ProblemReducer';
 import { GlobalState } from '../../redux/Store';
-import { isGameFinished, isProblemEmpty, loadProblem } from './Game';
+import { isProblemFinished, isProblemEmpty, loadProblem } from './Game';
 
 import ContainerGrid from './ContainerGrid/ContainerGrid';
 import Ground from './Ground/Ground';
@@ -22,7 +21,6 @@ const GamePage: React.FC = () => {
   const { id } = useParams<GameParam>();
   let routerHistory = useHistory();
 
-  // TODO: probably client also and shit
   const problem = useSelector((state: GlobalState) => state.problem);
   const problems = useSelector((state: GlobalState) => state.problems);
 
@@ -45,7 +43,7 @@ const GamePage: React.FC = () => {
   }, []);
 
   if (isProblemEmpty(problem)) return null; //* Problem has not loaded yet, return
-  if (isGameFinished(problem as ProblemState)) {
+  if (isProblemFinished(problem)) {
     return (
       <div className="game">
         <VictoryPopup />

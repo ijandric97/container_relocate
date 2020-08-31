@@ -13,7 +13,7 @@ import ErrorPage from './components/ErrorPage/ErrorPage';
 
 import './App.css';
 
-const App = () => {
+const App: React.FC = () => {
   const dispatch = useDispatch();
 
   // On window resize, update the dimensions in global state

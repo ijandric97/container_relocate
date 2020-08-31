@@ -1,10 +1,9 @@
 import React, { CSSProperties } from 'react';
 import { useSelector } from 'react-redux';
-import { motion, TargetAndTransition, Transition } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { breaks } from '../../../util/misc';
-import { ClientState } from '../../../redux/reducers/ClientReducer';
 import { GlobalState } from '../../../redux/Store';
-import { getExtractTransition } from '../Game';
+import { getExtractTransition, getContainerWidth } from '../Game';
 
 import TruckImg from './images/Truck.png';
 import TruckMobileImg from './images/Truck_Mobile.png';
@@ -21,17 +20,15 @@ const Truck: React.FC = () => {
 
 const TruckDesktop: React.FC = () => {
   const client = useSelector((state: GlobalState) => state.client);
-  const problem = useSelector((state: GlobalState) => state.problem);
-  const settings = useSelector((state: GlobalState) => state.settings);
-  const animated = useSelector((state: GlobalState) => state.animated);
+  const { isActive, destIndex } = useSelector((state: GlobalState) => state.animated);
 
-  const size = settings.grid_width / problem.col_size + 10;
+  const size = getContainerWidth() + 10;
 
   const style: CSSProperties = {
     width: `${size}px`,
     height: `${size}px`,
     left: `${client.width / 2 + 250}px`,
-    zIndex: 7 //TODO: Check z-indexes
+    zIndex: 7
   };
 
   const animate = {
@@ -44,7 +41,7 @@ const TruckDesktop: React.FC = () => {
       draggable="false"
       className="truck"
       style={style}
-      animate={animated.isActive ? animate : undefined}
+      animate={isActive && destIndex === -1 ? animate : undefined}
       transition={getExtractTransition()}
       src={TruckImg}
       alt="Truck"

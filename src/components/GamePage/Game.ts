@@ -11,7 +11,7 @@ import { dummy_problems } from '../../util/dummydata';
  *
  * @param problem Problem to check
  */
-export const isGameFinished = (problem: ProblemState) => {
+export const isProblemFinished = (problem: ProblemState) => {
   for (let i = 0; i < problem.data.length; i++) {
     if (problem.data[i].length > 0) {
       return false;
@@ -41,7 +41,7 @@ export const loadProblem = (problem: ProblemState) => {
 
 /** Load the problems from the database */
 export const loadProblems = () => {
-  const problems = store.getState().problems;
+  const { problems } = store.getState();
 
   if (!(Array.isArray(problems) && problems.length)) {
     // TODO: Axios that will load into the problems list
@@ -54,7 +54,7 @@ export const loadProblems = () => {
  * @param problem Problem object to check
  */
 export const nextIsOnTop = ({ data, current }: ProblemState) => {
-  const animated = store.getState().animated;
+  const { animated } = store.getState();
 
   for (let i = 0; i < data.length; i++) {
     for (let j = 0; j < data[i].length; j++) {
@@ -70,6 +70,30 @@ export const nextIsOnTop = ({ data, current }: ProblemState) => {
   }
 };
 
+/** Either remove or move the animated container element */
+export const endContainerAnimation = () => {
+  const { animated, problem } = store.getState();
+
+  // Clean the animation flag
+  store.dispatch({ type: AnimatedTypes.Stop });
+
+  if (animated.destIndex === -1) {
+    problem.data[animated.srcIndex].shift(); // Remove old
+    problem.current = problem.current + 1; // Add to counter
+  } else {
+    const el = problem.data[animated.srcIndex].shift(); // Remove old
+    problem.data[animated.destIndex].unshift(el as number); // Push in new
+  }
+
+  store.dispatch({ type: ProblemTypes.Update, payload: problem });
+};
+
+/** Add new destinations and start the animation */
+export const startContainerAnimation = (srcIndex: number, destIndex: number) => {
+  store.dispatch({ type: AnimatedTypes.Destinations, payload: [srcIndex, destIndex] });
+  store.dispatch({ type: AnimatedTypes.Start });
+};
+
 /** Get the framer-motion transition object for extraction scenario */
 export const getExtractTransition = () => {
   const { settings } = store.getState();
@@ -77,9 +101,37 @@ export const getExtractTransition = () => {
   return {
     duration: 7 * settings.animation_duration,
     ease: 'easeIn',
-    //times: [1, 1, 1, 1, 1, 1, 1],
+    repeat: Infinity
+  };
+};
+/** Get the framer-motion transition object for moving scenario */
+export const getMoveTransition = () => {
+  const { settings } = store.getState();
+
+  return {
+    duration: 6 * settings.animation_duration,
+    ease: 'easeIn',
     repeat: Infinity
   };
 };
 
-// TODO: call that will get me all the calculations?
+/** Get the width of the container */
+export const getContainerWidth = () => {
+  const { settings, problem } = store.getState();
+
+  return (settings.grid_width / problem.col_size) * 0.9;
+};
+
+/** Get the width of the space between containers */
+export const getContainerSpacer = () => {
+  const { settings, problem } = store.getState();
+
+  return (settings.grid_width / problem.col_size) * 0.1;
+};
+
+/** Get the height of the container */
+export const getContainerHeight = () => {
+  const { settings, problem } = store.getState();
+
+  return settings.grid_height / problem.row_size;
+};

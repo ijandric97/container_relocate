@@ -11,7 +11,6 @@ const initialState: ClientState = {
 };
 
 //? Action
-// TODO: Potentially we fucked up here
 export enum ClientTypes {
   Resize = 'CLIENT_RESIZE'
 }
