@@ -12,6 +12,9 @@ import {
   getMoveTransition
 } from '../Game';
 
+//TODO: possibly change colors to be more mettalic lookin, and maybe change the look
+// so its 2 ropes on the sides?
+
 const Ropes: React.FC = () => {
   const problem = useSelector((state: GlobalState) => state.problem);
   const { srcIndex, destIndex } = useSelector((state: GlobalState) => state.animated);

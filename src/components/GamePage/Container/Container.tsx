@@ -2,7 +2,6 @@ import React, { CSSProperties } from 'react';
 import { motion, PanInfo } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProblemState, ProblemTypes } from '../../../redux/reducers/ProblemReducer';
-import { HistoryTypes } from '../../../redux/reducers/HistoryReducer';
 import { GlobalState } from '../../../redux/Store';
 import {
   getExtractTransition,
@@ -73,8 +72,6 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
 
     // We are not over the limit
     if (problem.data[newIndex].length < problem.col_size && newIndex !== oldIndex) {
-      // Push old problem to the history stack
-      dispatch({ type: HistoryTypes.Push, payload: problem });
       startContainerAnimation(oldIndex, newIndex);
     } else {
       // Just reset shit up fam

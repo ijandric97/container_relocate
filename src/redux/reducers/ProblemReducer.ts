@@ -1,6 +1,8 @@
 import { ActionMap } from '../Store';
 
 //? State
+// TODO: THIS SHOULD BE IN A SEPERATE REDUCER AND OBJECT OK?
+// TODO: IT SHOULD CONTAIN A COPY OF THE INITIAL PROBLEM OK?
 export type Solution = {
   isActive: boolean;
   current: number;

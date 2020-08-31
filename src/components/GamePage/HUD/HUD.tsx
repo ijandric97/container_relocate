@@ -10,7 +10,8 @@ const HUD: React.FC = () => {
   const dispatch = useDispatch();
   const animated = useSelector((state: GlobalState) => state.animated);
   const history = useSelector((state: GlobalState) => state.history);
-  const { solution } = useSelector((state: GlobalState) => state.problem);
+  const problem = useSelector((state: GlobalState) => state.problem);
+  const { solution } = problem;
 
   useEffect(() => {
     // eslint-disable-next-line
@@ -30,7 +31,8 @@ const HUD: React.FC = () => {
   // TODO: Add solution to state
   // place it in gamepage i guess?
   const playSolution = () => {
-    return null;
+    problem.solution.isActive = !problem.solution.isActive;
+    dispatch({ type: ProblemTypes.Update, payload: problem });
   };
 
   const minStyle = {

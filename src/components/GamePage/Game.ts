@@ -49,27 +49,6 @@ export const loadProblems = () => {
   }
 };
 
-/** Check if we should extract one of the objects from the top of the stack
- *
- * @param problem Problem object to check
- */
-export const nextIsOnTop = ({ data, current }: ProblemState) => {
-  const { animated } = store.getState();
-
-  for (let i = 0; i < data.length; i++) {
-    for (let j = 0; j < data[i].length; j++) {
-      const el = data[i][0]; // Check only the first element
-
-      if (el === current && !animated.isActive) {
-        store.dispatch({ type: AnimatedTypes.Destinations, payload: [i, -1] });
-        store.dispatch({ type: AnimatedTypes.Start, payload: null });
-      }
-
-      break; // Break because we only need the first iteration ¯\_(ツ)_/¯
-    }
-  }
-};
-
 /** Either remove or move the animated container element */
 export const endContainerAnimation = () => {
   const { animated, problem } = store.getState();
@@ -81,6 +60,7 @@ export const endContainerAnimation = () => {
     problem.data[animated.srcIndex].shift(); // Remove old
     problem.current = problem.current + 1; // Add to counter
   } else {
+    store.dispatch({ type: HistoryTypes.Push, payload: problem }); // Add old one to history
     const el = problem.data[animated.srcIndex].shift(); // Remove old
     problem.data[animated.destIndex].unshift(el as number); // Push in new
   }
@@ -134,4 +114,41 @@ export const getContainerHeight = () => {
   const { settings, problem } = store.getState();
 
   return settings.grid_height / problem.row_size;
+};
+
+/** Check if we should extract one of the objects from the top of the stack
+ *
+ * @param problem Problem object to check
+ */
+export const nextIsOnTop = ({ data, current }: ProblemState) => {
+  const { animated } = store.getState();
+
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data[i].length; j++) {
+      const el = data[i][0]; // Check only the first element
+
+      if (el === current && !animated.isActive) {
+        startContainerAnimation(i, -1);
+      }
+
+      break; // Break because we only need the first iteration ¯\_(ツ)_/¯
+    }
+  }
+};
+
+export const doSolutionStep = () => {
+  const { problem, animated } = store.getState();
+  const { solution } = problem;
+
+  if (solution.isActive && !animated.isActive) {
+    if (solution.current > solution.moves.length) {
+      solution.isActive = false; //* We need to know when to stop :)
+    } else {
+      const move = solution.moves[solution.current - 1];
+      startContainerAnimation(move[0], move[1]);
+      solution.current++;
+    }
+
+    store.dispatch({ type: ProblemTypes.Update, payload: problem });
+  }
 };

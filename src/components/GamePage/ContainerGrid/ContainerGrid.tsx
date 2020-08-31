@@ -2,7 +2,7 @@ import React, { CSSProperties, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../../../redux/Store';
 import { ProblemState } from '../../../redux/reducers/ProblemReducer';
-import { nextIsOnTop, getContainerHeight, getContainerWidth, getContainerSpacer } from '../Game';
+import { nextIsOnTop, getContainerHeight, getContainerWidth, getContainerSpacer, doSolutionStep } from '../Game';
 import { breaks } from '../../../util/misc';
 import { Container, ContainerDrag, ContainerAnimated } from '../Container/Container';
 
@@ -22,6 +22,7 @@ const ContainerGrid: React.FC = () => {
   // CHECK IF WE SHOULD REMOVE THE TOPMOST CONTAINER;
   useEffect(() => {
     nextIsOnTop(problem);
+    doSolutionStep();
     // eslint-disable-next-line
   });
 
