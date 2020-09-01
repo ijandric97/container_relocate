@@ -1,0 +1,15 @@
+.container {
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  filter: brightness(1) saturate(2);
+  z-index: 10;
+}
+
+.container p {
+  color: white;
+  font-family: Impact;
+  font-size: 300%;
+}

@@ -1,0 +1,81 @@
+.navbar {
+  background: linear-gradient(to bottom, #262626, black);
+  color: white;
+  height: 40px;
+  line-height: 40px;
+  /*! HACK: This is to fix framer-motion bug, where it renders a
+  component on the DOM before animnating it, but in it's initial state
+  it should be hidden at position: top=-60px*/
+  opacity: 0;
+}
+
+.navbar .logo {
+  padding: 4px 0px;
+  margin-left: 8px;
+  float: left;
+}
+
+.navbar .title {
+  color: white;
+  float: left;
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+.navbar .menu {
+  float: right;
+  margin-right: 4px;
+}
+
+.navbar .menu.mobile {
+  display: block;
+  float: none;
+  margin-top: 40px;
+  text-align: center;
+  width: 100%;
+  height: calc(100% - 40px);
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  z-index: 100;
+  opacity: 0; /* FRAMER */
+}
+
+.navbar .link {
+  clear: right;
+  text-decoration: none;
+  color: grey;
+  margin: 0 10px;
+}
+
+.navbar .link.color {
+  color: darkcyan;
+}
+
+.navbar .link.mobile {
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid darkslategrey;
+  display: block;
+  font-size: 32px;
+  line-height: 80px;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+.navbar .link:hover {
+  filter: brightness(2);
+}
+
+.navbar .hamburger {
+  display: block;
+  cursor: pointer;
+  float: right;
+  font-size: 30px;
+  margin-right: 8px;
+  width: 28px;
+}
+
+.navbar .border {
+  border-top: 1px solid darkslategrey;
+}

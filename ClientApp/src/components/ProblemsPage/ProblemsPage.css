@@ -1,0 +1,35 @@
+.problems {
+  height: calc(100% - 50px);
+  opacity: 0; /*! Framer bug */
+  padding: 10px;
+}
+
+.problems .selector {
+  background: linear-gradient(to bottom, #262626, black);
+  border: 4px solid #262626;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.problems .selector .label {
+  margin: 0px 10px;
+}
+
+.problems .flex a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.problems .flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.problems .flex .item {
+  margin: 10px;
+}

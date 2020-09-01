@@ -1,0 +1,45 @@
+.HUD {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.75);
+  top: 10px;
+  border-radius: 25px;
+  z-index: 50;
+}
+
+.HUD p {
+  padding: 0 15px;
+  color: black;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.HUD button {
+  background-color: black;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  color: white;
+  padding: 10px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 5px 4px -5px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.HUD .history {
+  background-color: #dc3545;
+}
+
+.HUD .solution {
+  background-color: #17a2b8;
+}
+
+.HUD svg {
+  vertical-align: middle;
+}
+
+.HUD button:disabled {
+  background-color: gray;
+  border: 2px solid darkgrey;
+}
