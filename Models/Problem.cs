@@ -13,5 +13,9 @@ namespace container_relocate.Models
         public int row_size { get; set; }
         [Required]
         public int[][] data { get; set; }
+        /* [Required]
+        public int[][] original { get; set; } */
+        [Required]
+        public int[][] solution { get; set; }
     }
 }

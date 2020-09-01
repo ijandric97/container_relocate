@@ -59,9 +59,9 @@ const Ropes: React.FC = () => {
     const le = (spacer / 2) * (destIndex + 1) + (width + spacer / 2) * destIndex + width / 2 - 5;
 
     animate = {
-      bottom: [bTop, bSrcCont, bMid, bMid, bDestCont, bTop],
-      height: [hTop, hSrcCont, hMid, hMid, bTop - bDestCont, hTop],
-      left: [ls, ls, ls, le, le, le]
+      bottom: [bTop, bSrcCont, bMid, bMid, bDestCont, bTop, bTop],
+      height: [hTop, hSrcCont, hMid, hMid, bTop - bDestCont, hTop, hTop],
+      left: [ls, ls, ls, le, le, le, le]
     };
     transition = getMoveTransition();
   }

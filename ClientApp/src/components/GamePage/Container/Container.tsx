@@ -123,8 +123,8 @@ export const ContainerAnimated: React.FC<ContainerProps> = (props) => {
     const destL = (spacer / 2) * (destIndex + 1) + (width + spacer / 2) * destIndex;
 
     animate = {
-      bottom: [bottom, bottom, 360, 360, destB, destB],
-      left: [left, left, left, destL, destL, destL]
+      bottom: [bottom, bottom, 360, 360, destB, destB, destB],
+      left: [left, left, left, destL, destL, destL, destL]
     };
     transition = getMoveTransition();
   }

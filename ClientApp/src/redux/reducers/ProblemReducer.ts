@@ -1,28 +1,32 @@
 import { ActionMap } from '../Store';
 
 //? State
-// TODO: THIS SHOULD BE IN A SEPERATE REDUCER AND OBJECT OK?
-// TODO: IT SHOULD CONTAIN A COPY OF THE INITIAL PROBLEM OK?
 export type Solution = {
   isActive: boolean;
   current: number;
   moves: [number, number][]; // Tuple array
 };
 export type ProblemState = {
+  id: number;
   col_size: number;
   row_size: number;
   current: number;
   data: number[][];
+  original: number[][];
   solution: Solution;
 };
 const initialState: ProblemState | {} = {};
 
 //? Action
 export enum ProblemTypes {
-  Update = 'PROBLEM_UPDATE'
+  Update = 'PROBLEM_UPDATE',
+  Reset = 'PROBLEM_RESET',
+  Solution = 'PROBLEM_SOLUTION'
 }
 type ProblemPayload = {
   [ProblemTypes.Update]: ProblemState;
+  [ProblemTypes.Reset]: any;
+  [ProblemTypes.Solution]: Solution;
 };
 export type ProblemActions = ActionMap<ProblemPayload>[keyof ActionMap<ProblemPayload>];
 
@@ -36,6 +40,11 @@ export const problemReducer = (state: ProblemState | {} = initialState, action: 
         console.log(error);
         return state;
       }
+    case ProblemTypes.Reset:
+      const myState = state as ProblemState;
+      return { ...state, current: 1, data: JSON.parse(JSON.stringify(myState.original)) };
+    case ProblemTypes.Solution:
+      return { ...state, solution: action.payload };
     default:
       return state;
   }

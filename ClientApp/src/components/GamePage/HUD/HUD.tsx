@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, CSSProperties } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import './HUD.css';
 import { HistoryTypes } from '../../../redux/reducers/HistoryReducer';
 import { ProblemTypes } from '../../../redux/reducers/ProblemReducer';
 import { GlobalState } from '../../../redux/Store';
+import { playSolution } from '../Game';
+
+import './HUD.css';
 
 const HUD: React.FC = () => {
+  const [popup, setPopup] = useState(false);
+
   const dispatch = useDispatch();
+  const client = useSelector((state: GlobalState) => state.client);
   const animated = useSelector((state: GlobalState) => state.animated);
   const history = useSelector((state: GlobalState) => state.history);
   const problem = useSelector((state: GlobalState) => state.problem);
@@ -27,23 +32,80 @@ const HUD: React.FC = () => {
     }
   };
 
-  //TODO: perhaps this should be in Game.ts
-  // TODO: Add solution to state
-  // place it in gamepage i guess?
-  const playSolution = () => {
-    problem.solution.isActive = !problem.solution.isActive;
-    dispatch({ type: ProblemTypes.Update, payload: problem });
-  };
-
   const minStyle = {
     color: history.length > solution.moves.length ? 'red' : 'black'
   };
+
+  const popupStyle: CSSProperties = {
+    left: `${client.width / 2 - 157}px`,
+    top: `${client.height / 2 - 302}px`
+  };
+
+  const blockStyle: CSSProperties = {
+    width: `${client.width}px`,
+    height: `${client.height}px`
+  };
+
+  const startSolution = () => {
+    setPopup(false);
+    playSolution();
+  };
+
+  const renderPopup = () => {
+    return (
+      <div className="blocker" style={blockStyle}>
+        <div className="popup" style={popupStyle}>
+          <p>This will reset all your changes and start playing unstoppable solution animation!</p>
+          <p>Are you sure you want to proceed?</p>
+          <button type="button" onClick={() => startSolution()} className="confirm">
+            {'YES '}
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              className="bi bi-check-circle-fill"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+              />
+            </svg>
+          </button>
+          <button type="button" onClick={() => setPopup(false)} className="cancel">
+            {'NO '}
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              className="bi bi-x-circle-fill"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  if (popup) return renderPopup();
 
   return (
     <>
       <div className="HUD" style={{ left: '10px' }}>
         <p>Moves: {history.length}</p>
-        <button type="button" onClick={historyUndo} className="history" disabled={history.length <= 0}>
+        <button
+          type="button"
+          onClick={historyUndo}
+          className="history"
+          disabled={history.length <= 0 || animated.isActive}
+        >
           <svg
             width="1em"
             height="1em"
@@ -65,22 +127,16 @@ const HUD: React.FC = () => {
       </div>
       <div className="HUD" style={{ right: '10px' }}>
         <p style={minStyle}>Minimum: {solution.moves.length}</p>
-        <button type="button" className="solution" onClick={playSolution}>
+        <button type="button" onClick={() => setPopup(!popup)} className="solution" disabled={animated.isActive}>
           <svg
             width="1em"
             height="1em"
             viewBox="0 0 16 16"
-            className="bi bi-trophy"
+            className="bi bi-play-fill"
             fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path d="M3 1h10c-.495 3.467-.5 10-5 10S3.495 4.467 3 1zm0 15a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1H3zm2-1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1H5z" />
-            <path
-              fillRule="evenodd"
-              d="M12.5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-6-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0z"
-            />
-            <path d="M7 10h2v4H7v-4z" />
-            <path d="M10 11c0 .552-.895 1-2 1s-2-.448-2-1 .895-1 2-1 2 .448 2 1z" />
+            <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
           </svg>
         </button>
       </div>

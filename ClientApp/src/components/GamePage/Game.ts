@@ -5,8 +5,6 @@ import { HistoryTypes } from '../../redux/reducers/HistoryReducer';
 import { ProblemState, ProblemTypes } from '../../redux/reducers/ProblemReducer';
 import { ProblemsTypes } from '../../redux/reducers/ProblemsReducer';
 
-import { dummy_problems } from '../../util/dummydata';
-
 /** Check if the given problem is completed (empty)
  *
  * @param problem Problem to check
@@ -40,12 +38,30 @@ export const loadProblem = (problem: ProblemState) => {
 };
 
 /** Load the problems from the database */
-export const loadProblems = () => {
+export const loadProblems = async () => {
   const { problems } = store.getState();
 
   if (!(Array.isArray(problems) && problems.length)) {
-    // TODO: Axios that will load into the problems list
-    store.dispatch({ type: ProblemsTypes.Update, payload: dummy_problems });
+    // Fetch the problems from backend
+    try {
+      const response = await fetch('api/problem');
+      const data = await response.json();
+
+      // We need to add some data not returned by backend
+      data.forEach((element: any) => {
+        element.current = 1;
+        element.original = JSON.parse(JSON.stringify(element.data));
+        element.solution = {
+          isActive: false,
+          current: 1,
+          moves: element.solution
+        };
+      });
+
+      store.dispatch({ type: ProblemsTypes.Update, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
@@ -89,7 +105,7 @@ export const getMoveTransition = () => {
   const { settings } = store.getState();
 
   return {
-    duration: 6 * settings.animation_duration,
+    duration: 7 * settings.animation_duration,
     ease: 'easeIn',
     repeat: Infinity
   };
@@ -136,6 +152,22 @@ export const nextIsOnTop = ({ data, current }: ProblemState) => {
   }
 };
 
+export const playSolution = () => {
+  const { problem } = store.getState();
+  const { solution } = problem;
+
+  store.dispatch({ type: AnimatedTypes.Stop });
+
+  solution.isActive = !solution.isActive;
+  if (solution.isActive) {
+    store.dispatch({ type: HistoryTypes.Clear });
+    store.dispatch({ type: AnimatedTypes.Stop });
+    store.dispatch({ type: ProblemTypes.Reset });
+  }
+
+  store.dispatch({ type: ProblemTypes.Solution, payload: solution });
+};
+
 export const doSolutionStep = () => {
   const { problem, animated } = store.getState();
   const { solution } = problem;
@@ -149,6 +181,7 @@ export const doSolutionStep = () => {
       solution.current++;
     }
 
-    store.dispatch({ type: ProblemTypes.Update, payload: problem });
+    // Step thru the solution
+    store.dispatch({ type: ProblemTypes.Solution, payload: solution });
   }
 };
