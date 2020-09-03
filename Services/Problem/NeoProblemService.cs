@@ -50,13 +50,61 @@ namespace container_relocate.Services
             }
             finally
             {
-                if (session != null)
-                {
-                    await session.CloseAsync();
-                }
+                if (session != null) await session.CloseAsync();
             }
 
             return values.ToArray();
+        }
+
+        public async Task<Statistic> GetStatistic()
+        {
+            var value = new Statistic();
+            var session = _driver.AsyncSession();
+            try
+            {
+                var ret = await session.ReadTransactionAsync(async tx =>
+                {
+                    var cursor = await tx.RunAsync(
+                        @"MATCH (n:Problem)
+                        MATCH (s:Statistic {id:0})
+                        RETURN count(n) AS problem_count, max(s.solved) AS solved_count"
+                    );
+                    return await cursor.ToListAsync();
+                });
+                foreach (IRecord record in ret)
+                {
+                    value = JsonConvert.DeserializeObject<Statistic>(JsonConvert.SerializeObject(record.Values));
+                }
+
+            }
+            finally
+            {
+                if (session != null) await session.CloseAsync();
+            }
+
+            return value;
+        }
+
+        public async Task IncreaseSolved()
+        {
+            var session = _driver.AsyncSession();
+            try
+            {
+                var ret = await session.WriteTransactionAsync(async tx =>
+                {
+                    var cursor = await tx.RunAsync(
+                        @"MATCH (s:Statistic {id:0})
+                        SET s.solved = s.solved + 1
+                        RETURN s.solved"
+                    );
+                    return await cursor.ToListAsync();
+                });
+
+            }
+            finally
+            {
+                if (session != null) await session.CloseAsync();
+            }
         }
     }
 }

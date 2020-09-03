@@ -21,11 +21,26 @@ namespace container_relocate.Controllers
 
         // GET api/problem
         [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<Problem>>> Getstrings()
+        public async Task<ActionResult<IEnumerable<Problem>>> GetProblems()
         {
             var items = await this._problemService.ListProblems();
 
             return Ok(items.ToArray());
+        }
+
+        [HttpGet("statistic")]
+        public async Task<ActionResult<IEnumerable<Statistic>>> GetStatistic()
+        {
+            var item = await this._problemService.GetStatistic();
+
+            return Ok(item);
+        }
+
+        [HttpPost("statistic")]
+        public async Task<ActionResult> IncreaseSolved()
+        {
+            await this._problemService.IncreaseSolved();
+            return Ok("Solved increased");
         }
 
     }

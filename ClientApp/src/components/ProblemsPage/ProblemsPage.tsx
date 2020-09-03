@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { GlobalState } from '../../redux/Store';
 import { loadProblems } from '../GamePage/Game';
+import { strings } from '../../util/language';
 
 import Dropdown from './Dropdown/Dropdown';
 import ProblemGrid from './ProblemGrid/ProblemGrid';
@@ -12,6 +13,7 @@ import './ProblemsPage.css';
 
 const ProblemsPage: React.FC<any> = () => {
   const problems = useSelector((state: GlobalState) => state.problems);
+  const { language } = useSelector((state: GlobalState) => state.settings);
 
   const [size, setSize] = useState(3);
 
@@ -30,7 +32,7 @@ const ProblemsPage: React.FC<any> = () => {
   return (
     <motion.div animate={{ opacity: 1 }} transition={{ duration: 1 }} className="problems">
       <div className="selector">
-        <label className="label">Size:</label>
+        <label className="label">{strings[language].problemspage.size}</label>
         <Dropdown placeholder={'3x3'} value={value} onChange={(v) => sizeChanged(v)} options={['3x3', '4x4']} />
       </div>
       <div className="flex">

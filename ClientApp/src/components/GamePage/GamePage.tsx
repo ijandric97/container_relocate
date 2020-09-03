@@ -43,7 +43,7 @@ const GamePage: React.FC = () => {
   }, []);
 
   if (isProblemEmpty(problem)) return null; //* Problem has not loaded yet, return
-  if (isProblemFinished(problem)) {
+  if (isProblemFinished()) {
     return (
       <div className="game">
         <VictoryPopup />

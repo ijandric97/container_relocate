@@ -2,17 +2,21 @@
 // Run it only once. ;)
 // Have you run it twice? Use `MATCH (n) WHERE (n:Problem OR n:Data) DETACH DELETE n` to start over.
 
+//Create statistic
+CREATE (n:Statistic { id: 0, solved: 1 })
+
+// CReate problems
 CREATE (p0:Problem { id: 0, row_size: 3, col_size: 3 })
 // Column nodes
-CREATE (d00:Data { data: [1, 7, 3]})
-CREATE (d01:Data { data: [5, 6, 2]})
-CREATE (d02:Data { data: [4]})
+CREATE (d00:Data { data: [1, 7, 3] })
+CREATE (d01:Data { data: [5, 6, 2] })
+CREATE (d02:Data { data: [4] })
 // Solution nodes
-CREATE (s00:Data { data: [1, 2]})
-CREATE (s01:Data { data: [1, 2]})
-CREATE (s02:Data { data: [0, 1]})
-CREATE (s03:Data { data: [2, 1]})
-CREATE (s04:Data { data: [2, 1]})
+CREATE (s00:Data { data: [1, 2] })
+CREATE (s01:Data { data: [1, 2] })
+CREATE (s02:Data { data: [0, 1] })
+CREATE (s03:Data { data: [2, 1] })
+CREATE (s04:Data { data: [2, 1] })
 CREATE
     // Column relationships
     (p0)-[:COLUMN { sort: 0 }]->(d00),
@@ -27,14 +31,14 @@ CREATE
 
 CREATE (p1:Problem { id: 1, row_size: 3, col_size: 3})
 // Column nodes
-CREATE (d10:Data { data: [3, 4]})
-CREATE (d11:Data { data: [6, 5]})
-CREATE (d12:Data { data: [7, 2, 1]})
+CREATE (d10:Data { data: [3, 4] })
+CREATE (d11:Data { data: [6, 5] })
+CREATE (d12:Data { data: [7, 2, 1] })
 // Solution nodes
-CREATE (s10:Data { data: [2, 1]})
-CREATE (s11:Data { data: [2, 0]})
-CREATE (s12:Data { data: [1, 0]})
-CREATE (s13:Data { data: [1, 0]})
+CREATE (s10:Data { data: [2, 1] })
+CREATE (s11:Data { data: [2, 0] })
+CREATE (s12:Data { data: [1, 0] })
+CREATE (s13:Data { data: [1, 0] })
 CREATE
     // Column relationships
     (p1)-[:COLUMN { sort: 0 }]->(d10),
@@ -48,19 +52,19 @@ CREATE
 
 CREATE (p2:Problem { id: 2, row_size: 4, col_size: 4})
 //Column nodes
-CREATE (d20:Data { data: [11, 6, 1, 7]})
-CREATE (d21:Data { data: [2, 4, 10, 12]})
-CREATE (d22:Data { data: [9, 8, 5]})
-CREATE (d23:Data { data: [13, 3]})
+CREATE (d20:Data { data: [11, 6, 1, 7] })
+CREATE (d21:Data { data: [2, 4, 10, 12] })
+CREATE (d22:Data { data: [9, 8, 5] })
+CREATE (d23:Data { data: [13, 3] })
 // Solution nodes
-CREATE (s20:Data { data: [0, 2]})
-CREATE (s21:Data { data: [0, 3]})
-CREATE (s22:Data { data: [3, 0]})
-CREATE (s23:Data { data: [3, 0]})
-CREATE (s24:Data { data: [0, 3]})
-CREATE (s25:Data { data: [2, 3]})
-CREATE (s26:Data { data: [2, 3]})
-CREATE (s27:Data { data: [2, 3]})
+CREATE (s20:Data { data: [0, 2] })
+CREATE (s21:Data { data: [0, 3] })
+CREATE (s22:Data { data: [3, 0] })
+CREATE (s23:Data { data: [3, 0] })
+CREATE (s24:Data { data: [0, 3] })
+CREATE (s25:Data { data: [2, 3] })
+CREATE (s26:Data { data: [2, 3] })
+CREATE (s27:Data { data: [2, 3] })
 CREATE
     // Column relationships
     (p2)-[:COLUMN { sort: 0 }]->(d20),

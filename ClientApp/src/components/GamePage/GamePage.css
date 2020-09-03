@@ -6,4 +6,5 @@
   position: relative;
   overflow: hidden; /*? Objects rendering outside the game wont spawn scrollbars*/
   opacity: 1; /*! Framer bug */
+  user-select: none; /*? Prevent bug where we can drag images */
 }

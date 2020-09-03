@@ -2,6 +2,7 @@ import React, { CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../../../redux/Store';
+import { strings } from '../../../util/language';
 
 import Trophy from './images/Trophy.png';
 
@@ -10,6 +11,7 @@ import './VictoryPopup.css';
 const VictoryPopup: React.FC = () => {
   const moveCount = useSelector((state: GlobalState) => state.history.length);
   const client = useSelector((state: GlobalState) => state.client);
+  const { language } = useSelector((state: GlobalState) => state.settings);
 
   const popupStyle: CSSProperties = {
     left: `${client.width / 2 - 157}px`,
@@ -32,8 +34,19 @@ const VictoryPopup: React.FC = () => {
   return (
     <>
       <div className="popup" style={popupStyle}>
-        <motion.img src={Trophy} alt="Trophy" className="trophy" animate={animate} transition={transition} />
-        <p>You finished the problem in {moveCount} moves!</p>
+        <motion.img
+          draggable="false"
+          src={Trophy}
+          alt="Trophy"
+          className="trophy"
+          animate={animate}
+          transition={transition}
+        />
+        <p>
+          {strings[language].gamepage.victory[0]}
+          <b>{moveCount}</b>
+          {strings[language].gamepage.victory[1]}
+        </p>
       </div>
     </>
   );

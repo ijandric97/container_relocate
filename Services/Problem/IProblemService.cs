@@ -8,5 +8,8 @@ namespace container_relocate.Services
     public interface IProblemService
     {
         Task<Problem[]> ListProblems();
+        Task<Statistic> GetStatistic();
+
+        Task IncreaseSolved();
     }
 }

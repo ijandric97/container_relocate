@@ -5,16 +5,24 @@ import { HistoryTypes } from '../../redux/reducers/HistoryReducer';
 import { ProblemState, ProblemTypes } from '../../redux/reducers/ProblemReducer';
 import { ProblemsTypes } from '../../redux/reducers/ProblemsReducer';
 
+let ProblemFinished = false;
+
 /** Check if the given problem is completed (empty)
  *
  * @param problem Problem to check
  */
-export const isProblemFinished = (problem: ProblemState) => {
+export const isProblemFinished = () => {
+  const { problem } = store.getState();
+
+  if (ProblemFinished) return true;
+
   for (let i = 0; i < problem.data.length; i++) {
     if (problem.data[i].length > 0) {
       return false;
     }
   }
+
+  updateSolvedCount();
   return true;
 };
 
@@ -32,6 +40,7 @@ export const isProblemEmpty = (obj: ProblemState | Object) => {
  */
 export const loadProblem = (problem: ProblemState) => {
   // Clean history, stop animation, load the new problem
+  ProblemFinished = false;
   store.dispatch({ type: HistoryTypes.Clear, payload: null });
   store.dispatch({ type: AnimatedTypes.Stop, payload: null });
   store.dispatch({ type: ProblemTypes.Update, payload: problem });
@@ -44,11 +53,12 @@ export const loadProblems = async () => {
   if (!(Array.isArray(problems) && problems.length)) {
     // Fetch the problems from backend
     try {
-      const response = await fetch('api/problem');
+      const response = await fetch(window.location.origin + '/api/problem');
       const data = await response.json();
 
       // We need to add some data not returned by backend
       data.forEach((element: any) => {
+        element.finished = false;
         element.current = 1;
         element.original = JSON.parse(JSON.stringify(element.data));
         element.solution = {
@@ -63,6 +73,12 @@ export const loadProblems = async () => {
       console.log(error);
     }
   }
+};
+
+/** Add new destinations and start the animation */
+export const startContainerAnimation = (srcIndex: number, destIndex: number) => {
+  store.dispatch({ type: AnimatedTypes.Destinations, payload: [srcIndex, destIndex] });
+  store.dispatch({ type: AnimatedTypes.Start });
 };
 
 /** Either remove or move the animated container element */
@@ -84,18 +100,12 @@ export const endContainerAnimation = () => {
   store.dispatch({ type: ProblemTypes.Update, payload: problem });
 };
 
-/** Add new destinations and start the animation */
-export const startContainerAnimation = (srcIndex: number, destIndex: number) => {
-  store.dispatch({ type: AnimatedTypes.Destinations, payload: [srcIndex, destIndex] });
-  store.dispatch({ type: AnimatedTypes.Start });
-};
-
 /** Get the framer-motion transition object for extraction scenario */
 export const getExtractTransition = () => {
   const { settings } = store.getState();
 
   return {
-    duration: 7 * settings.animation_duration,
+    duration: 8 * settings.animation_duration,
     ease: 'easeIn',
     repeat: Infinity
   };
@@ -183,5 +193,22 @@ export const doSolutionStep = () => {
 
     // Step thru the solution
     store.dispatch({ type: ProblemTypes.Solution, payload: solution });
+  }
+};
+
+export const updateSolvedCount = async () => {
+  try {
+    if (!ProblemFinished) {
+      ProblemFinished = true;
+      await fetch(window.location.origin + '/api/problem/statistic', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
