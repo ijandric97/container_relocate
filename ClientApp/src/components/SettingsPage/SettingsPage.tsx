@@ -29,18 +29,6 @@ const SettingsPage: React.FC = () => {
 
   return (
     <motion.div animate={{ opacity: 1 }} transition={{ duration: 1 }} className="settings">
-      <h1>{strings[language].settingspage.language}</h1>
-      <div className="flex">
-        <div className={`item ${language !== 'hr' ? 'active' : ''}`} onClick={() => flagClicked('hr')}>
-          <img src={CroatianFlag} alt={strings[language].settingspage.alt[0]} />
-        </div>
-        <div className={`item ${language !== 'en' ? 'active' : ''}`} onClick={() => flagClicked('en')}>
-          <img src={BritishFlag} alt={strings[language].settingspage.alt[1]} />
-        </div>
-        <div className={`item ${language !== 'de' ? 'active' : ''}`} onClick={() => flagClicked('de')}>
-          <img src={GermanFlag} alt={strings[language].settingspage.alt[2]} />
-        </div>
-      </div>
       <h1>{strings[language].settingspage.speed[0]}</h1>
       <p>{strings[language].settingspage.speed[1] + (1 / animation_duration).toFixed(1)}x</p>
       <div className="animation">
@@ -55,6 +43,18 @@ const SettingsPage: React.FC = () => {
           onChange={sliderChange}
         />
         <p>{strings[language].settingspage.slider[1]}</p>
+      </div>
+      <h1>{strings[language].settingspage.language}</h1>
+      <div className="flex">
+        <div className={`item ${language !== 'hr' ? 'active' : ''}`} onClick={() => flagClicked('hr')}>
+          <img src={CroatianFlag} alt={strings[language].settingspage.alt[0]} />
+        </div>
+        <div className={`item ${language !== 'en' ? 'active' : ''}`} onClick={() => flagClicked('en')}>
+          <img src={BritishFlag} alt={strings[language].settingspage.alt[1]} />
+        </div>
+        <div className={`item ${language !== 'de' ? 'active' : ''}`} onClick={() => flagClicked('de')}>
+          <img src={GermanFlag} alt={strings[language].settingspage.alt[2]} />
+        </div>
       </div>
     </motion.div>
   );

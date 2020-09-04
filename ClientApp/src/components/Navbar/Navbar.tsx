@@ -53,7 +53,7 @@ const Navbar: React.FC<any> = () => {
 
   const renderMobileMenu = () => {
     return (
-      <motion.div animate={{ opacity: 1 }} transition={{ duration: 1 }} className="menu mobile">
+      <motion.div animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="menu mobile">
         <div className="border">{renderMenu(true)}</div>
       </motion.div>
     );

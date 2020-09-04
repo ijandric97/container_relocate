@@ -7,6 +7,7 @@ import { playSolution } from '../Game';
 import { strings } from '../../../util/language';
 
 import './HUD.css';
+import { motion } from 'framer-motion';
 
 const HUD: React.FC = () => {
   const [popup, setPopup] = useState(false);
@@ -55,7 +56,7 @@ const HUD: React.FC = () => {
 
   const renderPopup = () => {
     return (
-      <div className="blocker" style={blockStyle}>
+      <motion.div className="blocker" style={blockStyle} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         <div className="popup" style={popupStyle}>
           <p>{strings[language].gamepage.question[0]}</p>
           <p>{strings[language].gamepage.question[1]}</p>
@@ -92,7 +93,7 @@ const HUD: React.FC = () => {
             </svg>
           </button>
         </div>
-      </div>
+      </motion.div>
     );
   };
 

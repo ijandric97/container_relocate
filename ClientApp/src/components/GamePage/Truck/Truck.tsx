@@ -31,6 +31,10 @@ const TruckDesktop: React.FC = () => {
     zIndex: 7
   };
 
+  if (!(isActive && destIndex === -1)) {
+    return <img draggable="false" className="truck" style={style} src={TruckImg} alt="Truck" />;
+  }
+
   const animate = {
     bottom: [60, 60, 60, 60, 60, 60 - size / 2, 60],
     scale: [1, 1, 1, 1, 1, 0, 1]
@@ -41,7 +45,7 @@ const TruckDesktop: React.FC = () => {
       draggable="false"
       className="truck"
       style={style}
-      animate={isActive && destIndex === -1 ? animate : undefined}
+      animate={animate}
       transition={getExtractTransition()}
       src={TruckImg}
       alt="Truck"

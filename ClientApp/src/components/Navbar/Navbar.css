@@ -20,6 +20,11 @@
   float: left;
   margin: 0 8px;
   text-decoration: none;
+  transition: all 0.5s;
+}
+
+.navbar .title:hover {
+  filter: brightness(2);
 }
 
 .navbar .menu {
@@ -46,6 +51,11 @@
   text-decoration: none;
   color: grey;
   margin: 0 10px;
+  transition: all 0.5s;
+}
+
+.navbar .link:hover {
+  filter: brightness(2);
 }
 
 .navbar .link.color {
@@ -61,10 +71,6 @@
   margin: 0;
   padding: 0;
   user-select: none;
-}
-
-.navbar .link:hover {
-  filter: brightness(2);
 }
 
 .navbar .hamburger {

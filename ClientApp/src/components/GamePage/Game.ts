@@ -41,8 +41,8 @@ export const isProblemEmpty = (obj: ProblemState | Object) => {
 export const loadProblem = (problem: ProblemState) => {
   // Clean history, stop animation, load the new problem
   ProblemFinished = false;
-  store.dispatch({ type: HistoryTypes.Clear, payload: null });
-  store.dispatch({ type: AnimatedTypes.Stop, payload: null });
+  store.dispatch({ type: HistoryTypes.Clear });
+  store.dispatch({ type: AnimatedTypes.Stop });
   store.dispatch({ type: ProblemTypes.Update, payload: problem });
 };
 
