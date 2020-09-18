@@ -97,45 +97,45 @@ export const strings: LangStringList = {
   },
   de: {
     navbar: {
-      problems: 'Problemi',
-      settings: 'Postavke',
-      game: 'Igra'
+      problems: 'Probleme',
+      settings: 'Einstellungen',
+      game: 'Spiel'
     },
     errorpage: {
-      title: 'Stranica nije pronađena',
-      main: 'Nismo mogli pronaći stranicu koju ste tražili :(',
-      quokka: ['Ali smo pronašli ', 'šarenu', ' KRALJEVSKU Quokku da vam podigne raspoloženje']
+      title: 'Die Seite wurde nicht gefunden',
+      main: 'Wir könnten diese Seite nicht finden ☹',
+      quokka: [' Aber wir haben', 'bunte', 'KÖNIGLICHE Quokka gefunden um ihre Stimmung zu heben']
     },
     problemspage: {
-      size: 'Veličina:',
+      size: 'Größe',
       problem: 'Problem'
     },
     gamepage: {
-      moves: 'Potezi',
-      minimum: 'Minimalno',
-      yes: 'DA ',
-      no: 'NE ',
+      moves: 'Züge',
+      minimum: 'Minimal',
+      yes: 'JA',
+      no: 'NEIN',
       question: [
-        'Ovo će resetirati vaš napredak i pokrenuti nezaustavljivu animaciju rješenja!',
-        'Jeste li sigurni da želite nastaviti?'
+        'Das wird Ihren Fortschritt zurücksetzen und eine unaufhaltsame Animationslösung zeigen!',
+        'Sind Sie sicher, dass Sie fortfahren möchten?'
       ],
-      victory: ['Riješili ste problem u ', ' poteza!']
+      victory: ['Sie haben das Problem in ', ' Zügen gelöst!']
     },
     settingspage: {
-      language: 'Jezik',
-      speed: ['Brzina animacije', 'Brzina '],
-      slider: ['Sporo ', ' Brzo'],
-      alt: ['Hrvatska zastava', 'Britanska zastava', 'Njemačka zastava']
+      language: 'Sprache',
+      speed: ['Geschwindigkeit der Animation', 'Geschwindigkeit '],
+      slider: ['Langsam', 'Schnell'],
+      alt: ['Kroatische Flagge', 'Flagge des Vereinigten Königreichs', 'Deutsche Flagge']
     },
     homepage: {
-      title: 'Dobro došli u Container Relocate!',
+      title: 'Wilkommen zu Container Relocate!',
       what: [
-        'Što je Container Relocate?',
-        'Container relocate je obrazovna igra koja služi za učenje algoritma optimalnog premještanja kontejnera pomoću pokretne dizalice.',
-        'Trenutno je dostupno ',
-        ' problema s rješenjima. ',
-        ' problema su riješili korisnici aplikacije.',
-        'Aplikacija je razvijena kao završni rad na Tehničkom Fakultetu Sveučilišta u Rijeci'
+        'Was ist Container Relocate?',
+        'Container Relocate ist ein Lernspiel, mit dem der Algorithmus für die optimale Bewegung von Containern mithilfe eines Mobilkrans erlernt wird.',
+        'Derzeit verfügbar ',
+        ' Probleme mit Lösungen. ',
+        ' Probleme wurden von den Benutzern der App gelöst.',
+        'Diese App wurde als Abschlussarbeit an der Technischen Fakultät der Universität von Rijeka entwickelt'
       ]
     }
   }

@@ -34,7 +34,7 @@ type SettingsPayload = {
   [SettingsTypes.AnimationDuration]: number;
   [SettingsTypes.GridWidth]: number;
   [SettingsTypes.GridHeight]: number;
-  [SettingsTypes.Language]: 'en' | 'hr';
+  [SettingsTypes.Language]: 'en' | 'hr' | 'de';
 };
 export type SettingsActions = ActionMap<SettingsPayload>[keyof ActionMap<SettingsPayload>];
 
