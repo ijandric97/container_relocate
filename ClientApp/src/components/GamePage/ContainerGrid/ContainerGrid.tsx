@@ -2,7 +2,14 @@ import React, { CSSProperties, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../../../redux/Store';
 import { ProblemState } from '../../../redux/reducers/ProblemReducer';
-import { nextIsOnTop, getContainerHeight, getContainerWidth, getContainerSpacer, doSolutionStep } from '../Game';
+import {
+  nextIsOnTop,
+  getContainerHeight,
+  getContainerWidth,
+  getContainerSpacer,
+  doSolutionStep,
+  getCurrentIndex
+} from '../Game';
 import { breaks } from '../../../util/misc';
 import { Container, ContainerDrag, ContainerAnimated } from '../Container/Container';
 
@@ -33,6 +40,8 @@ const ContainerGrid: React.FC = () => {
 
     let containers: JSX.Element[] = [];
 
+    const curIndex = getCurrentIndex();
+
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i].length; j++) {
         const el = data[i][j];
@@ -46,7 +55,8 @@ const ContainerGrid: React.FC = () => {
         //? Top of the stack, should be draggable but not if we are animating boy :)
         if (j === 0 && i === animated.srcIndex && animated.isActive) {
           containers.push(<ContainerAnimated key={key} left={left} bottom={bot} number={el} next={next} />);
-        } else if (j === 0 && !animated.isActive) {
+          //! remove i === curIndex to make it unrestricted
+        } else if (j === 0 && i === curIndex && !animated.isActive) {
           containers.push(<ContainerDrag key={key} left={left} bottom={bot} number={el} next={next} parent={cr} />);
         } else {
           containers.push(<Container key={key} left={left} bottom={bot} next={next} number={el} />);

@@ -26,6 +26,23 @@ export const isProblemFinished = () => {
   return true;
 };
 
+export const getCurrentIndex = () => {
+  const { problem } = store.getState();
+  const { data, current } = problem;
+
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data[i].length; j++) {
+      const el = data[i][j];
+
+      if (el === current) {
+        return i;
+      }
+    }
+  }
+
+  return -1;
+};
+
 /** Check if the given "problem" object is empty
  *
  * @param obj Problem object to check
