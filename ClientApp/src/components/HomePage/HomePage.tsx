@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../../redux/Store';
@@ -8,13 +9,7 @@ import Pic1 from './images/Pic1.png';
 
 import './HomePage.css';
 
-type Statistic = {
-  problem_count: number;
-  solved_count: number;
-};
-
 const HomePage: React.FC = () => {
-  // TODO: Perhaps add more info
   const [problems, setProblems] = useState(0);
   const [solved, setSolved] = useState(0);
 
@@ -22,18 +17,27 @@ const HomePage: React.FC = () => {
 
   /** Load the statistic from the database */
   const loadStatistic = async () => {
-    try {
-      const response = await fetch(window.location.origin + '/api/problem/statistic');
-      const data: Statistic = await response.json();
-
-      setProblems(data.problem_count);
-      setSolved(data.solved_count);
-    } catch (error) {
-      console.log(error);
-    }
+    firebase
+      .database()
+      .ref('/statistic')
+      .once('value', (snapshot) => {
+        try {
+          const data = snapshot.val();
+          setProblems(data.problem_count);
+          setSolved(data.solved_count);
+        } catch {
+          console.log('Could not load statistics from Firestore!');
+        }
+      });
   };
 
-  loadStatistic();
+  // Only load the statistic on the initial render, otherwise we read data form firebase twice!!
+  useEffect(() => {
+    loadStatistic();
+    // We want this to run only on mount and unmount, linter cant detect
+    // this use case, so we will disable it :)
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <motion.div animate={{ opacity: 1 }} transition={{ duration: 1 }} className="home">

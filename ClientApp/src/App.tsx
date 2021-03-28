@@ -31,8 +31,8 @@ const App: React.FC = () => {
     window.addEventListener('resize', debounce(handleResize, 100));
 
     return () => window.removeEventListener('resize', debounce(handleResize, 100));
-    //! We want this to run only on mount and unmount, linter cant detect
-    //! this use case, so we will disable it :)
+    // We want this to run only on mount and unmount, linter cant detect
+    // this use case, so we will disable it :)
     // eslint-disable-next-line
   }, []);
 
