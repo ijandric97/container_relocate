@@ -92,7 +92,7 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
       }}
       drag
       dragConstraints={props.parent}
-      className="container"
+      className="container drag"
       style={getContainerStyle(props, index)}
     >
       <p>{props.number}</p>
