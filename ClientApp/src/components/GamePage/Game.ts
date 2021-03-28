@@ -1,3 +1,5 @@
+import firebase from 'firebase';
+
 import store from '../../redux/Store';
 
 import { AnimatedTypes } from '../../redux/reducers/AnimatedReducer';
@@ -68,27 +70,30 @@ export const loadProblems = async () => {
   const { problems } = store.getState();
 
   if (!(Array.isArray(problems) && problems.length)) {
-    // Fetch the problems from backend
-    try {
-      const response = await fetch(window.location.origin + '/api/problem');
-      const data = await response.json();
+    // Fetch the problems from Firebase
+    firebase
+      .database()
+      .ref('/problems')
+      .once('value', (snapshot) => {
+        try {
+          const data = snapshot.val();
 
-      // We need to add some data not returned by backend
-      data.forEach((element: any) => {
-        element.finished = false;
-        element.current = 1;
-        element.original = JSON.parse(JSON.stringify(element.data));
-        element.solution = {
-          isActive: false,
-          current: 1,
-          moves: element.solution
-        };
+          // We need to add some data not returned by Firebase
+          data.forEach((element: any) => {
+            element.finished = false;
+            element.current = 1;
+            element.original = JSON.parse(JSON.stringify(element.data));
+            element.solution = {
+              isActive: false,
+              current: 1,
+              moves: element.solution
+            };
+          });
+          store.dispatch({ type: ProblemsTypes.Update, payload: data });
+        } catch {
+          console.log('Could not load problems from the Firebase!');
+        }
       });
-
-      store.dispatch({ type: ProblemsTypes.Update, payload: data });
-    } catch (error) {
-      console.log(error);
-    }
   }
 };
 
@@ -217,15 +222,9 @@ export const updateSolvedCount = async () => {
   try {
     if (!ProblemFinished) {
       ProblemFinished = true;
-      await fetch(window.location.origin + '/api/problem/statistic', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      firebase.database().ref('/statistic').child('solved_count').set(firebase.database.ServerValue.increment(1));
     }
-  } catch (error) {
-    console.log(error);
+  } catch {
+    console.log('Could not update solved_count.');
   }
 };

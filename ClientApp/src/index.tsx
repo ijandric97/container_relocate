@@ -5,7 +5,12 @@ import { store } from './redux/Store';
 
 import 'normalize.css';
 
+import firebase from 'firebase';
+import firebaseConfig from './firebase.config';
+
 import App from './App';
+
+firebase.initializeApp(firebaseConfig);
 
 const rootElement = document.getElementById('root');
 render(
