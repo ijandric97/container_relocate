@@ -2,10 +2,10 @@ import { getDatabase, increment, onValue, ref, set } from 'firebase/database';
 
 import store from '../../redux/Store';
 
-import { AnimatedTypes } from '../../redux/reducers/AnimatedReducer';
-import { HistoryTypes } from '../../redux/reducers/HistoryReducer';
-import { ProblemState, ProblemTypes } from '../../redux/reducers/ProblemReducer';
-import { ProblemsTypes } from '../../redux/reducers/ProblemsReducer';
+import { ProblemState, problemActions } from '../../redux/reducers/ProblemReducer';
+import { historyActions } from '../../redux/reducers/HistoryReducer';
+import { animatedActions } from '../../redux/reducers/AnimatedReducer';
+import { problemsActions } from '../../redux/reducers/ProblemsReducer';
 
 let ProblemFinished = false;
 
@@ -60,9 +60,9 @@ export const isProblemEmpty = (obj: ProblemState | Object) => {
 export const loadProblem = (problem: ProblemState) => {
   // Clean history, stop animation, load the new problem
   ProblemFinished = false;
-  store.dispatch({ type: HistoryTypes.Clear });
-  store.dispatch({ type: AnimatedTypes.Stop });
-  store.dispatch({ type: ProblemTypes.Update, payload: problem });
+  store.dispatch(historyActions.clear());
+  store.dispatch(animatedActions.stop());
+  store.dispatch(problemActions.update(problem));
 };
 
 /** Load the problems from the database */
@@ -91,7 +91,7 @@ export const loadProblems = async () => {
               moves: element.solution
             };
           });
-          store.dispatch({ type: ProblemsTypes.Update, payload: data });
+          store.dispatch(problemsActions.update(data));
         } catch {
           console.log('Could not load problems from the Firebase!');
         }
@@ -103,8 +103,8 @@ export const loadProblems = async () => {
 
 /** Add new destinations and start the animation */
 export const startContainerAnimation = (srcIndex: number, destIndex: number) => {
-  store.dispatch({ type: AnimatedTypes.Destinations, payload: [srcIndex, destIndex] });
-  store.dispatch({ type: AnimatedTypes.Start });
+  store.dispatch(animatedActions.destinations([srcIndex, destIndex]));
+  store.dispatch(animatedActions.start());
 };
 
 /** Either remove or move the animated container element */
@@ -112,18 +112,21 @@ export const endContainerAnimation = () => {
   const { animated, problem } = store.getState();
 
   // Clean the animation flag
-  store.dispatch({ type: AnimatedTypes.Stop });
+  store.dispatch(animatedActions.stop());
+
+  // Create a "Deep" copy of the current problem
+  const newProblem = JSON.parse(JSON.stringify(problem));
 
   if (animated.destIndex === -1) {
-    problem.data[animated.srcIndex].shift(); // Remove old
-    problem.current = problem.current + 1; // Add to counter
+    newProblem.data[animated.srcIndex].shift(); // Remove old
+    newProblem.current = problem.current + 1; // Add to counter
   } else {
-    store.dispatch({ type: HistoryTypes.Push, payload: problem }); // Add old one to history
-    const el = problem.data[animated.srcIndex].shift(); // Remove old
-    problem.data[animated.destIndex].unshift(el as number); // Push in new
+    store.dispatch(historyActions.push(problem)); // Add old one to history
+    const el = newProblem.data[animated.srcIndex].shift(); // Remove old
+    newProblem.data[animated.destIndex].unshift(el as number); // Push in new
   }
 
-  store.dispatch({ type: ProblemTypes.Update, payload: problem });
+  store.dispatch(problemActions.update(newProblem));
 };
 
 /** Get the framer-motion transition object for extraction scenario */
@@ -190,16 +193,15 @@ export const playSolution = () => {
   const { problem } = store.getState();
   const { solution } = problem;
 
-  store.dispatch({ type: AnimatedTypes.Stop });
+  store.dispatch(animatedActions.stop());
 
-  solution.isActive = !solution.isActive;
-  if (solution.isActive) {
-    store.dispatch({ type: HistoryTypes.Clear });
-    store.dispatch({ type: AnimatedTypes.Stop });
-    store.dispatch({ type: ProblemTypes.Reset });
+  if (!solution.isActive) {
+    store.dispatch(historyActions.clear());
+    store.dispatch(animatedActions.stop());
+    store.dispatch(problemActions.reset());
   }
 
-  store.dispatch({ type: ProblemTypes.Solution, payload: solution });
+  store.dispatch(problemActions.solution({ ...solution, isActive: !solution.isActive }));
 };
 
 export const doSolutionStep = () => {
@@ -207,16 +209,18 @@ export const doSolutionStep = () => {
   const { solution } = problem;
 
   if (solution.isActive && !animated.isActive) {
+    const newSolution = JSON.parse(JSON.stringify(solution));
+
     if (solution.current > solution.moves.length) {
-      solution.isActive = false; //* We need to know when to stop :)
+      newSolution.isActive = false; //* We need to know when to stop :)
     } else {
       const move = solution.moves[solution.current - 1];
       startContainerAnimation(move[0], move[1]);
-      solution.current++;
+      newSolution.current++;
     }
 
     // Step thru the solution
-    store.dispatch({ type: ProblemTypes.Solution, payload: solution });
+    store.dispatch(problemActions.solution(newSolution));
   }
 };
 

@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import { motion, PanInfo } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProblemState, ProblemTypes } from '../../../redux/reducers/ProblemReducer';
+import { problemActions, ProblemState } from '../../../redux/reducers/ProblemReducer';
 import { GlobalState } from '../../../redux/Store';
 import {
   getExtractTransition,
@@ -75,7 +75,7 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
       startContainerAnimation(oldIndex, newIndex);
     } else {
       // Just reset shit up fam
-      dispatch({ type: ProblemTypes.Update, payload: problem });
+      dispatch(problemActions.update(problem));
     }
   };
 

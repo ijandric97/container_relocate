@@ -1,7 +1,7 @@
 import React, { useEffect, useState, CSSProperties } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HistoryTypes } from '../../../redux/reducers/HistoryReducer';
-import { ProblemTypes } from '../../../redux/reducers/ProblemReducer';
+import { historyActions } from '../../../redux/reducers/HistoryReducer';
+import { problemActions } from '../../../redux/reducers/ProblemReducer';
 import { GlobalState } from '../../../redux/Store';
 import { playSolution } from '../Game';
 import { strings } from '../../../util/language';
@@ -30,8 +30,8 @@ const HUD: React.FC = () => {
 
     if (history.length > 0) {
       // Load the old problem and remove it from history
-      dispatch({ type: ProblemTypes.Update, payload: history[0] });
-      dispatch({ type: HistoryTypes.Pop, payload: null });
+      dispatch(problemActions.update(history[0]));
+      dispatch(historyActions.pop());
     }
   };
 

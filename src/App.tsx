@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { debounce } from './util/misc';
-import { ClientTypes } from './redux/reducers/ClientReducer';
+import { clientActions } from './redux/reducers/ClientReducer';
 
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './components/HomePage/HomePage';
@@ -19,13 +19,12 @@ const App: React.FC = () => {
   // On window resize, update the dimensions in global state
   useEffect(() => {
     const handleResize = () => {
-      dispatch({
-        type: ClientTypes.Resize,
-        payload: {
+      dispatch(
+        clientActions.resize({
           height: window.innerHeight,
           width: window.innerWidth
-        }
-      });
+        })
+      );
     };
 
     window.addEventListener('resize', debounce(handleResize, 100));

@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from '../../redux/Store';
-import { SettingsTypes } from '../../redux/reducers/SettingsReducer';
 import { strings } from '../../util/language';
 
 import BritishFlag from './images/BritishFlag.png';
@@ -10,21 +9,22 @@ import CroatianFlag from './images/CroatianFlag.png';
 import GermanFlag from './images/GermanFlag.png';
 
 import './SettingsPage.css';
+import { TLanguageCode, settingsActions } from '../../redux/reducers/SettingsReducer';
 
 const SettingsPage: React.FC = () => {
   const dispatch = useDispatch();
   const { animation_duration, language } = useSelector((state: GlobalState) => state.settings);
 
-  const flagClicked = (country: string) => {
+  const flagClicked = (country: TLanguageCode) => {
     if (country !== language) {
       localStorage.setItem('language', country);
-      dispatch({ type: SettingsTypes.Language, payload: country });
+      dispatch(settingsActions.language(country));
     }
   };
 
   const sliderChange = (event: any) => {
     localStorage.setItem('duration', event.target.value);
-    dispatch({ type: SettingsTypes.AnimationDuration, payload: event.target.value });
+    dispatch(settingsActions.animationDuration(event.target.value));
   };
 
   return (

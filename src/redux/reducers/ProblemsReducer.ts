@@ -1,32 +1,24 @@
-import { ActionMap } from '../Store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ProblemState } from './ProblemReducer';
 
 //? State
 export type ProblemsState = ProblemState[];
 const initialState: ProblemsState = [];
 
-//? Action
-export enum ProblemsTypes {
-  Update = 'PROBLEMS_UPDATE',
-  Clear = 'PROBLEMS_CLEAR',
-  Add = 'PROBLEMS_ADD'
-}
-type ProblemsPayload = {
-  [ProblemsTypes.Update]: ProblemsState;
-  [ProblemsTypes.Clear]: any;
-  [ProblemsTypes.Add]: ProblemState;
-};
-export type ProblemsActions = ActionMap<ProblemsPayload>[keyof ActionMap<ProblemsPayload>];
-
-export const problemsReducer = (state: ProblemsState = initialState, action: ProblemsActions) => {
-  switch (action.type) {
-    case ProblemsTypes.Add:
+const problemsSlice = createSlice({
+  name: 'problems',
+  initialState,
+  reducers: {
+    add(state, action: PayloadAction<ProblemState>) {
       return [...state, action.payload];
-    case ProblemsTypes.Update:
+    },
+    update(_state, action: PayloadAction<ProblemsState>) {
       return action.payload;
-    case ProblemsTypes.Clear:
+    },
+    clear() {
       return initialState;
-    default:
-      return state;
+    }
   }
-};
+});
+
+export const { reducer: problemsReducer, actions: problemsActions } = problemsSlice;

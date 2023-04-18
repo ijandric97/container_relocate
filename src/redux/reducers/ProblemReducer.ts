@@ -1,4 +1,4 @@
-import { ActionMap } from '../Store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 //? State
 export type Solution = {
@@ -15,37 +15,28 @@ export type ProblemState = {
   original: number[][];
   solution: Solution;
 };
-const initialState: ProblemState | {} = {};
+const initialState: ProblemState = {} as ProblemState;
 
-//? Action
-export enum ProblemTypes {
-  Update = 'PROBLEM_UPDATE',
-  Reset = 'PROBLEM_RESET',
-  Solution = 'PROBLEM_SOLUTION'
-}
-type ProblemPayload = {
-  [ProblemTypes.Update]: ProblemState;
-  [ProblemTypes.Reset]: any;
-  [ProblemTypes.Solution]: Solution;
-};
-export type ProblemActions = ActionMap<ProblemPayload>[keyof ActionMap<ProblemPayload>];
-
-export const problemReducer = (state: ProblemState | {} = initialState, action: ProblemActions) => {
-  switch (action.type) {
-    case ProblemTypes.Update:
+const problemSlice = createSlice({
+  name: 'problem',
+  initialState,
+  reducers: {
+    update(state, action: PayloadAction<ProblemState>) {
       try {
-        //! Some sort of DeepClone, if this doesnt work use Loadash pls
+        //! Some sort of DeepClone, if this doesnt work use Lodash pls
         return JSON.parse(JSON.stringify(action.payload));
       } catch (error) {
         console.log(error);
         return state;
       }
-    case ProblemTypes.Reset:
-      const myState = state as ProblemState;
-      return { ...state, current: 1, data: JSON.parse(JSON.stringify(myState.original)) };
-    case ProblemTypes.Solution:
+    },
+    reset(state) {
+      return { ...state, current: 1, data: JSON.parse(JSON.stringify(state.original)) };
+    },
+    solution(state, action: PayloadAction<Solution>) {
       return { ...state, solution: action.payload };
-    default:
-      return state;
+    }
   }
-};
+});
+
+export const { reducer: problemReducer, actions: problemActions } = problemSlice;

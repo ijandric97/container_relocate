@@ -26,11 +26,6 @@ const VictoryPopup: React.FC = () => {
     y: [-25, -25, -25]
   };
 
-  const transition = {
-    duration: 1,
-    yoyo: Infinity
-  };
-
   return (
     <>
       <div className="popup" style={popupStyle}>
@@ -40,7 +35,11 @@ const VictoryPopup: React.FC = () => {
           alt="Trophy"
           className="trophy"
           animate={animate}
-          transition={transition}
+          transition={{
+            duration: 1,
+            repeat: Infinity,
+            repeatType: 'reverse'
+          }}
         />
         <p>
           {strings[language].gamepage.victory[0]}

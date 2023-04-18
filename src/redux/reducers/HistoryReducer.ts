@@ -1,38 +1,29 @@
-import { ActionMap } from '../Store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ProblemState } from './ProblemReducer';
 
-//? State
 export type HistoryState = ProblemState[];
+
 const initialState: HistoryState = [];
 
-//? HistoryTypes
-export enum HistoryTypes {
-  Push = 'HISTORY_PUSH',
-  Pop = 'HISTORY_POP',
-  Clear = 'HISTORY_CLEAR'
-}
-type HistoryPayload = {
-  [HistoryTypes.Push]: ProblemState;
-  [HistoryTypes.Pop]: any;
-  [HistoryTypes.Clear]: any;
-};
-export type HistoryActions = ActionMap<HistoryPayload>[keyof ActionMap<HistoryPayload>];
-
-export const historyReducer = (state: ProblemState[] = initialState, action: HistoryActions) => {
-  switch (action.type) {
-    case HistoryTypes.Push:
+const historySlice = createSlice({
+  name: 'history',
+  initialState,
+  reducers: {
+    push(state, action: PayloadAction<ProblemState>) {
       try {
-        state.unshift(JSON.parse(JSON.stringify(action.payload)));
+        return [JSON.parse(JSON.stringify(action.payload)), ...state];
       } catch (error) {
         console.log(error);
+        return state;
       }
-      return state;
-    case HistoryTypes.Pop:
-      state.shift();
-      return state;
-    case HistoryTypes.Clear:
+    },
+    pop(state) {
+      return [...state.slice(1)];
+    },
+    clear() {
       return [];
-    default:
-      return state;
+    }
   }
-};
+});
+
+export const { reducer: historyReducer, actions: historyActions } = historySlice;

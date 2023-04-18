@@ -1,4 +1,4 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers } from 'redux';
 
 import { animatedReducer, AnimatedState } from './reducers/AnimatedReducer';
 import { clientReducer, ClientState } from './reducers/ClientReducer';
@@ -6,20 +6,7 @@ import { historyReducer, HistoryState } from './reducers/HistoryReducer';
 import { problemReducer, ProblemState } from './reducers/ProblemReducer';
 import { problemsReducer, ProblemsState } from './reducers/ProblemsReducer';
 import { SettingsState, settingsReducer } from './reducers/SettingsReducer';
-
-/**
- * Allows us to gently map enum with types and enum with payloads into action object
- */
-export type ActionMap<M extends { [index: string]: any }> = {
-  [Key in keyof M]: M[Key] extends undefined
-    ? {
-        type: Key;
-      }
-    : {
-        type: Key;
-        payload: M[Key];
-      };
-};
+import { configureStore } from '@reduxjs/toolkit';
 
 export type GlobalState = {
   animated: AnimatedState;
@@ -30,7 +17,7 @@ export type GlobalState = {
   settings: SettingsState;
 };
 
-export const rootReducer = combineReducers<GlobalState>({
+export const rootReducer = combineReducers({
   animated: animatedReducer,
   client: clientReducer,
   history: historyReducer,
@@ -39,9 +26,6 @@ export const rootReducer = combineReducers<GlobalState>({
   settings: settingsReducer
 });
 
-export const store = createStore(
-  rootReducer,
-  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-);
+export const store = configureStore({ reducer: rootReducer, devTools: true });
 
 export default store;

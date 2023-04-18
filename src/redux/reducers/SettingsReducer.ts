@@ -1,4 +1,4 @@
-import { ActionMap } from '../Store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 let language = 'hr';
 if (localStorage.getItem('language')) {
@@ -9,46 +9,39 @@ if (localStorage.getItem('duration')) {
   duration = Number(localStorage.getItem('duration') as String);
 }
 
+export type TLanguageCode = 'en' | 'hr' | 'de';
+
 //? State
 export type SettingsState = {
   animation_duration: number;
   grid_height: number;
   grid_width: number;
-  language: string;
+  language: TLanguageCode;
 };
 const initialState: SettingsState = {
   animation_duration: duration, //! This is per step
   grid_height: 320,
   grid_width: 350,
-  language: language
+  language: language as TLanguageCode
 };
 
-//? Actions
-export enum SettingsTypes {
-  AnimationDuration = 'SETTINGS_ANIMATION_DURATION',
-  GridWidth = 'SETTINGS_GRID_WIDTH',
-  GridHeight = 'SETTINGS_GRID_HEIGHT',
-  Language = 'SETTINGS_LANGUAGE'
-}
-type SettingsPayload = {
-  [SettingsTypes.AnimationDuration]: number;
-  [SettingsTypes.GridWidth]: number;
-  [SettingsTypes.GridHeight]: number;
-  [SettingsTypes.Language]: 'en' | 'hr' | 'de';
-};
-export type SettingsActions = ActionMap<SettingsPayload>[keyof ActionMap<SettingsPayload>];
-
-export const settingsReducer = (state: SettingsState = initialState, action: SettingsActions) => {
-  switch (action.type) {
-    case SettingsTypes.AnimationDuration:
+const settingsSlice = createSlice({
+  name: 'settings',
+  initialState,
+  reducers: {
+    animationDuration(state, action: PayloadAction<number>) {
       return { ...state, animation_duration: action.payload };
-    case SettingsTypes.GridWidth:
+    },
+    gridWidth(state, action: PayloadAction<number>) {
       return { ...state, grid_width: action.payload };
-    case SettingsTypes.GridHeight:
+    },
+    gridHeight(state, action: PayloadAction<number>) {
       return { ...state, grid_height: action.payload };
-    case SettingsTypes.Language:
+    },
+    language(state, action: PayloadAction<TLanguageCode>) {
       return { ...state, language: action.payload };
-    default:
-      return state;
+    }
   }
-};
+});
+
+export const { reducer: settingsReducer, actions: settingsActions } = settingsSlice;
