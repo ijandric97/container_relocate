@@ -66,7 +66,7 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
   const spacer = getContainerSpacer();
 
   const handleDrag = (problem: ProblemState, info: PanInfo) => {
-    const left = props.left + info.point.x + (width + spacer) / 2;
+    const left = props.left + info.offset.x + (width + spacer) / 2;
     const oldIndex = Math.floor(props.left / (width + spacer));
     const newIndex = Math.floor(left / (width + spacer));
 
@@ -86,7 +86,7 @@ export const ContainerDrag: React.FC<ContainerDragProps> = (props) => {
       onDragStart={() => {
         setIndex(2); // Set it above everything
       }}
-      onDragEnd={(event, info) => {
+      onDragEnd={(_event, info) => {
         setIndex(1); // Set it above static ones
         handleDrag(problem, info);
       }}

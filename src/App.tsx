@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { debounce } from './util/misc';
 import { ClientTypes } from './redux/reducers/ClientReducer';
 
@@ -39,14 +39,14 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <Route component={Navbar} />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/problems" component={ProblemsPage} />
-          <Route path="/settings" component={SettingsPage} />
-          <Route path="/game/:id?" component={GamePage} />
-          <Route path="*" component={ErrorPage} />
-        </Switch>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/problems" element={<ProblemsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/game/:id?" element={<GamePage />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
       </div>
     </Router>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../../redux/Store';
@@ -8,6 +8,7 @@ import { strings } from '../../util/language';
 import Pic1 from './images/Pic1.png';
 
 import './HomePage.css';
+import { getDatabase, onValue, ref } from 'firebase/database';
 
 const HomePage: React.FC = () => {
   const [problems, setProblems] = useState(0);
@@ -17,10 +18,12 @@ const HomePage: React.FC = () => {
 
   /** Load the statistic from the database */
   const loadStatistic = async () => {
-    firebase
-      .database()
-      .ref('/statistic')
-      .once('value', (snapshot) => {
+    const db = getDatabase();
+    const statisticRef = ref(db, '/statistic');
+
+    onValue(
+      statisticRef,
+      (snapshot) => {
         try {
           const data = snapshot.val();
           setProblems(data.problem_count);
@@ -28,7 +31,9 @@ const HomePage: React.FC = () => {
         } catch {
           console.log('Could not load statistics from Firestore!');
         }
-      });
+      },
+      { onlyOnce: true }
+    );
   };
 
   // Only load the statistic on the initial render, otherwise we read data form firebase twice!!

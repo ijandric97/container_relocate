@@ -1,23 +1,21 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './redux/Store';
 
 import 'normalize.css';
 
-import firebase from 'firebase';
-import firebaseConfig from './firebase.config';
+import './firebase.config';
 
 import App from './App';
 
-firebase.initializeApp(firebaseConfig);
+const rootElement = document.getElementById('root')!;
+const root = createRoot(rootElement);
 
-const rootElement = document.getElementById('root');
-render(
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-  rootElement
+  </React.StrictMode>
 );

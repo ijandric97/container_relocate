@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import { getDatabase, increment, onValue, ref, set } from 'firebase/database';
 
 import store from '../../redux/Store';
 
@@ -71,10 +71,12 @@ export const loadProblems = async () => {
 
   if (!(Array.isArray(problems) && problems.length)) {
     // Fetch the problems from Firebase
-    firebase
-      .database()
-      .ref('/problems')
-      .once('value', (snapshot) => {
+    const db = getDatabase();
+    const problemsRef = ref(db, '/problems');
+
+    onValue(
+      problemsRef,
+      (snapshot) => {
         try {
           const data = snapshot.val();
 
@@ -93,7 +95,9 @@ export const loadProblems = async () => {
         } catch {
           console.log('Could not load problems from the Firebase!');
         }
-      });
+      },
+      { onlyOnce: true }
+    );
   }
 };
 
@@ -128,8 +132,7 @@ export const getExtractTransition = () => {
 
   return {
     duration: 8 * settings.animation_duration,
-    ease: 'easeIn',
-    repeat: Infinity
+    ease: 'easeIn'
   };
 };
 /** Get the framer-motion transition object for moving scenario */
@@ -138,8 +141,7 @@ export const getMoveTransition = () => {
 
   return {
     duration: 7 * settings.animation_duration,
-    ease: 'easeIn',
-    repeat: Infinity
+    ease: 'easeIn'
   };
 };
 
@@ -222,7 +224,10 @@ export const updateSolvedCount = async () => {
   try {
     if (!ProblemFinished) {
       ProblemFinished = true;
-      firebase.database().ref('/statistic').child('solved_count').set(firebase.database.ServerValue.increment(1));
+      const dbRef = ref(getDatabase());
+      set(dbRef, {
+        ['/statistic/solved_count']: increment(1)
+      });
     }
   } catch {
     console.log('Could not update solved_count.');

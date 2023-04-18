@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams, useHistory } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { GlobalState } from '../../redux/Store';
 import { isProblemFinished, isProblemEmpty, loadProblem } from './Game';
@@ -13,13 +13,9 @@ import Crane from './Crane/Crane';
 
 import './GamePage.css';
 
-interface GameParam {
-  id: string | undefined;
-}
-
 const GamePage: React.FC = () => {
-  const { id } = useParams<GameParam>();
-  let routerHistory = useHistory();
+  const { id } = useParams();
+  let navigate = useNavigate();
 
   const problem = useSelector((state: GlobalState) => state.problem);
   const problems = useSelector((state: GlobalState) => state.problems);
@@ -29,14 +25,14 @@ const GamePage: React.FC = () => {
     if (isProblemEmpty(problem) || !isNaN(Number(id))) {
       // Verify the problem then load it into globalstate
       if (isNaN(Number(id)) || Number(id) >= problems.length) {
-        routerHistory.push('/problems');
-        return; // ! Apparently routerHistory.push doesnt end this effect :) so we have to return
+        navigate('/problems');
+        return; // ! Apparently navigate doesnt end this effect :) so we have to return
       }
 
       try {
         loadProblem(problems[Number(id)]);
       } catch (error) {
-        routerHistory.push('/problems');
+        navigate('/problems');
       }
     }
     // eslint-disable-next-line
