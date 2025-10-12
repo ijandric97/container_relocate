@@ -1,0 +1,39 @@
+{
+  "name": "container-relocate",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.tsx",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.5.1",
+    "firebase": "^9.19.1",
+    "framer-motion": "10.12.2",
+    "normalize.css": "8.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router": "6.10.0",
+    "react-router-dom": "6.10.0",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.0.37",
+    "@types/react-dom": "18.0.11",
+    "@types/react-redux": "^7.1.9",
+    "@types/react-router": "5.1.20",
+    "@types/react-router-dom": "5.3.3",
+    "typescript": "5.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
